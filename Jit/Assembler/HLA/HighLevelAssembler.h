@@ -26,6 +26,8 @@ namespace hla {
         const typesys::FunctionDefinition definition_;
         bool allow_new_locals;
 
+        off_t local_offset;
+
     public:
         virtual void initialize() const { }
 
@@ -60,7 +62,10 @@ namespace hla {
                 throw std::logic_error("cannot create new locals after function is fully constructed");
             }
 
-            variables_.insert({ name, hla::Variable(name, type, allocator_) });
+            variables_.insert({ name, hla::Variable(name, type, allocator_, local_offset) });
+
+            // Every local should be separated by 8 bytes.
+            local_offset += 8;
 
             return variables_.find(name)->second;
         }

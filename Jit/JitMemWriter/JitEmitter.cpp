@@ -72,3 +72,6 @@ void jit::JitEmitter::emit(opcodes::OpCode &code) {
     code.render(*this);
 }
 
+void jit::JitEmitter::emit(opcodes::OpCode&& code) {
+    code.render(*this);
+}

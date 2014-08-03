@@ -12,6 +12,7 @@
 		D33431493C34388A4588650D /* GivenCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D33431E1484BFB0FF0C9CF18 /* GivenCallback.cpp */; };
 		D3343154B040C6B46D42EFC5 /* FieldDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D33439A326ABDDC5BD8DD56D /* FieldDefinition.cpp */; };
 		D33431A0F3248541E814258F /* RegisterAllocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D33431F979EDBD08B2F8C066 /* RegisterAllocator.cpp */; };
+		D33431B6AB7B8BAEA6F4FD9C /* ExecutionEnvironment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343845335638C6392D42F8 /* ExecutionEnvironment.cpp */; };
 		D33431F609004B8A3C58B18F /* PointerArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343F8387DC3CB103ADB3BA /* PointerArray.cpp */; };
 		D334323D0CCEDE831472A6A9 /* VerboseString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343461BBD07C15218759D1 /* VerboseString.cpp */; };
 		D334324EE55B6F103BE212FC /* MovDerefOpcode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D33437FF627E796694FE189F /* MovDerefOpcode.cpp */; };
@@ -96,6 +97,7 @@
 		D33437DC7EED681416445A45 /* PointerArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointerArray.h; sourceTree = "<group>"; };
 		D33437E386C04DC6D5072F94 /* HighLevelAssembler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HighLevelAssembler.cpp; sourceTree = "<group>"; };
 		D33437FF627E796694FE189F /* MovDerefOpcode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MovDerefOpcode.cpp; sourceTree = "<group>"; };
+		D3343845335638C6392D42F8 /* ExecutionEnvironment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ExecutionEnvironment.cpp; sourceTree = "<group>"; };
 		D334385275F17353D2246326 /* GivenCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GivenCallback.h; sourceTree = "<group>"; };
 		D33438A287C8CAF4B5BE0330 /* VerbOS.1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.man; name = VerbOS.1; path = VerbOS/VerbOS.1; sourceTree = "<group>"; };
 		D33438A3BFCE9669AE528C39 /* VariableComparison.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VariableComparison.h; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 		D3343EF3B13ABAB0EFCEEACE /* SystemRegister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemRegister.h; sourceTree = "<group>"; };
 		D3343F1AA819946D4957B06F /* JitEmitter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JitEmitter.cpp; sourceTree = "<group>"; };
 		D3343F8387DC3CB103ADB3BA /* PointerArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PointerArray.cpp; sourceTree = "<group>"; };
+		D3343FB1DE014BBA32947114 /* ExecutionEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExecutionEnvironment.h; sourceTree = "<group>"; };
 		D3343FF4D63AFC4D69A485C2 /* FunctionDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionDefinition.h; sourceTree = "<group>"; };
 		F157712F198A97C2005DAB3E /* VerbOS */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = VerbOS; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -301,6 +304,8 @@
 			isa = PBXGroup;
 			children = (
 				D3343C2B75BACB1DC29C9B66 /* Components */,
+				D3343845335638C6392D42F8 /* ExecutionEnvironment.cpp */,
+				D3343FB1DE014BBA32947114 /* ExecutionEnvironment.h */,
 			);
 			path = ExecutionEnvironment;
 			sourceTree = "<group>";
@@ -526,6 +531,7 @@
 				D334323D0CCEDE831472A6A9 /* VerboseString.cpp in Sources */,
 				D33431A0F3248541E814258F /* RegisterAllocator.cpp in Sources */,
 				D3343306F99A906D8244F9E2 /* RegisterBinding.cpp in Sources */,
+				D33431B6AB7B8BAEA6F4FD9C /* ExecutionEnvironment.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -48,6 +48,7 @@ namespace jit {
         uintptr_t current_address() { return (uintptr_t) _location + _offset; }
 
         void emit(opcodes::OpCode& opcode);
+        void emit(opcodes::OpCode&& opcode);
 
         void* emit(JitCodeSegment& segment);
         void* emit(JitStackFrameTemplate& segment);

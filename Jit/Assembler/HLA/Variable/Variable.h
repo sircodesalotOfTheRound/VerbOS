@@ -22,14 +22,15 @@ namespace sysarch {
 namespace hla {
     class Variable {
         int priority_ { 1 };
+        off_t mem_offset_;
+
         std::string name_;
         const typesys::VerbosType& type_;
         sysarch::RegisterAllocator& allocator_;
 
     public:
-        Variable() = default; // To be removed. Currently in place for map;
-        Variable(std::string name, const typesys::VerbosType& type, sysarch::RegisterAllocator& allocator)
-            : name_(name), type_(type), allocator_(allocator)
+        Variable(std::string name, const typesys::VerbosType& type, sysarch::RegisterAllocator& allocator, off_t mem_offset)
+            : name_(name), type_(type), allocator_(allocator), mem_offset_(mem_offset)
         {
 
         }
@@ -84,6 +85,7 @@ namespace hla {
         TypeComparison does_a(std::string type) { return { TYPE_COMPARISON::DOESA, type }; }
 
         int priority() { return priority_; }
+        int mem_offset() { return mem_offset_; }
 
         friend std::ostream& operator<<(std::ostream& stream, const Variable& variable) {
             return stream << variable.name_ << " : " << variable.type_;

@@ -16,13 +16,9 @@
 #include "CallOpCode.h"
 #include "MovOpCode.h"
 #include "JitEmitter.h"
-
-namespace vm {
-    class ExecutionEnvironment;
-}
+#import "ExecutionEnvironment.h"
 
 class CallStub : public opcodes::OpCode {
-/*
     struct FunctionCall {
         vm::ExecutionEnvironment& environment;
         std::string function_name;
@@ -44,13 +40,11 @@ public:
     size_t size() { return 5; };
 
     void render(jit::JitEmitter &emitter);
-
     static void patch_call();
 
 private:
     static std::unordered_map<uintptr_t, std::pair<vm::ExecutionEnvironment, std::string>> items_;
     std::pair<vm::ExecutionEnvironment, std::string> function_call_;
-    */
 };
 
 #endif

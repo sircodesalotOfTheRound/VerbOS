@@ -24,8 +24,8 @@ using namespace jit;
 const typesys::VerbosType vmint32 { "::vmint32" };
 
 class MyFunction : public hla::HighLevelAssembler {
-    hla::Variable var {new_local("var", vmint32) };
-    hla::Variable second {new_local("second", vmint32) };
+    hla::Variable var { new_local("var", vmint32) };
+    hla::Variable second { new_local("second", vmint32) };
 
 
 public:

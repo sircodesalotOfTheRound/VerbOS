@@ -4,7 +4,7 @@
 //
 
 #include "CallStub.h"
-/*
+
 std::unordered_map<uintptr_t, std::pair<vm::ExecutionEnvironment, std::string>> CallStub::items_;
 
 void CallStub::patch_call() {
@@ -47,11 +47,9 @@ void CallStub::patch_call() {
 void CallStub::render(jit::JitEmitter &emitter) {
     using namespace std;
     using namespace opcodes;
-    using namespace reg;
 
     uintptr_t call_location = emitter.current_address();
     items_.insert(make_pair(call_location, function_call_));
 
     emitter.emit(CallOpCode((void *) patch_call));
 }
-*/
