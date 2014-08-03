@@ -32,6 +32,13 @@ void sysarch::RegisterAllocator::with_register(hla::Variable& variable,
             persist_variable(binding, var);
         }
 
+        // If the variable is persisted, retrieve it.
+        if (variable.is_persisted()) {
+            retrieve_variable(binding, variable);
+            variable.is_persisted(false);
+        }
+
+        // Associate the variable to the register.
         binding.variable(variable);
 
         // Perform the callback before pushing the register back (so that it's unavailble
@@ -51,9 +58,18 @@ sysarch::RegisterAllocator::RegisterAllocator(jit::JitCodeSegment& segment) : co
     registers_.push(osx_registers_.rdi);
 }
 
+void sysarch::RegisterAllocator::retrieve_variable(const RegisterBinding& binding, hla::Variable& variable) {
+    off_t offset = variable.mem_offset();
+
+    std::cout << "loading: " << variable.name() << " offset: " << variable.mem_offset() << std::endl;
+    code_segment_.mov(binding.sys_register(), osx_registers_.rbp[-offset]);
+}
+
 void sysarch::RegisterAllocator::persist_variable(const RegisterBinding& binding, hla::Variable& variable) {
-    std::cout << "persisting: " << variable << ". offset (" << variable.mem_offset() << ") " << std::endl;
-    code_segment_.mov(osx_registers_.rbp[variable.mem_offset()], binding.sys_register());
+    off_t offset = variable.mem_offset();
+    code_segment_.mov(osx_registers_.rbp[-offset], binding.sys_register());
+
+    std::cout << "persisting: " << variable.name() << " offset: " << variable.mem_offset() << std::endl;
     variable.is_persisted(true);
 }
 

@@ -26,7 +26,7 @@ namespace hla {
         const typesys::FunctionDefinition definition_;
         bool allow_new_locals;
 
-        off_t local_offset;
+        off_t local_offset { 8 };
 
     public:
         virtual void initialize() const { }

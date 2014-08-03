@@ -37,6 +37,7 @@ namespace sysarch {
 
     private:
         void persist_variable(const RegisterBinding& binidng, hla::Variable& variable);
+        void retrieve_variable(const RegisterBinding& binidng, hla::Variable& variable);
     };
 }
 

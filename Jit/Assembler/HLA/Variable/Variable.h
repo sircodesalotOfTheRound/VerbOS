@@ -90,7 +90,7 @@ namespace hla {
         int mem_offset() { return mem_offset_; }
 
         bool is_persisted() { return is_persisted_; }
-        void is_persisted(bool is) { is_persisted_ = is_persisted_; }
+        void is_persisted(bool is) { is_persisted_ = is; }
 
         friend std::ostream& operator<<(std::ostream& stream, const Variable& variable) {
             return stream << variable.name_ << " : " << variable.type_;
