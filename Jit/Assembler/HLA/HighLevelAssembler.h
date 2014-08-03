@@ -69,6 +69,7 @@ namespace hla {
 
         }
 
+        void static_call(std::string name) {std::cout << "called: " << name << std::endl; };
         void set_label(std::string name) { std::cout << "set label: " << name << std::endl; }
 
         GivenCallback<VariableComparison> given(const hla::VariableComparison comparison);

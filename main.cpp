@@ -25,6 +25,7 @@ const typesys::VerbosType vmint32 { "::vmint32" };
 
 class MyFunction : public hla::HighLevelAssembler {
     hla::Variable var {new_local("var", vmint32) };
+    hla::Variable second {new_local("second", vmint32) };
 
 
 public:
@@ -32,7 +33,15 @@ public:
 
     void on_build() override {
         var = 10;
+        second = 50;
+
         var += 30;
+        var += second;
+
+        static_call("something or other");
+
+        cout << var.def() << endl;
+
         ret();
     }
 };

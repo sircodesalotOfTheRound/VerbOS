@@ -57,6 +57,14 @@ namespace hla {
             });
         }
 
+        void operator+=(Variable& rhs) {
+            with_register([&](jit::JitCodeSegment &segment, const sysarch::SystemRegister &lreg) {
+                allocator_.with_register(rhs, [&](jit::JitCodeSegment &segment, const sysarch::SystemRegister &rreg) {
+                    segment.add(lreg, rreg);
+                });
+            });
+        }
+
         void operator=(const Variable& variable) { std::cout << "assignment" << std::endl; }
         void operator+(const Variable& variable) { std::cout << "assignment" << std::endl; }
         void operator-(const Variable& variable) { std::cout << "assignment" << std::endl; }
