@@ -84,7 +84,10 @@ namespace hla {
         const size_t num_locals() const { return definition_.num_locals(); }
         void ret() const { throw hla::return_exception; }
 
-        void ret(Variable& variable) const { throw hla::return_exception; }
+        void ret(Variable& variable) {
+            allocator_.set_return_value(variable);
+            ret();
+        }
     };
 }
 

@@ -28,6 +28,8 @@ namespace hla {
         const typesys::VerbosType& type_;
         sysarch::RegisterAllocator& allocator_;
 
+        bool is_persisted_ { false };
+
     public:
         Variable(std::string name, const typesys::VerbosType& type, sysarch::RegisterAllocator& allocator, off_t mem_offset)
             : name_(name), type_(type), allocator_(allocator), mem_offset_(mem_offset)
@@ -86,6 +88,9 @@ namespace hla {
 
         int priority() { return priority_; }
         int mem_offset() { return mem_offset_; }
+
+        bool is_persisted() { return is_persisted_; }
+        void is_persisted(bool is) { is_persisted_ = is_persisted_; }
 
         friend std::ostream& operator<<(std::ostream& stream, const Variable& variable) {
             return stream << variable.name_ << " : " << variable.type_;

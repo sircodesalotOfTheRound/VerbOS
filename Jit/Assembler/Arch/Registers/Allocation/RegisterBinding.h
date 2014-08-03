@@ -22,15 +22,13 @@ namespace sysarch {
 
     public:
         RegisterBinding(SystemRegister& reg) : register_(&reg), variable_(nullptr) { }
-        const SystemRegister& system_register() { return *register_; }
-
         hla::Variable& variable();
 
         void variable(hla::Variable& variable);
 
         bool operator<(const RegisterBinding& rhs) const { return rhs.priority_ < priority_; }
 
-        const SystemRegister& sys_register() { return *register_; }
+        const SystemRegister& sys_register() const { return *register_; }
 
         bool has_variable() { return variable_ != nullptr; }
         int priority() { return priority_; }

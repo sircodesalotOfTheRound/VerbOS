@@ -24,25 +24,30 @@ using namespace jit;
 const typesys::VerbosType vmint32 { "::vmint32" };
 
 class MyFunction : public hla::HighLevelAssembler {
-    hla::Variable var { new_local("var", vmint32) };
-    hla::Variable second { new_local("second", vmint32) };
+    hla::Variable var1 { new_local("var1", vmint32) };
+    hla::Variable var2 { new_local("var2", vmint32) };
+    hla::Variable var3 { new_local("var3", vmint32) };
+    hla::Variable var4 { new_local("var4", vmint32) };
+    hla::Variable var5 { new_local("var5", vmint32) };
+    hla::Variable var6 { new_local("var6", vmint32) };
+    hla::Variable var7 { new_local("var7", vmint32) };
+    hla::Variable var8 { new_local("var8", vmint32) };
+    hla::Variable var9 { new_local("var9", vmint32) };
+    hla::Variable var10 { new_local("var10", vmint32) };
 
 
 public:
     MyFunction(void* memory) : HighLevelAssembler((byte*)memory, {2}) { }
 
     void on_build() override {
-        var = 10;
-        second = 50;
 
-        var += 30;
-        var += second;
+        var1 = 10;
+        var2 = 20;
 
-        static_call("something or other");
+        ret(var2);
 
-        cout << var.def() << endl;
-
-        ret();
+        var1 = 10;
+        ret(var1);
     }
 };
 

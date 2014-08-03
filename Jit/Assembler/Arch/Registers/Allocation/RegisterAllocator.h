@@ -32,6 +32,11 @@ namespace sysarch {
 
         void with_register(hla::Variable& variable,
             std::function<void(jit::JitCodeSegment& segment, const sysarch::SystemRegister&)> callback);
+
+        void set_return_value(hla::Variable& variable);
+
+    private:
+        void persist_variable(const RegisterBinding& binidng, hla::Variable& variable);
     };
 }
 
