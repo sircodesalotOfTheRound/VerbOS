@@ -97,6 +97,9 @@ namespace hla {
         }
 
     private:
+        // TODO: Prevent moving variables.
+
+
         void with_register(std::function<void (jit::JitCodeSegment& segment, const sysarch::SystemRegister& reg)> callback) {
             allocator_.with_register(*this, callback);
         }

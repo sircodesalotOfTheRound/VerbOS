@@ -23,6 +23,9 @@ namespace lla {
         void ret() { segment_.ret(); }
         void render() { segment_.emit_to(emitter_); }
 
+        void begin_frame() { segment_.begin_frame(); }
+        void end_frame() { segment_.end_frame(); }
+
         void* memory() { return memory_; }
 
         jit::JitCodeSegment& segment() { return segment_; }

@@ -18,6 +18,7 @@ namespace opcodes {
 
     public:
         SubOpCode( sysarch::const_sys_register lhs, sysarch::const_sys_register rhs) : _lhs(&lhs), _rhs(&rhs) { }
+        SubOpCode( sysarch::const_sys_register reg, uint64_t size) : _lhs(&reg), _rhs(size) { }
 
         size_t size() { return -1; }
         void render(jit::JitEmitter & writer);

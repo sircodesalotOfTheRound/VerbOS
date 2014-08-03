@@ -40,7 +40,8 @@ namespace jit {
         void add(sysarch::const_sys_register lhs, uint64 rhs);
         void add(sysarch::const_sys_register lhs,sysarch::const_sys_register rhs);
 
-        void sub(sysarch::const_sys_register lhs,sysarch::const_sys_register rhs);
+        void sub(sysarch::const_sys_register lhs, sysarch::const_sys_register rhs);
+        void sub(sysarch::const_sys_register lhs, uint64_t size);
 
         void push(sysarch::const_sys_register reg);
         void push(int32 value);

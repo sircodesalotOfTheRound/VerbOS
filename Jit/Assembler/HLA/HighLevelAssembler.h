@@ -26,7 +26,7 @@ namespace hla {
         const typesys::FunctionDefinition definition_;
         bool allow_new_locals;
 
-        off_t local_offset { 8 };
+        off_t local_offset { 24 };
 
     public:
         virtual void initialize() const { }
@@ -35,13 +35,13 @@ namespace hla {
             // New locals must be defined before this block is run.
             allow_new_locals = false;
 
-            try {
-                on_build();
-            } catch (hla::ReturnException&) {
-                assembler_.ret();
-            }
+            // Begin the stack frame.
+            assembler_.begin_frame();
 
-            assembler_.ret();
+            try { on_build(); }
+            catch (hla::ReturnException&) { }
+
+            assembler_.end_frame();
             assembler_.render();
         }
 
@@ -74,7 +74,7 @@ namespace hla {
 
         }
 
-        void static_call(std::string name) {std::cout << "called: " << name << std::endl; };
+        void static_call(void* func) { assembler_.segment().call(func); }
         void set_label(std::string name) { std::cout << "set label: " << name << std::endl; }
 
         GivenCallback<VariableComparison> given(const hla::VariableComparison comparison);

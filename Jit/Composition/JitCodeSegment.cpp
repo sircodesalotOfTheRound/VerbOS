@@ -5,12 +5,16 @@
 
 #include "JitCodeSegment.h"
 
-void jit::JitCodeSegment::add( sysarch::const_sys_register lhs, sysarch::const_sys_register rhs) {
+void jit::JitCodeSegment::add(sysarch::const_sys_register lhs, sysarch::const_sys_register rhs) {
     add_opcode(new AddOpCode(lhs, rhs));
 }
 
-void jit::JitCodeSegment::sub( sysarch::const_sys_register lhs, sysarch::const_sys_register rhs) {
+void jit::JitCodeSegment::sub(sysarch::const_sys_register lhs, sysarch::const_sys_register rhs) {
     add_opcode(new SubOpCode(lhs, rhs));
+}
+
+void jit::JitCodeSegment::sub(sysarch::const_sys_register reg, uint64_t size) {
+    add_opcode(new SubOpCode(reg, size));
 }
 
 void jit::JitCodeSegment::push( sysarch::const_sys_register reg) {
@@ -52,15 +56,21 @@ void jit::JitCodeSegment::ret() {
 void jit::JitCodeSegment::begin_frame() {
     using namespace sysarch;
 
-    this->push(registers_.rbp);
-    this->mov(registers_.rbp, registers_.rsp);
+    push(registers_.rbp);
+    mov(registers_.rbp, registers_.rsp);
+
+    // Todo: make frame size not fixed.
+    //add(registers_.rsp, 256);
 }
 
 void jit::JitCodeSegment::end_frame() {
     using namespace sysarch;
 
-    this->pop(registers_.rbp);
-    this->ret();
+    // Todo: make frame size not fixed.
+    //sub(registers_.rsp, 256);
+
+    pop(registers_.rbp);
+    ret();
 }
 
 void jit::JitCodeSegment::emit_to(JitEmitter &writer) {

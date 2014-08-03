@@ -41,19 +41,8 @@ public:
 
     void on_build() override {
         var1 = 10;
-        var2 = 20;
-        var3 = 30;
-        var4 = 40;
-        var5 = 50;
-        var6 = 60;
-        var7 = 70;
-        var8 = 80;
-        var9 = 90;
-        var10 = 100;
+        var2 = 10;
 
-        ret(var9);
-
-        var1 = 10;
         ret(var1);
     }
 };
