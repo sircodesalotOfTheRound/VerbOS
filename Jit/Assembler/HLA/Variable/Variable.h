@@ -46,8 +46,14 @@ namespace hla {
         void operator()() {std::cout << "calling: " << std::endl; }
 
         void operator=(const uint64_t value) {
-            allocator_.with_register(*this, [&](jit::JitCodeSegment& segment, const sysarch::SystemRegister& reg){
+            with_register([&](jit::JitCodeSegment& segment, const sysarch::SystemRegister& reg){
                 segment.mov(reg, value);
+            });
+        }
+
+        void operator+=(const uint64_t value) {
+            with_register([&](jit::JitCodeSegment &segment, const sysarch::SystemRegister &reg) {
+                segment.add(reg, value);
             });
         }
 
@@ -73,6 +79,11 @@ namespace hla {
 
         friend std::ostream& operator<<(std::ostream& stream, const Variable& variable) {
             return stream << variable.name_ << " : " << variable.type_;
+        }
+
+    private:
+        void with_register(std::function<void (jit::JitCodeSegment& segment, const sysarch::SystemRegister& reg)> callback) {
+            allocator_.with_register(*this, callback);
         }
     };
 }

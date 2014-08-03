@@ -32,6 +32,7 @@ public:
 
     void on_build() override {
         var = 10;
+        var += 30;
         ret();
     }
 };

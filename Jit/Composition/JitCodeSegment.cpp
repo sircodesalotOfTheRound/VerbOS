@@ -5,7 +5,7 @@
 
 #include "JitCodeSegment.h"
 
-void jit::JitCodeSegment::add( sysarch::p_sys_register lhs, sysarch::p_sys_register rhs) {
+void jit::JitCodeSegment::add( sysarch::const_sys_register lhs, sysarch::const_sys_register rhs) {
     add_opcode(new AddOpCode(lhs, rhs));
 }
 
@@ -76,7 +76,7 @@ jit::JitCodeSegment::~JitCodeSegment() {
     }
 }
 
-void jit::JitCodeSegment::add( sysarch::p_sys_register lhs, uint64 rhs) {
+void jit::JitCodeSegment::add(sysarch::const_sys_register lhs, const uint64 rhs) {
     add_opcode(new AddOpCode(lhs, rhs));
 }
 

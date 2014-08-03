@@ -37,8 +37,8 @@ namespace jit {
         JitCodeSegment();
         ~JitCodeSegment();
 
-        void add(sysarch::p_sys_register lhs, uint64 rhs);
-        void add(sysarch::p_sys_register lhs,sysarch::p_sys_register rhs);
+        void add(sysarch::const_sys_register lhs, uint64 rhs);
+        void add(sysarch::const_sys_register lhs,sysarch::const_sys_register rhs);
 
         void sub(sysarch::const_sys_register lhs,sysarch::const_sys_register rhs);
 

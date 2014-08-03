@@ -17,8 +17,8 @@ namespace opcodes {
         Operand _rhs;
 
     public:
-        AddOpCode(sysarch::p_sys_register lhs,sysarch::p_sys_register rhs) : _lhs(lhs), _rhs(rhs) { }
-        AddOpCode(sysarch::p_sys_register lhs, uint64 rhs) : _lhs(lhs), _rhs(rhs) { }
+        AddOpCode(sysarch::const_sys_register lhs,sysarch::const_sys_register rhs) : _lhs(&lhs), _rhs(&rhs) { }
+        AddOpCode(sysarch::const_sys_register lhs, uint64 rhs) : _lhs(&lhs), _rhs(rhs) { }
 
         size_t size() { return -1; }
         void render(jit::JitEmitter & writer);
