@@ -10,7 +10,6 @@
 #include <unordered_map>
 #include "Variable.h"
 #include "GivenCallback.h"
-#include "ReturnException.h"
 #import "VerbosType.h"
 #import "FunctionDefinition.h"
 #include "LowLevelAssembler.h"
@@ -35,13 +34,11 @@ namespace hla {
             // New locals must be defined before this block is run.
             allow_new_locals = false;
 
-            // Begin the stack frame.
-            assembler_.begin_frame();
+            // Build the stack frame
+            //assembler_.begin_frame();
+            on_build();
+            //assembler_.end_frame();
 
-            try { on_build(); }
-            catch (hla::ReturnException&) { }
-
-            assembler_.end_frame();
             assembler_.render();
         }
 
@@ -82,7 +79,7 @@ namespace hla {
     public:
         void* memory() { return assembler_.memory(); }
         const size_t num_locals() const { return definition_.num_locals(); }
-        void ret() const { throw hla::return_exception; }
+        void ret() { assembler_.ret(); }
 
         void ret(Variable& variable) {
             allocator_.set_return_value(variable);

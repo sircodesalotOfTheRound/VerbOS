@@ -10,7 +10,6 @@
 
 #include <functional>
 #include "VariableComparison.h"
-#include "ReturnException.h"
 #include "HighLevelAssembler.h"
 
 namespace hla {
@@ -29,8 +28,6 @@ namespace hla {
         }
 
         void operator()(std::function<void(const HighLevelAssembler&)> func);
-
-        void ret() { throw return_exception; }
     };
 }
 

@@ -39,7 +39,6 @@
 		D3343CC169CD2395FA22BEE2 /* DereferencedRegister.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D334318DF56727AB0E6AD7F5 /* DereferencedRegister.cpp */; };
 		D3343E0FE98FDD867617CE97 /* Local.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D33437282A7BAC03129B4F28 /* Local.cpp */; };
 		D3343E1224295D0CE40FCFDA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D33435B68005F8843C9CC90A /* main.cpp */; };
-		D3343E39BE73600D0F3B151A /* ReturnException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343C765CDD3AD4CF820781 /* ReturnException.cpp */; };
 		D3343E6BD8EAA5EC59CA1992 /* JitCodeSegment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343DF5CC91F3C6E171129A /* JitCodeSegment.cpp */; };
 		D3343E963708BF605A118E9B /* CallStub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D33436F4475CA7EE91C57526 /* CallStub.cpp */; };
 		D3343ECC01419CE844E4A49B /* VariableComparison.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D334330E95A1F442227964F0 /* VariableComparison.cpp */; };
@@ -84,7 +83,6 @@
 		D334343EA3C24A966DB6A53D /* ForwardAllocator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ForwardAllocator.cpp; sourceTree = "<group>"; };
 		D3343461BBD07C15218759D1 /* VerboseString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VerboseString.cpp; sourceTree = "<group>"; };
 		D33434804279F9059EA96A60 /* Temporary.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Temporary.cpp; sourceTree = "<group>"; };
-		D33434DF5D879892F97A9E64 /* ReturnException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReturnException.h; sourceTree = "<group>"; };
 		D33434FC6B0603A7B6B2F80C /* CallOpCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallOpCode.h; sourceTree = "<group>"; };
 		D334350280E2431A6406530C /* VMString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VMString.cpp; sourceTree = "<group>"; };
 		D33435266D305D59EF78448C /* PushOpCode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PushOpCode.cpp; sourceTree = "<group>"; };
@@ -127,7 +125,6 @@
 		D3343BD14CB03C9A044B34BD /* VMString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMString.h; sourceTree = "<group>"; };
 		D3343C613342693FD8BD4E6F /* JitStackFrameTemplate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JitStackFrameTemplate.cpp; sourceTree = "<group>"; };
 		D3343C6DA621379B35968602 /* ReturnOpCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReturnOpCode.h; sourceTree = "<group>"; };
-		D3343C765CDD3AD4CF820781 /* ReturnException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ReturnException.cpp; sourceTree = "<group>"; };
 		D3343CA113A3F416D818B1BA /* OpCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpCode.h; sourceTree = "<group>"; };
 		D3343CDCBED3FE1668F21D54 /* MovOpCode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MovOpCode.cpp; sourceTree = "<group>"; };
 		D3343CDD19577009462B3872 /* Osx64Registers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Osx64Registers.cpp; sourceTree = "<group>"; };
@@ -257,8 +254,6 @@
 		D33438401A673DD837CD03EC /* OpCodes */ = {
 			isa = PBXGroup;
 			children = (
-				D3343C765CDD3AD4CF820781 /* ReturnException.cpp */,
-				D33434DF5D879892F97A9E64 /* ReturnException.h */,
 			);
 			path = OpCodes;
 			sourceTree = "<group>";
@@ -544,7 +539,6 @@
 				D3343ECC01419CE844E4A49B /* VariableComparison.cpp in Sources */,
 				D3343633B7888147AC47529E /* TypeComparison.cpp in Sources */,
 				D33431493C34388A4588650D /* GivenCallback.cpp in Sources */,
-				D3343E39BE73600D0F3B151A /* ReturnException.cpp in Sources */,
 				D3343B9EF41BF38593B11E20 /* LowLevelAssembler.cpp in Sources */,
 				D3343CC169CD2395FA22BEE2 /* DereferencedRegister.cpp in Sources */,
 				D33431232AC140097D3B2827 /* SystemRegister.cpp in Sources */,

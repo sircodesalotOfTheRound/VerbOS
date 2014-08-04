@@ -53,18 +53,8 @@ public:
 int main() {
     void* memory = mmap(nullptr, (size_t)getpagesize(), PROT_EXEC | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 
-    JitEmitter emitter((byte*)memory);
-    JitCodeSegment segment;
-    sysarch::Osx64Registers regs;
-
-    segment.mov(regs.rax, 20);
-    segment.mov(regs.rbx, 15);
-    segment.sub(regs.rbx, 4);
-    segment.sub(regs.rax, regs.rbx);
-    segment.ret();
-
-    segment.emit_to(emitter);
-
+    MyFunction my(memory);
+    my.build();
 
     int(*pfunc)() = (int(*)())memory;
     cout << pfunc() << endl;
