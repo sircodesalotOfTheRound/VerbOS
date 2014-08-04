@@ -4,12 +4,11 @@
 //
 
 
-#include <iosfwd>
-#include <string>
-
 #ifndef __VerbosType_H_
 #define __VerbosType_H_
 
+#include <string>
+#include "VMString.h"
 
 namespace typesys {
     enum class TYPE_FLAGS : uint64_t {
@@ -43,15 +42,15 @@ namespace typesys {
 
     class VerbosType {
         TYPE_FLAGS flags;
-        std::string name_;
+        vm::VMString name_;
 
     public:
         VerbosType(std::string name) : name_(name) { }
 
-        std::string name() { return name_; }
+        std::string name() const { return name_.str(); }
 
         friend std::ostream& operator<<(std::ostream& stream, const VerbosType& type) {
-            return stream << type.name_;
+            return stream << type.name();
         }
     };
 }

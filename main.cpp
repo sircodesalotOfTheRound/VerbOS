@@ -8,7 +8,7 @@
 
 #include <iostream>
 #include "HighLevelAssembler.h"
-#include "VMFieldNameString.h"
+#include "VMString.h"
 #include "ForwardAllocator.h"
 #include "Types.h"
 #include "sys/mman.h"
@@ -43,6 +43,8 @@ public:
         var1 = 10;
         var2 = 10;
 
+        cout << var1.def() << endl;
+
         ret(var1);
     }
 };
@@ -51,8 +53,17 @@ public:
 int main() {
     void* memory = mmap(nullptr, (size_t)getpagesize(), PROT_EXEC | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 
-    MyFunction func(memory);
-    func.build();
+    JitEmitter emitter((byte*)memory);
+    JitCodeSegment segment;
+    sysarch::Osx64Registers regs;
+
+    segment.mov(regs.rax, 20);
+    segment.mov(regs.rbx, 15);
+    segment.sub(regs.rbx, 4);
+    segment.sub(regs.rax, regs.rbx);
+    segment.ret();
+
+    segment.emit_to(emitter);
 
 
     int(*pfunc)() = (int(*)())memory;
