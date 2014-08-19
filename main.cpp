@@ -1,11 +1,12 @@
 #include <iostream>
 #include "CPURegister.h"
+#import "SystemString.h"
 
 int main() {
     using namespace std;
 
-    processor::CPURegister reg ("rax", 0x00, 64, false);
-    cout << reg << endl;
+    SystemString str { "something like that" };
+    const char* pstr = str.c_str();
 
     return 0;
 }

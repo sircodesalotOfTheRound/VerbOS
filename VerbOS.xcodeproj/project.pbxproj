@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D334390AC5A5A27A2D79475B /* CPURegister.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D33438275F8E50CB440A6875 /* CPURegister.cpp */; };
+		D3343C7D9338CF194C90CFE2 /* SystemString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343A67B829E902F26DB812 /* SystemString.cpp */; };
 		D3343E1224295D0CE40FCFDA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D33435B68005F8843C9CC90A /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -24,10 +25,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D33433D5EE5026A887E71B2A /* SystemString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemString.h; sourceTree = "<group>"; };
 		D33435B68005F8843C9CC90A /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		D334376D867758D7148B2968 /* CPURegister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPURegister.h; sourceTree = "<group>"; };
-		D33437BC4B6DE55844D7D0EE /* TypeDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypeDef.h; sourceTree = "<group>"; };
 		D33438275F8E50CB440A6875 /* CPURegister.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CPURegister.cpp; sourceTree = "<group>"; };
+		D3343A67B829E902F26DB812 /* SystemString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemString.cpp; sourceTree = "<group>"; };
+		D3343EB847053DA40DAF87DC /* TypeDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypeDef.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +44,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D334311F1DDFDD17394D4306 /* Coding */ = {
+			isa = PBXGroup;
+			children = (
+				D3343E04CFA517E4809FA6A1 /* TypeDef */,
+			);
+			path = Coding;
+			sourceTree = "<group>";
+		};
 		D334314535D0ED4095EB0AF6 /* Arch */ = {
 			isa = PBXGroup;
 			children = (
@@ -58,10 +69,10 @@
 			path = Processor;
 			sourceTree = "<group>";
 		};
-		D334380C5671DC358D23CCA4 /* TypeDef */ = {
+		D3343E04CFA517E4809FA6A1 /* TypeDef */ = {
 			isa = PBXGroup;
 			children = (
-				D33437BC4B6DE55844D7D0EE /* TypeDef.h */,
+				D3343EB847053DA40DAF87DC /* TypeDef.h */,
 			);
 			path = TypeDef;
 			sourceTree = "<group>";
@@ -74,12 +85,30 @@
 			path = Jit;
 			sourceTree = "<group>";
 		};
+		D3343E4FC7715FC423395A87 /* ExecutionEnvironment */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ExecutionEnvironment;
+			sourceTree = "<group>";
+		};
+		D3343ED20D8A30A2EF69FE9B /* TypeSystem */ = {
+			isa = PBXGroup;
+			children = (
+				D3343A67B829E902F26DB812 /* SystemString.cpp */,
+				D33433D5EE5026A887E71B2A /* SystemString.h */,
+			);
+			path = TypeSystem;
+			sourceTree = "<group>";
+		};
 		F1577126198A97C2005DAB3E = {
 			isa = PBXGroup;
 			children = (
 				D33435B68005F8843C9CC90A /* main.cpp */,
 				D3343E31A77F464D6D91A1D9 /* Jit */,
-				D334380C5671DC358D23CCA4 /* TypeDef */,
+				D3343E4FC7715FC423395A87 /* ExecutionEnvironment */,
+				D3343ED20D8A30A2EF69FE9B /* TypeSystem */,
+				D334311F1DDFDD17394D4306 /* Coding */,
 			);
 			sourceTree = "<group>";
 		};
@@ -134,6 +163,7 @@
 			files = (
 				D3343E1224295D0CE40FCFDA /* main.cpp in Sources */,
 				D334390AC5A5A27A2D79475B /* CPURegister.cpp in Sources */,
+				D3343C7D9338CF194C90CFE2 /* SystemString.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
