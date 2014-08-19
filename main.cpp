@@ -1,9 +1,11 @@
 #include <iostream>
+#include "CPURegister.h"
 
 int main() {
     using namespace std;
 
-    cout << "restarting knowing more c++ and assembler" << endl;
+    processor::CPURegister reg ("rax", 0x00, 64, false);
+    cout << reg << endl;
 
     return 0;
 }

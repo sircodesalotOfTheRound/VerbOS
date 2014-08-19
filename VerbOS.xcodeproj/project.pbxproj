@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D334390AC5A5A27A2D79475B /* CPURegister.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D33438275F8E50CB440A6875 /* CPURegister.cpp */; };
 		D3343E1224295D0CE40FCFDA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D33435B68005F8843C9CC90A /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -24,6 +25,9 @@
 
 /* Begin PBXFileReference section */
 		D33435B68005F8843C9CC90A /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		D334376D867758D7148B2968 /* CPURegister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPURegister.h; sourceTree = "<group>"; };
+		D33437BC4B6DE55844D7D0EE /* TypeDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypeDef.h; sourceTree = "<group>"; };
+		D33438275F8E50CB440A6875 /* CPURegister.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CPURegister.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,10 +41,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D334314535D0ED4095EB0AF6 /* Arch */ = {
+			isa = PBXGroup;
+			children = (
+				D334340D4FD0CA6A0242D4F9 /* Processor */,
+			);
+			path = Arch;
+			sourceTree = "<group>";
+		};
+		D334340D4FD0CA6A0242D4F9 /* Processor */ = {
+			isa = PBXGroup;
+			children = (
+				D33438275F8E50CB440A6875 /* CPURegister.cpp */,
+				D334376D867758D7148B2968 /* CPURegister.h */,
+			);
+			path = Processor;
+			sourceTree = "<group>";
+		};
+		D334380C5671DC358D23CCA4 /* TypeDef */ = {
+			isa = PBXGroup;
+			children = (
+				D33437BC4B6DE55844D7D0EE /* TypeDef.h */,
+			);
+			path = TypeDef;
+			sourceTree = "<group>";
+		};
+		D3343E31A77F464D6D91A1D9 /* Jit */ = {
+			isa = PBXGroup;
+			children = (
+				D334314535D0ED4095EB0AF6 /* Arch */,
+			);
+			path = Jit;
+			sourceTree = "<group>";
+		};
 		F1577126198A97C2005DAB3E = {
 			isa = PBXGroup;
 			children = (
 				D33435B68005F8843C9CC90A /* main.cpp */,
+				D3343E31A77F464D6D91A1D9 /* Jit */,
+				D334380C5671DC358D23CCA4 /* TypeDef */,
 			);
 			sourceTree = "<group>";
 		};
@@ -94,6 +133,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3343E1224295D0CE40FCFDA /* main.cpp in Sources */,
+				D334390AC5A5A27A2D79475B /* CPURegister.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
