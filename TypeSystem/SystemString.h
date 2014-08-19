@@ -12,13 +12,12 @@
 #include "TypeDef.h"
 
 class SystemString {
-    // TODO: Align the memory to ensure no gaps.
-    uint32_t length_;
-    char* text_;
+    byte* data_;
 
 public:
-    SystemString(const char* text, size_t length) : length_((uint32_t)length), text_(new char[length_])  {
-        strncpy(text_, text, length);
+    SystemString(const char* text, size_t length) : data_(allocate_memory(length)) {
+        set_length(length);
+        memcpy(&data_[4], text, length);
     }
 
     SystemString(std::string source) : SystemString(source.c_str(), source.size()) {
@@ -26,47 +25,46 @@ public:
     }
 
     SystemString(const SystemString& rhs) {
-        length_ = rhs.length_;
-        text_ = new char[length_];
-
-        strncpy(text_, rhs.text_, length_);
+        data_ = allocate_memory(rhs.length());
+        memcpy(data_, rhs.data_, length());
     }
 
-    SystemString(SystemString&& rhs) : length_(rhs.length_), text_(rhs.text_) {
-        rhs.length_ = 0;
-        rhs.text_ = nullptr;
+    SystemString(SystemString&& rhs) : data_(rhs.data_) {
+        rhs.data_ = nullptr;
     }
 
     SystemString& operator=(const SystemString& rhs) {
         if (this == &rhs) return *this;
 
-        delete[] text_;
-        length_ = rhs.length_;
-        text_ = new char[length_];
-
-        strncpy(text_, rhs.text_, length_);
+        delete[] data_;
+        memcpy(data_, rhs.data_, rhs.length());
 
         return *this;
     }
 
-
     ~SystemString() {
-        length_ = 0;
-        delete[] text_;
+        delete[] data_;
     }
 
 
     friend std::ostream& operator<<(std::ostream& stream, const SystemString& str) {
-        for (int index = 0; index != str.length_; index++) {
-            stream << str.text_[index];
+        uint32_t length = str.length();
+
+        for (int index = 0; index != length; index++) {
+            stream << ((char*)str.data_)[index + 4];
         }
 
         return stream;
     }
 
-    const char* c_str() const { return text_; }
-    uint32_t length() const { return length_; }
-    std::string str() const { return { text_, length_ }; }
+    const byte* address() const { return data_; };
+
+    uint32_t length() const { return *(uint32_t*)data_; }
+    std::string str() const { return { &((const char*)data_)[4], length()}; }
+
+private:
+    byte* allocate_memory(int size) { return new byte[size + sizeof(uint32_t)]; }
+    void set_length(uint32_t size) { ((uint32_t*)data_)[0] = size; }
 };
 
 

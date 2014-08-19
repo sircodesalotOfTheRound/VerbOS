@@ -6,7 +6,8 @@ int main() {
     using namespace std;
 
     SystemString str { "something like that" };
-    const char* pstr = str.c_str();
+    cout << str.length() << endl;
+    cout << str << endl;
 
     return 0;
 }
