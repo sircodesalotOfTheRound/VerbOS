@@ -9,15 +9,15 @@
 #define SYSTEM_TYPE_FIELD_DEFINITION
 
 #include "TypeDef.h"
-#import "SystemType.h"
 #include <string>
 
+class SystemType;
 class SystemTypeFieldDefinition {
     std::string name_;
     const SystemType* type_;
 
 public:
-    SystemTypeFieldDefinition(std::string name, const SystemType type)
+    SystemTypeFieldDefinition(std::string name, const SystemType& type)
         : name_(name), type_(&type) {
 
     }

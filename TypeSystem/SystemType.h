@@ -7,15 +7,22 @@
 #define SYSTEM_TYPE
 
 #include <string>
+#include <array>
+#include <vector>
+#include <algorithm>
+
 #include "TypeDef.h"
-#import "SystemString.h"
+#include "SystemTypeFieldDefinition.h"
 
 class SystemType {
-    byte* data_;
+    std::string name_;
+    std::vector<SystemTypeFieldDefinition> field_definitions_;
 
 public:
-    SystemType(std::string name) : data_(allocate_memory()) {
-        write_name(name);
+    SystemType(std::string name, byte field_count)
+        : name_(name)
+    {
+        field_definitions_.reserve(field_count);
     }
 
     SystemType(const SystemType&) = delete;
@@ -23,21 +30,19 @@ public:
     SystemType& operator=(const SystemType&) = delete;
     SystemType& operator=(SystemType&&) = delete;
 
-    ~SystemType() { delete[] data_; }
+    void add_field_definition(const SystemTypeFieldDefinition definition) {
+        if (field_definitions_.size() >= field_definitions_.capacity()) {
+            throw std::logic_error("more fields added than specified");
+        }
+
+        field_definitions_.push_back(definition);
+    }
+
+    size_t field_count() const { return field_definitions_.size(); }
 
 private:
-    byte* allocate_memory() {
-        static int SIZEOF_NAME = sizeof(SystemString);
-
-        return new byte[SIZEOF_NAME];
-    }
-
-    void write_name(std::string name) {
-        data_ = (byte*)new SystemString(name);
-    }
-
     friend std::ostream& operator<<(std::ostream& stream, const SystemType& type) {
-        return stream << *(SystemString*)type.data_;
+        return stream << type.name_;
     }
 };
 

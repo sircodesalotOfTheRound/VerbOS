@@ -24,7 +24,7 @@ public:
 
     const SystemType& def() {
         // Since we may be pointing at a base stripe, we need to
-        // cast to the of the object.
+        // cast to the root of the object.
         SystemTypeInstance* root_ptr = (SystemTypeInstance *) data_[0];
         return *(SystemType*)root_ptr->data_[1];
     }
