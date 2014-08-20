@@ -9,9 +9,35 @@
 #define __ProcessorMovOpCode_H_
 
 #include "ProcessorOpCodeBase.h"
+#include "ProcessorOpCodeOperand.h"
 
 namespace op {
-    class ProcessorMovOpCode : public ProcessorOpCodeBase {
+    class RegToRegProcessorMovOpCode : public ProcessorOpCodeBase {
+        const processor::CpuRegister* lhs_;
+        const processor::CpuRegister* rhs_;
+
+    public:
+        RegToRegProcessorMovOpCode(const processor::CpuRegister& lhs, const processor::CpuRegister& rhs)
+            : lhs_(&lhs), rhs_(&rhs) {
+
+        }
+
+        size_t size() const override { return 5; }
+        std::string rep() const override { return "mov"; }
+        void render(jit::JitRenderer&) const override;
+    };
+
+    class ConstToRegProcessorMovOpCode : public ProcessorOpCodeBase {
+        const processor::CpuRegister* lhs_;
+        uint64_t rhs_;
+
+    public:
+        ConstToRegProcessorMovOpCode(const processor::CpuRegister& lhs, uint64_t rhs) :
+            lhs_(&lhs), rhs_(rhs) {
+
+        }
+
+    public:
         size_t size() const override { return 5; }
         std::string rep() const override { return "mov"; }
         void render(jit::JitRenderer&) const override;

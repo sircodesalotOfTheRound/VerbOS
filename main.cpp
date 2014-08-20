@@ -20,20 +20,15 @@ int main() {
 
     jit::JitRenderer renderer (memory());
     op::ProcessorOpCodeSet opcodes;
-    opcodes.add(new op::ProcessorLabelOpCode("something"));
-    opcodes.add(new op::ProcessorLabelOpCode("another_thing"));
-    opcodes.add(new op::ProcessorReturnOpCode());
+    opcodes.label("first");
+    opcodes.mov(arch::OsxRegisters::rax, 10);
+    opcodes.ret();
 
     opcodes.render(renderer);
 
-    void(*pfunc)() = (void(*)())renderer.memory();
+    int(*pfunc)() = (int(*)())renderer.memory();
 
-    pfunc();
-
-    auto rax = arch::OsxRegisters::rax;
-
-    cout << *rax << endl;
-    cout << rax[10] << endl;
+    cout << pfunc();
 
     return 0;
 }

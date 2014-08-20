@@ -11,11 +11,16 @@
 #define __Operand_H_
 
 
-union ProcessorOpCodeOperand {
-    uint64_t value;
-    processor::CpuRegister reg;
+enum class OperandType {
 
 };
+
+union ProcessorOpCodeOperand {
+    uint64_t value;
+    processor::CpuRegister* reg;
+    processor::DereferencedCpuRegister *deref_reg;
+};
+
 
 
 #endif //__Operand_H_
