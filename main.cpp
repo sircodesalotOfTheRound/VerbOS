@@ -22,6 +22,7 @@ int main() {
     op::ProcessorOpCodeSet opcodes;
     opcodes.label("first");
     opcodes.mov(arch::OsxRegisters::rax, 10);
+    opcodes.inc(arch::OsxRegisters::rax);
     opcodes.ret();
 
     opcodes.render(renderer);

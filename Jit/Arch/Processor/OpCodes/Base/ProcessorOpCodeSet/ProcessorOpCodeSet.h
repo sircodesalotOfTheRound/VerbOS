@@ -8,10 +8,12 @@
 
 #include <vector>
 #include <unordered_map>
+#include <iostream>
 #include "ProcessorOpCodeBase.h"
 #include "ProcessorReturnOpCode.h"
 #include "ProcessorLabelOpCode.h"
 #include "ProcessorMovOpCode.h"
+#import "ProcessorIncOpCode.h"
 
 namespace op {
     class ProcessorOpCodeSet {
@@ -36,6 +38,10 @@ namespace op {
         void label(std::string label) { add(new ProcessorLabelOpCode(label)); }
         void mov(const processor::CpuRegister& sys_register, uint64_t value) {
             add(new op::ConstToRegProcessorMovOpCode(sys_register, value));
+        }
+
+        void inc(const processor::CpuRegister& sys_register) {
+            add(new op::ProcessorIncOpCode(sys_register));
         }
 
     private:

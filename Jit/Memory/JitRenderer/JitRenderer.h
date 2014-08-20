@@ -36,8 +36,8 @@ namespace jit {
             memory_[write_offset_++] = data;
         }
 
-        void write_opcode_masked(byte opcode, const processor::CpuRegister* sys_register) {
-            write_opcode(opcode | sys_register->register_code());
+        void write_opcode_masked(byte opcode, const processor::CpuRegister& sys_register) {
+            write_opcode(opcode | sys_register.register_code());
         }
 
         void* memory() const { return memory_;}
