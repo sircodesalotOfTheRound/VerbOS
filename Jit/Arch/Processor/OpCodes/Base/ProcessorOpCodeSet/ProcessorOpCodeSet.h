@@ -13,7 +13,8 @@
 #include "ProcessorReturnOpCode.h"
 #include "ProcessorLabelOpCode.h"
 #include "ProcessorMovOpCode.h"
-#import "ProcessorIncOpCode.h"
+#include "ProcessorIncOpCode.h"
+#include "ProcessorDecOpCode.h"
 
 namespace op {
     class ProcessorOpCodeSet {
@@ -42,6 +43,10 @@ namespace op {
 
         void inc(const processor::CpuRegister& sys_register) {
             add(new op::ProcessorIncOpCode(sys_register));
+        }
+
+        void dec(const processor::CpuRegister& sys_register) {
+            add(new op::ProcessorDecOpCode(sys_register));
         }
 
     private:

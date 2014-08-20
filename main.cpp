@@ -19,10 +19,16 @@ int main() {
     using namespace std;
 
     jit::JitRenderer renderer (memory());
-    op::ProcessorOpCodeSet opcodes;
+    op::ProcessorOpCodeSet opcodes {};
+
+    auto rax = arch::OsxRegisters::rax;
+
     opcodes.label("first");
-    opcodes.mov(arch::OsxRegisters::rax, 10);
-    opcodes.inc(arch::OsxRegisters::rax);
+    opcodes.mov(rax, 10);
+    opcodes.inc(rax);
+    opcodes.dec(rax);
+    opcodes.dec(rax);
+    opcodes.dec(rax);
     opcodes.ret();
 
     opcodes.render(renderer);
