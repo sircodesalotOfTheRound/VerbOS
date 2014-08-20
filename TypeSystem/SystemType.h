@@ -10,13 +10,16 @@
 #include <array>
 #include <vector>
 #include <algorithm>
+#include <unordered_map>
+#include <iostream>
 
 #include "TypeDef.h"
 #include "SystemTypeFieldDefinition.h"
 
 class SystemType {
     std::string name_;
-    std::vector<SystemTypeFieldDefinition> field_definitions_;
+    std::unordered_map<std::string, SystemTypeFieldDefinition> field_definitions_;
+    std::unordered_map<std::string, SystemType*> trait_definitions_;
 
 public:
     SystemType(std::string name, byte field_count)
@@ -31,13 +34,14 @@ public:
     SystemType& operator=(SystemType&&) = delete;
 
     void add_field_definition(const SystemTypeFieldDefinition definition) {
-        if (field_definitions_.size() >= field_definitions_.capacity()) {
-            throw std::logic_error("more fields added than specified");
-        }
-
-        field_definitions_.push_back(definition);
+        field_definitions_.insert({ definition.name(), definition });
     }
 
+    void add_trait(SystemType& definition) {
+        trait_definitions_.insert({ definition.name(), &definition });
+    }
+
+    std::string name() const { return name_; }
     size_t field_count() const { return field_definitions_.size(); }
 
 private:
