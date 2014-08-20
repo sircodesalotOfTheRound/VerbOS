@@ -1,0 +1,30 @@
+//
+// Created by Reuben Kuhnert on 14/8/20.
+// Copyright (c) 2014 Reuben Kuhnert. All rights reserved.
+//
+
+
+#ifndef __ProcessorOpCodeBase_H_
+#define __ProcessorOpCodeBase_H_
+
+#include <string>
+#include <iostream>
+#include "TypeDef.h"
+
+namespace op {
+    class ProcessorOpCodeBase {
+
+    public:
+        virtual ~ProcessorOpCodeBase() { }
+
+        virtual std::string rep() const = 0;
+        virtual size_t size() const = 0;
+
+        friend std::ostream& operator<<(std::ostream& stream, const ProcessorOpCodeBase& op_code) {
+            return stream << op_code.rep();
+        }
+    };
+}
+
+
+#endif //__ProcessorOpCodeBase_H_

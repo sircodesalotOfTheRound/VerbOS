@@ -3,15 +3,23 @@
 #import "SystemType.h"
 #import "SystemTypeInstance.h"
 #import "OsxRegisters.h"
+#include "ProcessorOpCodeSet.h"
+#import "ProcessorLabelOpCode.h"
+#import "ProcessorReturnOpCode.h"
 
 
 int main() {
     using namespace std;
 
-    arch::OsxRegisters osx_registers;
-    auto rax = osx_registers.rax;
+    op::ProcessorOpCodeSet opcodes;
+    opcodes.add(new op::ProcessorLabelOpCode("something"));
+    opcodes.add(new op::ProcessorLabelOpCode("another_thing"));
+    opcodes.add(new op::ProcessorReturnOpCode());
 
-    cout << rax << endl;
+    for (auto& opcode : opcodes) {
+        cout << *opcode << endl;
+    }
+
 
     return 0;
 }
