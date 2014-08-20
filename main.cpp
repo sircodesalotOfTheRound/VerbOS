@@ -30,7 +30,10 @@ int main() {
 
     pfunc();
 
+    auto rax = arch::OsxRegisters::rax;
 
+    cout << *rax << endl;
+    cout << rax[10] << endl;
 
     return 0;
 }

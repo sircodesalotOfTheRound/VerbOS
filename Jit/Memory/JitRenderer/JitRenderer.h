@@ -20,7 +20,8 @@ namespace jit {
             memory_[write_offset_++] = data;
         }
 
-        void* memory() { return memory_;}
+        void* memory() const { return memory_;}
+        void* current_location() const { return &memory_[write_offset_]; }
     };
 }
 

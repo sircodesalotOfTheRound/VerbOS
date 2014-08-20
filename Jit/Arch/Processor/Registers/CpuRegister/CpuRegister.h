@@ -8,17 +8,18 @@
 #define CPU_REGISTER_H
 
 #include <string>
+#include "DereferencedCpuRegister.h"
 #include "TypeDef.h"
 
 namespace processor {
-    class CPURegister {
+    class CpuRegister {
         std::string name_;
         byte register_code_;
         byte size_;
         bool is_extended_;
 
     public:
-        CPURegister(std::string name, byte code, byte size, bool is_extended)
+        CpuRegister(std::string name, byte code, byte size, bool is_extended)
             : name_(name), register_code_(code), size_(size), is_extended_(is_extended) { }
 
         const std::string& name() const;
@@ -26,7 +27,10 @@ namespace processor {
         byte size() const;
         bool is_extended() const;
 
-        friend std::ostream& operator<<(std::ostream& stream, const CPURegister& cpu_register) {
+        DereferencedCpuRegister operator*() const { return DereferencedCpuRegister(this); }
+        DereferencedCpuRegister operator[](int offset) const { return DereferencedCpuRegister(this, offset); }
+
+        friend std::ostream& operator<<(std::ostream& stream, const CpuRegister & cpu_register) {
             return stream << cpu_register.name_;
         }
     };
