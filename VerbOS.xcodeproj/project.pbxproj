@@ -13,7 +13,7 @@
 		D3343C7D9338CF194C90CFE2 /* SystemString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343A67B829E902F26DB812 /* SystemString.cpp */; };
 		D3343D04CB5F16A986CB38C2 /* SystemTypeFieldDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343498FEF65DB1C73C31D5 /* SystemTypeFieldDefinition.cpp */; };
 		D3343E1224295D0CE40FCFDA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D33435B68005F8843C9CC90A /* main.cpp */; };
-		D3343FA613FC6ECECAFC126E /* OsxRegosters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D334349B8E8F365CA735DCED /* OsxRegosters.cpp */; };
+		D3343FA613FC6ECECAFC126E /* OsxRegisters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D334349B8E8F365CA735DCED /* OsxRegisters.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,7 +32,7 @@
 		D33431BD60DE6A158909902F /* SystemType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemType.cpp; sourceTree = "<group>"; };
 		D33433D5EE5026A887E71B2A /* SystemString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemString.h; sourceTree = "<group>"; };
 		D3343498FEF65DB1C73C31D5 /* SystemTypeFieldDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemTypeFieldDefinition.cpp; sourceTree = "<group>"; };
-		D334349B8E8F365CA735DCED /* OsxRegosters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OsxRegosters.cpp; sourceTree = "<group>"; };
+		D334349B8E8F365CA735DCED /* OsxRegisters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OsxRegisters.cpp; sourceTree = "<group>"; };
 		D33435B68005F8843C9CC90A /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		D3343682F1552F411AE6EDEA /* SystemType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemType.h; sourceTree = "<group>"; };
 		D334376D867758D7148B2968 /* CPURegister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPURegister.h; sourceTree = "<group>"; };
@@ -104,7 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				D3343D367738642E4DE78BED /* OsxRegisters.h */,
-				D334349B8E8F365CA735DCED /* OsxRegosters.cpp */,
+				D334349B8E8F365CA735DCED /* OsxRegisters.cpp */,
 			);
 			path = Architectures;
 			sourceTree = "<group>";
@@ -211,7 +211,7 @@
 				D3343AC37132310029C715AD /* SystemType.cpp in Sources */,
 				D3343D04CB5F16A986CB38C2 /* SystemTypeFieldDefinition.cpp in Sources */,
 				D33436D1504E962B4553AB16 /* SystemTypeInstance.cpp in Sources */,
-				D3343FA613FC6ECECAFC126E /* OsxRegosters.cpp in Sources */,
+				D3343FA613FC6ECECAFC126E /* OsxRegisters.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

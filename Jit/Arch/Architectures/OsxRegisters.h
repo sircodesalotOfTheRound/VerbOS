@@ -16,6 +16,18 @@ namespace arch {
 
         static const processor::CPURegister rbp;
         static const processor::CPURegister rsp;
+
+
+        static const processor::CPURegister r8;
+        static const processor::CPURegister r9;
+        static const processor::CPURegister r10;
+        static const processor::CPURegister r11;
+        static const processor::CPURegister r12;
+        static const processor::CPURegister r13;
+        static const processor::CPURegister r14;
+        static const processor::CPURegister r15;
+
+
     };
 }
 
