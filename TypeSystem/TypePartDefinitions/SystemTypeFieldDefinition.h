@@ -14,15 +14,17 @@
 class SystemType;
 class SystemTypeFieldDefinition {
     std::string name_;
+    byte offset_;
     const SystemType* type_;
 
 public:
-    SystemTypeFieldDefinition(std::string name, const SystemType& type)
-        : name_(name), type_(&type) {
+    SystemTypeFieldDefinition(std::string name, const SystemType& type, byte offset)
+        : name_(name), offset_(offset), type_(&type) {
 
     }
 
     std::string name() const { return name_; }
+    byte offset() { return offset_; }
     const SystemType& type() const { return *type_;}
 
 };

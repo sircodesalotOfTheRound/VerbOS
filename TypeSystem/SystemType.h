@@ -20,6 +20,8 @@ class SystemType {
     std::string name_;
     std::unordered_map<std::string, SystemTypeFieldDefinition> field_definitions_;
     std::unordered_map<std::string, SystemType*> trait_definitions_;
+    byte field_offset_ { 0 };
+    byte trait_offset_ { 0 };
 
 public:
     SystemType(std::string name, byte field_count, byte trait_count)
@@ -34,7 +36,8 @@ public:
     SystemType& operator=(const SystemType&) = delete;
     SystemType& operator=(SystemType&&) = delete;
 
-    void add_field_definition(const SystemTypeFieldDefinition definition) {
+    void add_field_definition(const std::string name, const SystemType& type) {
+        SystemTypeFieldDefinition definition { name, type, field_offset_++ };
         field_definitions_.insert({ definition.name(), definition });
     }
 
