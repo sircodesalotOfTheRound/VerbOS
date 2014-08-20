@@ -10,6 +10,7 @@
 #include <string>
 #include <iostream>
 #include "TypeDef.h"
+#include "JitRenderer.h"
 
 namespace op {
     class ProcessorOpCodeBase {
@@ -19,6 +20,7 @@ namespace op {
 
         virtual std::string rep() const = 0;
         virtual size_t size() const = 0;
+        virtual void render(jit::JitRenderer&) const { }
 
         friend std::ostream& operator<<(std::ostream& stream, const ProcessorOpCodeBase& op_code) {
             return stream << op_code.rep();

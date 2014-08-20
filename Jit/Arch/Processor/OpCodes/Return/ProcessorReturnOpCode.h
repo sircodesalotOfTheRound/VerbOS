@@ -7,13 +7,17 @@
 #ifndef __ProcessorReturnOpCode_H_
 #define __ProcessorReturnOpCode_H_
 
-#include <iosfwd>
+#include <iostream>
 #include "TypeDef.h"
 #include "ProcessorOpCodeBase.h"
 
 namespace op {
     class ProcessorReturnOpCode : public ProcessorOpCodeBase {
     public:
+        void render(jit::JitRenderer& renderer) const override {
+            renderer.write_opcode(0xc3);
+        }
+
         size_t size() const override { return 1; }
         std::string rep() const override { return "ret"; }
     };
