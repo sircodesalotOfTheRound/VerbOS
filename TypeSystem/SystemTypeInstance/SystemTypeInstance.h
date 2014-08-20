@@ -22,12 +22,21 @@ public:
         data_[1] = (uintptr_t)&type;
     }
 
-    const SystemType& def() {
+    const SystemType& def() const {
         // Since we may be pointing at a base stripe, we need to
         // cast to the root of the object.
-        SystemTypeInstance* root_ptr = (SystemTypeInstance *) data_[0];
-        return *(SystemType*)root_ptr->data_[1];
+        return *(SystemType*)get_root()->data_[1];
     }
+
+
+    inline SystemTypeInstance* get_root() const {
+        return (SystemTypeInstance *) data_[0];
+    }
+
+    bool isa(std::string name) {
+        return def().isa(name);
+    }
+
 
     // Dissallow movement for now.
     SystemTypeInstance(const SystemTypeInstance&) = delete;

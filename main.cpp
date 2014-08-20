@@ -3,9 +3,9 @@
 #import "SystemType.h"
 #import "SystemTypeInstance.h"
 
-SystemType vm_object { "vm.object", 0 };
-SystemType vm_int32 { "vm.int32", 0 };
-SystemType vm_string { "vm.string", 1 };
+SystemType vm_object { "vm.object", 0, 0 };
+SystemType vm_int32 { "vm.int32", 0, 0 };
+SystemType vm_string { "vm.string", 1, 0 };
 
 int main() {
     using namespace std;
@@ -16,6 +16,8 @@ int main() {
     SystemTypeInstance an_object { vm_object };
     SystemTypeInstance an_integer { vm_int32 };
     SystemTypeInstance a_string { vm_string };
+
+    cout << a_string.isa("vm.object") << endl;
 
     return 0;
 }

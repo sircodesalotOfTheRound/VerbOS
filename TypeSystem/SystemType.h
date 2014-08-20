@@ -22,10 +22,11 @@ class SystemType {
     std::unordered_map<std::string, SystemType*> trait_definitions_;
 
 public:
-    SystemType(std::string name, byte field_count)
+    SystemType(std::string name, byte field_count, byte trait_count)
         : name_(name)
     {
         field_definitions_.reserve(field_count);
+        field_definitions_.reserve(trait_count);
     }
 
     SystemType(const SystemType&) = delete;
@@ -39,6 +40,17 @@ public:
 
     void add_trait(SystemType& definition) {
         trait_definitions_.insert({ definition.name(), &definition });
+    }
+
+    bool isa(std::string name) const {
+        if (name_ == name) return true;
+        if (trait_definitions_.find(name) != trait_definitions_.end()) return true;
+
+        for (auto entry : trait_definitions_) {
+            if (entry.second->isa(name)) return true;
+        }
+
+        return false;
     }
 
     std::string name() const { return name_; }
