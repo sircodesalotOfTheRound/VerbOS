@@ -4,3 +4,5 @@
 //
 
 #include "SystemType.h"
+
+const SystemType& SystemType::NONE = SystemType("", 0, 0);

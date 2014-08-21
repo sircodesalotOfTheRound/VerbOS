@@ -13,19 +13,26 @@
 
 namespace jit {
     class VirtualRegister {
-        std::string name_;
-        SystemType& type_;
+        using SystemWord = uint64_t;
+
+        const std::string name_;
+        const SystemType& type_;
+
+        SystemWord value_;
 
     public:
 
-        VirtualRegister(std::string name, SystemType& type) : name_(name), type_(type) { }
+        VirtualRegister(std::string name, const SystemType& type) : name_(name), type_(type) { }
 
         std::string name() const { return name_; }
-        SystemType&def() const { return type_; }
+        SystemWord value() const { return value_; }
+        const SystemType &def() const { return type_; }
 
         friend std::ostream& operator<<(std::ostream& stream, const VirtualRegister& reg) {
             return stream << reg.name_ << " : " << reg.type_;
         }
+
+        const static VirtualRegister& EMPTY;
     };
 }
 

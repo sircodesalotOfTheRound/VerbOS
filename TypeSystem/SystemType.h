@@ -59,6 +59,8 @@ public:
     std::string name() const { return name_; }
     size_t field_count() const { return field_definitions_.size(); }
 
+    const static SystemType& NONE;
+
 private:
     friend std::ostream& operator<<(std::ostream& stream, const SystemType& type) {
         return stream << type.name_;
