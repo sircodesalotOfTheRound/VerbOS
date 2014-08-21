@@ -7,7 +7,8 @@
 #import "ProcessorLabelOpCode.h"
 #import "ProcessorReturnOpCode.h"
 #include "VirtualRegister.h"
-#import "VirtualRegisterAllocation.h"
+#import "VirtualRegisterBinding.h"
+#include "VirtualRegisterStage.h"
 
 #include <unistd.h>
 #include <sys/mman.h>
@@ -21,13 +22,11 @@ SystemType vm_string { "vm_string", 0, 0 };
 int main() {
     using namespace std;
 
-    auto rax = arch::OsxRegisters::rax;
-    jit::VirtualRegisterAllocation allocation { rax };
-    jit::VirtualRegister reg { "name", vm_string, 1 };
+    jit::VirtualRegisterStage stage;
+    jit::VirtualRegister reg { "name", vm_string, 0 };
 
-    allocation.bind_virtual_register(reg);
-
-    cout << allocation.virtual_register() << endl;
+    stage[0] = reg;
+    cout << stage[0] << endl;
 
     return 0;
 }

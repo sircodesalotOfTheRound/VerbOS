@@ -22,6 +22,7 @@ namespace jit {
         SystemWord value_;
 
     public:
+        VirtualRegister() : VirtualRegister(VirtualRegister::EMPTY) { }
 
         VirtualRegister(std::string name, const SystemType& type, int priority)
             : name_(name),
