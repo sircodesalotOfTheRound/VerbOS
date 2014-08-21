@@ -63,8 +63,8 @@ public:
     std::string str() const { return { &((const char*)data_)[4], length()}; }
 
 private:
-    byte* allocate_memory(int size) { return new byte[size + sizeof(uint32_t)]; }
-    void set_length(uint32_t size) { ((uint32_t*)data_)[0] = size; }
+    byte* allocate_memory(size_t size) { return new byte[size + sizeof(uint32_t)]; }
+    void set_length(size_t size) { ((uint32_t*)data_)[0] = (uint32_t)size; }
 };
 
 
