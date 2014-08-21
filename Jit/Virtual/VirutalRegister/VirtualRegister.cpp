@@ -6,4 +6,4 @@
 #include "VirtualRegister.h"
 
 
-const jit::VirtualRegister& jit::VirtualRegister::EMPTY = jit::VirtualRegister("something", SystemType::NONE);
+const jit::VirtualRegister& jit::VirtualRegister::EMPTY = jit::VirtualRegister("", SystemType::NONE, 0);

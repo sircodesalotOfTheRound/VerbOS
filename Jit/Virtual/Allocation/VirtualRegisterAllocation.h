@@ -14,19 +14,25 @@ namespace jit {
         const processor::CpuRegister &register_;
 
         int priority_;
-        VirtualRegister allocation_;
+        VirtualRegister virtual_register_;
 
     public:
-        VirtualRegisterAllocation(const processor::CpuRegister &reg) : register_(reg),
-            allocation_(VirtualRegister::EMPTY)
+        VirtualRegisterAllocation(const processor::CpuRegister &sys_register) :
+            register_(sys_register),
+            virtual_register_(VirtualRegister::EMPTY)
         {
 
         }
 
-        bool operator<<(const VirtualRegisterAllocation &rhs) const { return priority_ < rhs.priority_; }
+        bool operator<<(const VirtualRegisterAllocation &rhs) const {
+            return virtual_register_.priority() < rhs.virtual_register().priority();
+        }
 
-        int priority() const { return priority_; }
-        void priority(int value) { priority_ = value; }
+        VirtualRegister virtual_register() const { return virtual_register_; }
+
+        void bind_virtual_register(VirtualRegister virtual_register) {
+            virtual_register_ = virtual_register;
+        }
     };
 }
 

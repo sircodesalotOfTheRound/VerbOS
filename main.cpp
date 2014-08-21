@@ -23,8 +23,11 @@ int main() {
 
     auto rax = arch::OsxRegisters::rax;
     jit::VirtualRegisterAllocation allocation { rax };
+    jit::VirtualRegister reg { "name", vm_string, 1 };
 
+    allocation.bind_virtual_register(reg);
 
+    cout << allocation.virtual_register() << endl;
 
     return 0;
 }
