@@ -6,6 +6,6 @@
 #include "DereferencedCpuRegister.h"
 #include "CpuRegister.h"
 
-std::ostream& processor::operator<<(std::ostream& stream, const processor::DereferencedCpuRegister& reg) {
+std::ostream&arch::operator<<(std::ostream& stream, const arch::DereferencedCpuRegister& reg) {
     return stream << reg.sys_register().name() << " [" << reg.offset() << "] ";
 }

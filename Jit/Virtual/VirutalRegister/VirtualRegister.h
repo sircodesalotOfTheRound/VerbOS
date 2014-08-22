@@ -19,6 +19,7 @@ namespace jit {
         mutable const SystemType* type_;
         bool is_empty_;
         ssize_t offset_;
+        bool is_persisted_;
 
     public:
         struct Priority {
@@ -40,7 +41,8 @@ namespace jit {
               type_(&type),
               priority_(priority.priority_),
               offset_(offset.offset_),
-              is_empty_(false)
+              is_empty_(false),
+              is_persisted_(false)
         {
 
         }
@@ -49,7 +51,8 @@ namespace jit {
             : name_(rhs.name_),
               type_(rhs.type_),
               priority_(rhs.priority_),
-              is_empty_(rhs.is_empty_)
+              is_empty_(rhs.is_empty_),
+              is_persisted_(rhs.is_persisted_)
         {
 
         }
@@ -62,6 +65,7 @@ namespace jit {
             priority_ = rhs.priority_;
             is_empty_ = rhs.is_empty_;
             offset_ = rhs.offset_;
+            is_persisted_ = rhs.is_persisted_;
 
             return *this;
         }
@@ -78,7 +82,8 @@ namespace jit {
 
         const static VirtualRegister& EMPTY;
 
-
+        bool is_persisted() { return is_persisted_; }
+        void is_persisted(bool persisted) { is_persisted_ = persisted; }
 
     private:
         VirtualRegister(std::string name, const SystemType& type, int priority, bool is_empty, ssize_t offset)

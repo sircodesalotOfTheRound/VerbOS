@@ -8,26 +8,26 @@
 namespace arch {
     class OsxRegisters {
     public:
-        static const processor::CpuRegister rax;
-        static const processor::CpuRegister rbx;
-        static const processor::CpuRegister rcx;
-        static const processor::CpuRegister rdx;
+        static const arch::CpuRegister rax;
+        static const arch::CpuRegister rbx;
+        static const arch::CpuRegister rcx;
+        static const arch::CpuRegister rdx;
 
-        static const processor::CpuRegister rsi;
-        static const processor::CpuRegister rdi;
+        static const arch::CpuRegister rsi;
+        static const arch::CpuRegister rdi;
 
-        static const processor::CpuRegister rbp;
-        static const processor::CpuRegister rsp;
+        static const arch::CpuRegister rbp;
+        static const arch::CpuRegister rsp;
 
 
-        static const processor::CpuRegister r8;
-        static const processor::CpuRegister r9;
-        static const processor::CpuRegister r10;
-        static const processor::CpuRegister r11;
-        static const processor::CpuRegister r12;
-        static const processor::CpuRegister r13;
-        static const processor::CpuRegister r14;
-        static const processor::CpuRegister r15;
+        static const arch::CpuRegister r8;
+        static const arch::CpuRegister r9;
+        static const arch::CpuRegister r10;
+        static const arch::CpuRegister r11;
+        static const arch::CpuRegister r12;
+        static const arch::CpuRegister r13;
+        static const arch::CpuRegister r14;
+        static const arch::CpuRegister r15;
 
 
     private:

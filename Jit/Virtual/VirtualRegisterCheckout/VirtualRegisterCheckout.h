@@ -12,15 +12,15 @@
 
 namespace jit {
     class VirtualRegisterCheckout {
-        const processor::CpuRegister& reg_;
+        const arch::CpuRegister& reg_;
         const VirtualRegister& virtual_register_;
 
     public:
-        VirtualRegisterCheckout(const processor::CpuRegister& reg, const VirtualRegister& virtual_register) :
+        VirtualRegisterCheckout(const arch::CpuRegister& reg, const VirtualRegister& virtual_register) :
             reg_(reg), virtual_register_(virtual_register) {
         }
 
-        const processor::CpuRegister& sys_register() const { return reg_; }
+        const arch::CpuRegister& sys_register() const { return reg_; }
         const VirtualRegister& virtual_register() const { return virtual_register_; }
     };
 

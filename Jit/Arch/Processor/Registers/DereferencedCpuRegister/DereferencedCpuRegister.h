@@ -11,7 +11,7 @@
 #include <iostream>
 #include <memory>
 
-namespace processor {
+namespace arch {
     class CpuRegister;
     class DereferencedCpuRegister {
         const CpuRegister *sys_register_;
@@ -21,7 +21,6 @@ namespace processor {
         DereferencedCpuRegister(const CpuRegister *reg, off_t offset) :
                 sys_register_(reg),
                 offset_(offset) {
-
         }
 
         DereferencedCpuRegister(const CpuRegister *reg) : DereferencedCpuRegister(reg, 0) {
@@ -45,7 +44,7 @@ namespace processor {
         }
     };
 
-    std::ostream& operator<<(std::ostream& stream, const processor::DereferencedCpuRegister& sys_register);
+    std::ostream& operator<<(std::ostream& stream, const arch::DereferencedCpuRegister& sys_register);
 }
 
 

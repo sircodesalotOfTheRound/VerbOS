@@ -11,13 +11,13 @@
 
 namespace jit {
     class VirtualRegisterBinding {
-        const processor::CpuRegister* sys_register_;
+        const arch::CpuRegister* sys_register_;
 
         int bound_register_number_;
         VirtualRegister virtual_register_;
 
     public:
-        VirtualRegisterBinding(const processor::CpuRegister &sys_register) :
+        VirtualRegisterBinding(const arch::CpuRegister &sys_register) :
             sys_register_(&sys_register),
             virtual_register_(VirtualRegister::EMPTY),
             bound_register_number_(-1)
@@ -26,11 +26,12 @@ namespace jit {
         }
 
         bool operator>(const VirtualRegisterBinding &rhs) const {
-            return virtual_register_.priority() > rhs.virtual_register().priority();
+            return priority() > rhs.priority();
         }
 
-        const processor::CpuRegister& sys_register() const { return *sys_register_; }
-        const VirtualRegister& virtual_register() const { return virtual_register_; }
+        const arch::CpuRegister& sys_register() { return *sys_register_; }
+        VirtualRegister& virtual_register() { return virtual_register_; }
+        int priority() const { return virtual_register_.priority(); }
 
         void bind(int bound_register_number, VirtualRegister virtual_register) {
             bound_register_number_ = bound_register_number;

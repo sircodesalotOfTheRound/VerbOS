@@ -37,15 +37,15 @@ namespace op {
         // OpCodes
         void ret() { add(new ProcessorReturnOpCode()); }
         void label(std::string label) { add(new ProcessorLabelOpCode(label)); }
-        void mov(const processor::CpuRegister& sys_register, uint64_t value) {
+        void mov(const arch::CpuRegister& sys_register, uint64_t value) {
             add(new op::ConstToRegProcessorMovOpCode(sys_register, value));
         }
 
-        void inc(const processor::CpuRegister& sys_register) {
+        void inc(const arch::CpuRegister& sys_register) {
             add(new op::ProcessorIncOpCode(sys_register));
         }
 
-        void dec(const processor::CpuRegister& sys_register) {
+        void dec(const arch::CpuRegister& sys_register) {
             add(new op::ProcessorDecOpCode(sys_register));
         }
 

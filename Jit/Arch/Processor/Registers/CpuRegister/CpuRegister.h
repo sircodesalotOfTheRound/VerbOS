@@ -11,7 +11,7 @@
 #include "DereferencedCpuRegister.h"
 #include "TypeDef.h"
 
-namespace processor {
+namespace arch {
     class CpuRegister {
         std::string name_;
         byte register_code_;
