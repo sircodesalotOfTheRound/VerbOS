@@ -20,33 +20,24 @@ void* memory() {
 SystemType vm_string { "vm_string", 0, 0 };
 SystemType vm_object { "vm_object", 0, 0 };
 
+#include <sstream>
+
 int main() {
+    using namespace jit;
     using namespace std;
 
-    jit::VirtualRegisterStage<arch::OsxRegisters> stage;
-    jit::VirtualRegister reg { "name", vm_string, 1 };
+    jit::JitRenderer renderer(memory());
+    op::ProcessorOpCodeSet op_codes;
 
-    stage.insert_at(3, { "thirth", vm_string, 1 });
-    stage.insert_at(4, { "fourth", vm_string, 1 });
-    stage.insert_at(5, reg);
-    stage.insert_at(6, { "another", vm_string, 1 });
+    jit::VirtualRegisterStage stage(3);
+    jit::VirtualRegister reg { "name", vm_string, VirtualRegister::Priority(1), VirtualRegister::Offset(0) };
 
-    stage.with_register(4, [](jit::ConstVirtualRegisterCheckout r) {
-        cout << r.sys_register() << ", contains " << r.virtual_register() << endl;
-    });
+    stage.insert_at(0, { "first", vm_object, VirtualRegister::Priority(1), VirtualRegister::Offset(1) });
+    stage.insert_at(1, { "second", vm_object, VirtualRegister::Priority(1), VirtualRegister::Offset(2) });
 
-    stage.with_registers(5, 6, [](jit::ConstVirtualRegisterCheckout lhs, jit::ConstVirtualRegisterCheckout rhs) {
+    stage.with_registers(0, 1, [](jit::ConstVirtualRegisterCheckout lhs, jit::ConstVirtualRegisterCheckout rhs) {
         cout << lhs.sys_register() << ", contains " << lhs.virtual_register() << endl;
         cout << rhs.sys_register() << ", contains " << rhs.virtual_register() << endl;
-    });
-
-    stage.with_registers(5, 6, [](jit::ConstVirtualRegisterCheckout lhs, jit::ConstVirtualRegisterCheckout rhs) {
-        cout << lhs.sys_register() << ", contains " << lhs.virtual_register() << endl;
-        cout << rhs.sys_register() << ", contains " << rhs.virtual_register() << endl;
-    });
-
-    stage.with_register(3, [](jit::ConstVirtualRegisterCheckout r) {
-        cout << r.sys_register() << ", contains " << r.virtual_register() << endl;
     });
 
     return 0;

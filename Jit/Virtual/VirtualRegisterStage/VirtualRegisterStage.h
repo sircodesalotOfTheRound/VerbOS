@@ -16,8 +16,8 @@
 #include "OsxRegisters.h"
 
 namespace jit {
-    template<class RegisterType>
     class VirtualRegisterStage {
+        int parameter_count_;
 
         struct VirutalRegisterPtrOps {
             bool operator()(const Ptr_Virtual_Register lhs, const Ptr_Virtual_Register rhs) {
@@ -26,7 +26,7 @@ namespace jit {
         };
 
     public:
-        VirtualRegisterStage() {
+        VirtualRegisterStage(int parameter_count) : parameter_count_(parameter_count) {
             register_queue_.push(VirtualRegisterBinding(arch::OsxRegisters::rax));
             register_queue_.push(VirtualRegisterBinding(arch::OsxRegisters::rbx));
             register_queue_.push(VirtualRegisterBinding(arch::OsxRegisters::rcx));
@@ -43,7 +43,11 @@ namespace jit {
             register_queue_.push(VirtualRegisterBinding(arch::OsxRegisters::r13));
             register_queue_.push(VirtualRegisterBinding(arch::OsxRegisters::r14));
             register_queue_.push(VirtualRegisterBinding(arch::OsxRegisters::r15));
+
+            registers_.reserve(10);
         }
+
+        int parameter_count() { return parameter_count_; }
 
         void insert_at(int index, VirtualRegister virtual_register) {
             registers_[index] = virtual_register;
@@ -107,7 +111,7 @@ namespace jit {
         }
 
     private:
-        std::array<VirtualRegister, 256> registers_;
+        std::vector<VirtualRegister> registers_;
         std::priority_queue<VirtualRegisterBinding, std::vector<VirtualRegisterBinding>, std::greater<VirtualRegisterBinding>> register_queue_;
         std::unordered_map<int, VirtualRegisterBinding> mapped_bindings_;
     };
