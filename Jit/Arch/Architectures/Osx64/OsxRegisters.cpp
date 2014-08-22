@@ -1,6 +1,7 @@
 #include "CpuRegister.h"
 #include "OsxRegisters.h"
 
+
 const processor::CpuRegister arch::OsxRegisters::rax { "rax", 0x00, 64, false };
 const processor::CpuRegister arch::OsxRegisters::rbx { "rbx", 0x03, 64, false };
 const processor::CpuRegister arch::OsxRegisters::rcx { "rcx", 0x01, 64, false };
@@ -20,3 +21,4 @@ const processor::CpuRegister arch::OsxRegisters::r12 { "r12", 0x04, 64, true };
 const processor::CpuRegister arch::OsxRegisters::r13 { "r13", 0x05, 64, true };
 const processor::CpuRegister arch::OsxRegisters::r14 { "r14", 0x06, 64, true };
 const processor::CpuRegister arch::OsxRegisters::r15 { "r15", 0x07, 64, true };
+

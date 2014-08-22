@@ -1,7 +1,9 @@
-#include "CpuRegister.h"
 
 #ifndef OSX_REGISTERS_H
 #define OSX_REGISTERS_H
+
+#include <vector>
+#include "CpuRegister.h"
 
 namespace arch {
     class OsxRegisters {
@@ -28,6 +30,7 @@ namespace arch {
         static const processor::CpuRegister r15;
 
 
+    private:
     };
 }
 

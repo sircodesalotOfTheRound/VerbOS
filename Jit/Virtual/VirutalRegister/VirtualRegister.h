@@ -13,13 +13,10 @@
 
 namespace jit {
     class VirtualRegister {
-        using SystemWord = uint64_t;
-
         int priority_;
         std::string name_;
         mutable const SystemType* type_;
-
-        SystemWord value_;
+        bool is_empty_;
 
     public:
         VirtualRegister() : VirtualRegister(VirtualRegister::EMPTY) { }
@@ -27,7 +24,8 @@ namespace jit {
         VirtualRegister(std::string name, const SystemType& type, int priority)
             : name_(name),
               type_(&type),
-              priority_(priority)
+              priority_(priority),
+              is_empty_(false)
         {
 
         }
@@ -35,7 +33,8 @@ namespace jit {
         VirtualRegister(const VirtualRegister& rhs)
             : name_(rhs.name_),
               type_(rhs.type_),
-              priority_(rhs.priority_)
+              priority_(rhs.priority_),
+              is_empty_(&rhs == &VirtualRegister::EMPTY)
         {
 
         }
@@ -51,9 +50,8 @@ namespace jit {
         }
 
         std::string name() const { return name_; }
-        SystemWord value() const { return value_; }
         int priority() const { return priority_; }
-
+        bool is_empty() { return is_empty_; }
         const SystemType &def() const { return *type_; }
 
         friend std::ostream& operator<<(std::ostream& stream, const VirtualRegister& reg) {
@@ -62,6 +60,9 @@ namespace jit {
 
         const static VirtualRegister& EMPTY;
     };
+
+    using Ptr_Virtual_Register = VirtualRegister*;
+    using Const_Virtual_Register = const VirtualRegister;
 }
 
 
