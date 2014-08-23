@@ -33,6 +33,11 @@ namespace jit {
         int parameter_count() { return parameter_count_; }
 
         void insert_at(int index, VirtualRegister virtual_register) {
+            // First ensure that the register is empty.
+            if (!registers_[index].is_empty()) {
+                throw std::logic_error("Invalid program: attempting to overwrite register.");
+            }
+
             registers_[index] = virtual_register;
         }
 
@@ -53,7 +58,7 @@ namespace jit {
         void persist_virtual_register(VirtualRegisterBinding binding);
 
     private:
-        std::vector<VirtualRegister> registers_;
+        std::array<VirtualRegister, 256> registers_;
         std::priority_queue<VirtualRegisterBinding, std::vector<VirtualRegisterBinding>, std::greater<VirtualRegisterBinding>> register_queue_;
         std::unordered_map<int, VirtualRegisterBinding> mapped_bindings_;
     };

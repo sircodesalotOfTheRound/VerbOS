@@ -78,8 +78,6 @@ namespace op {
             add(new op::ProcessorMovConstToRegOpCode(sys_register, (uintptr_t)object));
         }
 
-
-
     private:
         void add(ProcessorOpCodeBase* op_code) {
             op_codes_.push_back(std::unique_ptr<ProcessorOpCodeBase>(op_code));

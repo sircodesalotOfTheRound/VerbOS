@@ -29,11 +29,28 @@ int main() {
 
     VirtualRegisterStage stage { 0, opcodes };
 
-    VLdui64 ldui64(1, 100);
-    ldui64.render(stage);
+    VLdui64 ldui641(1, 5);
+    VLdui64 ldui642(2, 6);
+    VLdui64 ldui643(3, 7);
+    VLdui64 ldui644(4, 8);
+
+    ldui641.apply(stage);
+    ldui642.apply(stage);
+    ldui643.apply(stage);
+    ldui644.apply(stage);
 
     cout << stage[1] << endl;
 
+    opcodes.ret();
+    opcodes.render(renderer);
+
+    for (auto& opcode : opcodes) {
+        cout << *opcode << endl;
+    }
+
+    uint64_t (*pfunc)() = (uint64_t(*)())renderer.memory();
+
+    cout << pfunc() << endl;
 
     return 0;
 }

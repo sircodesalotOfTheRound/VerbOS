@@ -33,7 +33,8 @@ namespace jit {
         };
 
     public:
-        VirtualRegister() : VirtualRegister(VirtualRegister::EMPTY) { }
+        VirtualRegister() : VirtualRegister(VirtualRegister::EMPTY) {
+        }
 
 
         VirtualRegister(std::string name, const SystemType& type, Priority priority, Offset offset)

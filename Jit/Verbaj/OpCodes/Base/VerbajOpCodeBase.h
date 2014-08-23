@@ -15,7 +15,7 @@ namespace verbaj {
     public:
         virtual ~VerbajOpCodeBase() { }
 
-        virtual void render(jit::VirtualRegisterStage&) const = 0;
+        virtual void apply(jit::VirtualRegisterStage&) const = 0;
 
     };
 }

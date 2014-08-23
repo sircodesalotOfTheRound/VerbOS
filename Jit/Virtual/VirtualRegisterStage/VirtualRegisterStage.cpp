@@ -24,8 +24,6 @@ jit::VirtualRegisterStage::VirtualRegisterStage(int parameter_count, op::Process
     register_queue_.push(VirtualRegisterBinding(arch::OsxRegisters::r13));
     register_queue_.push(VirtualRegisterBinding(arch::OsxRegisters::r14));
     register_queue_.push(VirtualRegisterBinding(arch::OsxRegisters::r15));
-
-    registers_.reserve(10);
 }
 
 void jit::VirtualRegisterStage::with_register(int register_index, std::function<void(VirtualRegisterCheckoutRef)> callback) {
