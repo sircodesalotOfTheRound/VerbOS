@@ -12,7 +12,7 @@
 #include "ProcessorOpCodeBase.h"
 #include "ProcessorReturnOpCode.h"
 #include "ProcessorLabelOpCode.h"
-#include "ProcessorMovOpCode.h"
+#include "ProcessorMovConstToRegOpCode.h"
 #include "ProcessorIncOpCode.h"
 #include "ProcessorDecOpCode.h"
 #include "ProcessorPushOpCode.h"
@@ -43,7 +43,7 @@ namespace op {
         void label(std::string label) { add(new ProcessorLabelOpCode(label)); }
 
         void mov(arch::ConstCpuRegisterRef sys_register, uint64_t value) {
-            add(new op::ConstToRegProcessorMovOpCode(sys_register, value));
+            add(new op::ProcessorMovConstToRegOpCode(sys_register, value));
         }
 
         void mov(arch::ConstCpuRegisterRef lhs, arch::ConstCpuRegisterRef rhs) {
@@ -75,7 +75,7 @@ namespace op {
         }
 
         void lea(arch::ConstCpuRegisterRef sys_register, const void* object) {
-            add(new op::ConstToRegProcessorMovOpCode(sys_register, (uintptr_t)object));
+            add(new op::ProcessorMovConstToRegOpCode(sys_register, (uintptr_t)object));
         }
 
 

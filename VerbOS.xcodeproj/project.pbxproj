@@ -21,7 +21,7 @@
 		D33436B105C80CD84D12954D /* ProcessorOpCodeOperand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343DCBCE333BE3760F9298 /* ProcessorOpCodeOperand.cpp */; };
 		D33436D1504E962B4553AB16 /* SystemTypeInstance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343EAF3B0CBA32963CCFB5 /* SystemTypeInstance.cpp */; };
 		D334379A67309214ECE7E1E0 /* VirtualRegisterBinding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343C689AB768802BBB9EAD /* VirtualRegisterBinding.cpp */; };
-		D33437CF9E162359A9D9A567 /* ProcessorMovOpCode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343042A884F233C1B6FCD2 /* ProcessorMovOpCode.cpp */; };
+		D33437CF9E162359A9D9A567 /* ProcessorMovConstToRegOpCode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343042A884F233C1B6FCD2 /* ProcessorMovConstToRegOpCode.cpp */; };
 		D334381F4F7506B4F3BAF7ED /* VirtualRegisterStage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343EC9918E6410AC99B6F9 /* VirtualRegisterStage.cpp */; };
 		D33439BBB2C3C38E89B423C4 /* SystemTypeFieldDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343FD8E78524CE7BF4FCDA /* SystemTypeFieldDefinition.cpp */; };
 		D3343AC37132310029C715AD /* SystemType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D33431BD60DE6A158909902F /* SystemType.cpp */; };
@@ -47,9 +47,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		D3343042A884F233C1B6FCD2 /* ProcessorMovOpCode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProcessorMovOpCode.cpp; sourceTree = "<group>"; };
+		D3343042A884F233C1B6FCD2 /* ProcessorMovConstToRegOpCode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProcessorMovConstToRegOpCode.cpp; sourceTree = "<group>"; };
 		D33430A918C425C28A95E4E6 /* CpuRegister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CpuRegister.h; sourceTree = "<group>"; };
-		D33430E31E04783877F7A386 /* ProcessorMovOpCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessorMovOpCode.h; sourceTree = "<group>"; };
+		D33430E31E04783877F7A386 /* ProcessorMovConstToRegOpCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessorMovConstToRegOpCode.h; sourceTree = "<group>"; };
 		D334311A848C5D406B7E110F /* ProcessorLabelOpCode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProcessorLabelOpCode.cpp; sourceTree = "<group>"; };
 		D334315994D7E8F6CF6FEB7E /* JitRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JitRenderer.cpp; sourceTree = "<group>"; };
 		D334315F242A32353F146605 /* ProcessorPopOpCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessorPopOpCode.h; sourceTree = "<group>"; };
@@ -247,8 +247,8 @@
 		D33436D08D4BC18E9EFBFA72 /* Mov */ = {
 			isa = PBXGroup;
 			children = (
-				D3343042A884F233C1B6FCD2 /* ProcessorMovOpCode.cpp */,
-				D33430E31E04783877F7A386 /* ProcessorMovOpCode.h */,
+				D3343042A884F233C1B6FCD2 /* ProcessorMovConstToRegOpCode.cpp */,
+				D33430E31E04783877F7A386 /* ProcessorMovConstToRegOpCode.h */,
 				D33433EF662085AE97DD67EC /* ProcessorRegToRegMovOp.cpp */,
 				D33431D2D6DD53D5F9148247 /* ProcessorRegToRegMovOp.h */,
 				D334356230E6F120F702F66D /* ProcessorMovRegToMemOp.cpp */,
@@ -495,7 +495,7 @@
 				D33430C1A1D05FD86128B05D /* ProcessorReturnOpCode.cpp in Sources */,
 				D334347C2ABEFCBA047E0B83 /* JitRenderer.cpp in Sources */,
 				D33439BBB2C3C38E89B423C4 /* SystemTypeFieldDefinition.cpp in Sources */,
-				D33437CF9E162359A9D9A567 /* ProcessorMovOpCode.cpp in Sources */,
+				D33437CF9E162359A9D9A567 /* ProcessorMovConstToRegOpCode.cpp in Sources */,
 				D33432DCA6DB9494FA6F627E /* ProcessorOpCodeBase.cpp in Sources */,
 				D3343EC65BCE7355B9E5E833 /* ProcessorOpCodeSet.cpp in Sources */,
 				D33436B105C80CD84D12954D /* ProcessorOpCodeOperand.cpp in Sources */,
