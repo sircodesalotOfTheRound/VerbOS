@@ -16,6 +16,7 @@ void verbaj::VRet::apply(jit::StackFrame &frame) const {
         auto& jit_opcodes = checkout.jit_opcodes();
 
         std::cout << sys_register << std::endl;
+
         jit_opcodes.mov(arch::OsxRegisters::rax, sys_register);
         jit_opcodes.ret();
     });

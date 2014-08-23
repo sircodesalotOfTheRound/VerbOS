@@ -17,3 +17,7 @@ void jit::StackFrame::apply(jit::JitRenderer& renderer) {
     jit_opcodes.render(renderer);
 }
 
+void jit::StackFrame::debug_print() {
+    // Clear the existing opcodes.
+    jit_opcodes.debug_print();
+}

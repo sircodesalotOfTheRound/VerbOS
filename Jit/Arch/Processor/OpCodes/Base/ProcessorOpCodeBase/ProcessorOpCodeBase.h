@@ -8,10 +8,10 @@
 #define __ProcessorOpCodeBase_H_
 
 #include <string>
+#include <sstream>
 #include <iostream>
 #include "TypeDef.h"
 #include "JitRenderer.h"
-
 namespace op {
     struct ProcessorOpCodeBase {
         virtual ~ProcessorOpCodeBase() { }

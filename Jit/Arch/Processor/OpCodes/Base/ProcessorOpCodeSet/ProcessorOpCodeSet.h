@@ -24,20 +24,22 @@ namespace op {
     class ProcessorOpCodeSet {
         using iterator = std::vector<std::unique_ptr<ProcessorOpCodeBase>>::iterator;
 
-        std::vector<std::unique_ptr<ProcessorOpCodeBase>> op_codes_;
+        std::vector<std::unique_ptr<ProcessorOpCodeBase>> opcodes_;
 
     public:
 
         void render(jit::JitRenderer& renderer) {
-            for (auto& opcode : op_codes_) {
+            for (auto& opcode : opcodes_) {
                 opcode->render(renderer);
             }
         }
 
-        void clear() { op_codes_.clear(); }
+        void clear() { opcodes_.clear(); }
 
-        iterator begin() { return op_codes_.begin(); }
-        iterator end() { return op_codes_.end(); }
+        iterator begin() { return opcodes_.begin(); }
+        iterator end() { return opcodes_.end(); }
+
+        void debug_print();
 
     public:
         // OpCodes
@@ -82,7 +84,7 @@ namespace op {
 
     private:
         void add(ProcessorOpCodeBase* op_code) {
-            op_codes_.push_back(std::unique_ptr<ProcessorOpCodeBase>(op_code));
+            opcodes_.push_back(std::unique_ptr<ProcessorOpCodeBase>(op_code));
         }
     };
 }

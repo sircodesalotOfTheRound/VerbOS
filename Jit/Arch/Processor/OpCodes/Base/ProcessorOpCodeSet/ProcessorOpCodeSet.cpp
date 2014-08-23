@@ -4,3 +4,9 @@
 //
 
 #include "ProcessorOpCodeSet.h"
+
+void op::ProcessorOpCodeSet::debug_print() {
+    for (auto& opcode : opcodes_) {
+        std::cout << *opcode << std::endl;
+    }
+}
