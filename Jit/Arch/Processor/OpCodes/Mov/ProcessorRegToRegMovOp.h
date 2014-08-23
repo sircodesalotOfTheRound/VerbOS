@@ -23,7 +23,7 @@ namespace op {
         size_t size() const override { return 5; }
         std::string rep() const override {
             std::stringstream stream;
-            stream << "mov: " << lhs_ << ", " << rhs_;
+            stream << "mov " << lhs_ << ", " << rhs_;
 
             return stream.str();
         }
