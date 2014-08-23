@@ -51,6 +51,7 @@ namespace jit {
             : name_(rhs.name_),
               type_(rhs.type_),
               priority_(rhs.priority_),
+              offset_(rhs.offset_),
               is_empty_(rhs.is_empty_),
               is_persisted_(rhs.is_persisted_)
         {
@@ -72,7 +73,7 @@ namespace jit {
 
         std::string name() const { return name_; }
         int priority() const { return priority_; }
-        bool is_empty() { return is_empty_; }
+        bool is_empty() const { return is_empty_; }
         ssize_t offset() { return offset_; }
         const SystemType &def() const { return *type_; }
 

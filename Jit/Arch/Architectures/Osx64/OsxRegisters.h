@@ -6,8 +6,7 @@
 #include "CpuRegister.h"
 
 namespace arch {
-    class OsxRegisters {
-    public:
+    struct OsxRegisters {
         static const arch::CpuRegister rax;
         static const arch::CpuRegister rbx;
         static const arch::CpuRegister rcx;
@@ -28,9 +27,6 @@ namespace arch {
         static const arch::CpuRegister r13;
         static const arch::CpuRegister r14;
         static const arch::CpuRegister r15;
-
-
-    private:
     };
 }
 

@@ -40,9 +40,8 @@ namespace jit {
             registers_[index] = VirtualRegister::EMPTY;
         }
 
-        void with_register(int register_index, std::function<void(ConstVirtualRegisterCheckout)> callback);
-
-        void with_registers(int lhs, int rhs, std::function<void(ConstVirtualRegisterCheckout, ConstVirtualRegisterCheckout)> callback);
+        void with_register(int register_index, std::function<void(VirtualRegisterCheckoutRef)> callback);
+        void with_registers(int lhs, int rhs, std::function<void(VirtualRegisterCheckoutRef,VirtualRegisterCheckoutRef)> callback);
 
         const VirtualRegister& operator[](int index) { return registers_[index]; }
 

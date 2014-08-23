@@ -13,9 +13,7 @@
 #include "JitRenderer.h"
 
 namespace op {
-    class ProcessorOpCodeBase {
-
-    public:
+    struct ProcessorOpCodeBase {
         virtual ~ProcessorOpCodeBase() { }
 
         virtual std::string rep() const = 0;

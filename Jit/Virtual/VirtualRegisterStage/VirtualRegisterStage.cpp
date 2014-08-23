@@ -28,21 +28,21 @@ jit::VirtualRegisterStage::VirtualRegisterStage(int parameter_count, op::Process
     registers_.reserve(10);
 }
 
-void jit::VirtualRegisterStage::with_register(int register_index, std::function<void(ConstVirtualRegisterCheckout)> callback) {
+void jit::VirtualRegisterStage::with_register(int register_index, std::function<void(VirtualRegisterCheckoutRef)> callback) {
     VirtualRegisterBinding binding = checkout(register_index);
-    VirtualRegisterCheckout register_checkout { binding.sys_register(), binding.virtual_register() };
+    VirtualRegisterCheckout register_checkout { binding.sys_register(), binding.virtual_register(), op_codes_ };
 
     callback(register_checkout);
 
     release(register_index, binding);
 }
 
-void jit::VirtualRegisterStage::with_registers(int lhs, int rhs, std::function<void(ConstVirtualRegisterCheckout, ConstVirtualRegisterCheckout)> callback) {
+void jit::VirtualRegisterStage::with_registers(int lhs, int rhs, std::function<void(VirtualRegisterCheckoutRef, VirtualRegisterCheckoutRef)> callback) {
     VirtualRegisterBinding lhs_binding = checkout(lhs);
     VirtualRegisterBinding rhs_binding = checkout(rhs);
 
-    VirtualRegisterCheckout lhs_checkout { lhs_binding.sys_register(), lhs_binding.virtual_register() };
-    VirtualRegisterCheckout rhs_checkout { rhs_binding.sys_register(), rhs_binding.virtual_register() };
+    VirtualRegisterCheckout lhs_checkout { lhs_binding.sys_register(), lhs_binding.virtual_register(), op_codes_ };
+    VirtualRegisterCheckout rhs_checkout { rhs_binding.sys_register(), rhs_binding.virtual_register(), op_codes_ };
 
     callback (lhs_checkout, rhs_checkout);
 
