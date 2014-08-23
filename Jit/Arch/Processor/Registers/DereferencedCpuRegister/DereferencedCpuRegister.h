@@ -27,11 +27,11 @@ namespace arch {
 
         }
 
-        DereferencedCpuRegister operator+=(const int offset) {
+        DereferencedCpuRegister operator+(const int offset) {
             return DereferencedCpuRegister(sys_register_, this->offset_ + offset);
         }
 
-        DereferencedCpuRegister operator-=(const int offset) {
+        DereferencedCpuRegister operator-(const int offset) {
             return DereferencedCpuRegister(sys_register_, this->offset_ - offset);
         }
 

@@ -18,6 +18,7 @@
 #include "ProcessorPushOpCode.h"
 #include "ProcessorPopOpCode.h"
 #import "ProcessorRegToRegMovOp.h"
+#import "ProcessorMovRegToMemOp.h"
 
 namespace op {
     class ProcessorOpCodeSet {
@@ -49,6 +50,14 @@ namespace op {
             add(new op::ProcessorRegToRegMovOp(lhs, rhs));
         }
 
+        void mov(arch::ConstCpuRegisterRef lhs, arch::DereferencedCpuRegister rhs) {
+            add(new op::ProcessorMovRegToMemOp(lhs, rhs, ProcessorMovRegToMemOp::DIRECTION::FROM_MEMORY));
+        }
+
+        void mov(arch::DereferencedCpuRegister lhs, arch::ConstCpuRegisterRef rhs) {
+            add(new op::ProcessorMovRegToMemOp(rhs, lhs, ProcessorMovRegToMemOp::DIRECTION::TO_MEMORY));
+        }
+
         void inc(arch::ConstCpuRegisterRef sys_register) {
             add(new op::ProcessorIncOpCode(sys_register));
         }
@@ -65,9 +74,11 @@ namespace op {
             add(new op::ProcessorPopOpCode(sys_register));
         }
 
-        void lea(arch::ConstCpuRegisterRef sys_register, void* object) {
+        void lea(arch::ConstCpuRegisterRef sys_register, const void* object) {
             add(new op::ConstToRegProcessorMovOpCode(sys_register, (uintptr_t)object));
         }
+
+
 
     private:
         void add(ProcessorOpCodeBase* op_code) {
