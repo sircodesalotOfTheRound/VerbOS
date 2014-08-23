@@ -11,8 +11,8 @@
 
 namespace op {
     class ProcessorRegToRegMovOp : public ProcessorOpCodeBase {
-        arch::ConstCpuRegisterRef lhs_;
-        arch::ConstCpuRegisterRef rhs_;
+        arch::CpuRegister lhs_;
+        arch::CpuRegister rhs_;
 
     public:
         ProcessorRegToRegMovOp(arch::ConstCpuRegisterRef lhs, arch::ConstCpuRegisterRef rhs) : lhs_(lhs), rhs_(rhs)

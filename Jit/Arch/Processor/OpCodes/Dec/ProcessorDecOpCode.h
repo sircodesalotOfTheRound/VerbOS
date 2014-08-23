@@ -11,7 +11,7 @@
 
 namespace op {
     class ProcessorDecOpCode : public ProcessorOpCodeBase {
-        const arch::CpuRegister& sys_register_;
+        const arch::CpuRegister sys_register_;
 
     public:
         ProcessorDecOpCode (const arch::CpuRegister& sys_register) :

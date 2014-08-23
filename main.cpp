@@ -21,7 +21,8 @@ int main() {
     frame.add_op(new VLdui64(1, 69));
     frame.add_op(new VLdui64(2, 42));
     frame.add_op(new VLdui64(3, 56));
-    frame.add_op(new VRet(3));
+    frame.add_op(new VLdui64(4, 90));
+    frame.add_op(new VRet(1));
 
     frame.apply(renderer);
 

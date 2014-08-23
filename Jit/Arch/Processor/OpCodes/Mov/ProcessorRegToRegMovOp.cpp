@@ -6,6 +6,10 @@
 #include "ProcessorRegToRegMovOp.h"
 
 void op::ProcessorRegToRegMovOp::render(jit::JitRenderer &renderer) const {
+    if (lhs_.is_extended() || rhs_.is_extended()) {
+        renderer.write_extension_preamble(lhs_, rhs_);
+    }
+
     renderer.write_preamble64();
     renderer.write_opcode(0x89);
 
