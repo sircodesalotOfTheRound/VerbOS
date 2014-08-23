@@ -18,7 +18,8 @@ namespace op {
 
     public:
         ProcessorMovConstToRegOpCode(const arch::CpuRegister lhs, uint64_t rhs) :
-            lhs_(lhs), rhs_(rhs) {
+            lhs_(lhs), rhs_(rhs)
+        {
 
         }
 
@@ -30,6 +31,7 @@ namespace op {
 
             return stream.str();
         }
+
         void render(jit::JitRenderer&) const override;
     };
 }

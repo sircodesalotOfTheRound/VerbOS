@@ -22,7 +22,7 @@ int main() {
     frame.add_op(new VLdui64(2, 42));
     frame.add_op(new VLdui64(3, 56));
     frame.add_op(new VLdui64(4, 90));
-    frame.add_op(new VRet(1));
+    frame.add_op(new VRet(4));
 
     frame.apply(renderer);
 
@@ -30,7 +30,16 @@ int main() {
 
     uint64_t (*pfunc)() = (uint64_t(*)())renderer.memory();
 
-    cout << pfunc() << endl;
+    for (int index = 0; index < 100; ++index) {
+        cout << hex << (int)((byte*)renderer.memory())[index] << " ";
+
+        if (index % 10 == 0) {
+            cout << endl;
+        }
+    }
+
+    cout << endl << endl;
+    cout << dec << pfunc() << endl;
 
     return 0;
 }

@@ -32,6 +32,11 @@ namespace jit {
            }
         }
 
+        void write_extension_preamble(const arch::CpuRegister&reg) {
+            if (reg.is_extended()) write_int8(0x49);
+        }
+
+
         void write_int8(uint8_t value) {
             memory_[write_offset_++] = value;
         }
