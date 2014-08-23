@@ -3,4 +3,3 @@
 // Copyright (c) 2014 Reuben Kuhnert. All rights reserved.
 //
 
-#include "JitRenderer.h"

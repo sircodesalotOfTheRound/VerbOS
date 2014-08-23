@@ -1,17 +1,6 @@
 #include <iostream>
-#import "SystemString.h"
-#import "SystemType.h"
-#import "SystemTypeInstance.h"
-#import "OsxRegisters.h"
 #include "ProcessorOpCodeSet.h"
-#import "ProcessorLabelOpCode.h"
-#import "ProcessorReturnOpCode.h"
-#include "VirtualRegister.h"
-#import "VirtualRegisterBinding.h"
-#include "VirtualRegisterStage.h"
-#include "VerbajPrimitives.h"
 #include "VLdui64.h"
-#import "StackFrame.h"
 #include "VRet.h"
 
 #include <unistd.h>
