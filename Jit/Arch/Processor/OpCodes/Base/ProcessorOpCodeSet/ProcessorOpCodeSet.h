@@ -17,6 +17,7 @@
 #include "ProcessorDecOpCode.h"
 #include "ProcessorPushOpCode.h"
 #include "ProcessorPopOpCode.h"
+#import "ProcessorRegToRegMovOp.h"
 
 namespace op {
     class ProcessorOpCodeSet {
@@ -39,24 +40,33 @@ namespace op {
         // OpCodes
         void ret() { add(new ProcessorReturnOpCode()); }
         void label(std::string label) { add(new ProcessorLabelOpCode(label)); }
-        void mov(const arch::CpuRegister& sys_register, uint64_t value) {
+
+        void mov(arch::ConstCpuRegisterRef sys_register, uint64_t value) {
             add(new op::ConstToRegProcessorMovOpCode(sys_register, value));
         }
 
-        void inc(const arch::CpuRegister& sys_register) {
+        void mov(arch::ConstCpuRegisterRef lhs, arch::ConstCpuRegisterRef rhs) {
+            add(new op::ProcessorRegToRegMovOp(lhs, rhs));
+        }
+
+        void inc(arch::ConstCpuRegisterRef sys_register) {
             add(new op::ProcessorIncOpCode(sys_register));
         }
 
-        void dec(const arch::CpuRegister& sys_register) {
+        void dec(arch::ConstCpuRegisterRef sys_register) {
             add(new op::ProcessorDecOpCode(sys_register));
         }
 
-        void push(const arch::CpuRegister& sys_register) {
+        void push(arch::ConstCpuRegisterRef sys_register) {
             add(new op::ProcessorPushOpCode(sys_register));
         }
 
-        void pop(const arch::CpuRegister& sys_register) {
+        void pop(arch::ConstCpuRegisterRef sys_register) {
             add(new op::ProcessorPopOpCode(sys_register));
+        }
+
+        void lea(arch::ConstCpuRegisterRef sys_register, void* object) {
+            add(new op::ConstToRegProcessorMovOpCode(sys_register, (uintptr_t)object));
         }
 
     private:

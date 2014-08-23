@@ -32,12 +32,28 @@ namespace jit {
             memory_[write_offset_++] = (byte)((value >> 24) & 0xFF);
         }
 
+        void write_int64(uint64_t value) {
+            memory_[write_offset_++] = (byte)((value) & 0xFF);
+            memory_[write_offset_++] = (byte)((value >> 8) & 0xFF);
+            memory_[write_offset_++] = (byte)((value >> 16) & 0xFF);
+            memory_[write_offset_++] = (byte)((value >> 24) & 0xFF);
+            memory_[write_offset_++] = (byte)((value >> 32) & 0xFF);
+            memory_[write_offset_++] = (byte)((value >> 40) & 0xFF);
+            memory_[write_offset_++] = (byte)((value >> 48) & 0xFF);
+            memory_[write_offset_++] = (byte)((value >> 56) & 0xFF);
+        }
+
+
         void write_opcode(byte data) {
             memory_[write_offset_++] = data;
         }
 
-        void write_opcode_masked(byte opcode, const arch::CpuRegister& sys_register) {
+        void write_opcode_masked(byte opcode, arch::ConstCpuRegisterRef sys_register) {
             write_opcode(opcode | sys_register.register_code());
+        }
+
+        void write_opcode_masked(byte opcode, arch::ConstCpuRegisterRef lhs, arch::ConstCpuRegisterRef rhs) {
+            write_opcode(opcode | (lhs.register_code() << 3) | rhs.register_code());
         }
 
         void* memory() const { return memory_;}

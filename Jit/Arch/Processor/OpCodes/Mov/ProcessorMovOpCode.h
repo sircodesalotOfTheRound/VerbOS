@@ -13,12 +13,12 @@
 
 namespace op {
     class RegToRegProcessorMovOpCode : public ProcessorOpCodeBase {
-        const arch::CpuRegister* lhs_;
-        const arch::CpuRegister* rhs_;
+        arch::ConstCpuRegisterRef lhs_;
+        arch::ConstCpuRegisterRef rhs_;
 
     public:
         RegToRegProcessorMovOpCode(const arch::CpuRegister& lhs, const arch::CpuRegister& rhs)
-            : lhs_(&lhs), rhs_(&rhs) {
+            : lhs_(lhs), rhs_(rhs) {
 
         }
 
@@ -28,12 +28,12 @@ namespace op {
     };
 
     class ConstToRegProcessorMovOpCode : public ProcessorOpCodeBase {
-        const arch::CpuRegister* lhs_;
+        arch::ConstCpuRegisterRef lhs_;
         uint64_t rhs_;
 
     public:
         ConstToRegProcessorMovOpCode(const arch::CpuRegister& lhs, uint64_t rhs) :
-            lhs_(&lhs), rhs_(rhs) {
+            lhs_(lhs), rhs_(rhs) {
 
         }
 

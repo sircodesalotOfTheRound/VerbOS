@@ -34,6 +34,8 @@ namespace arch {
             return stream << cpu_register.name_;
         }
     };
+
+    using ConstCpuRegisterRef = const CpuRegister&;
 }
 
 

@@ -34,22 +34,18 @@ int main() {
     jit::JitRenderer renderer(memory());
     op::ProcessorOpCodeSet opcodes { };
 
+    uint64_t value;
     auto rax = arch::OsxRegisters::rax;
-    auto rbx = arch::OsxRegisters::rbx;
 
-    opcodes.mov(rax, 15);
-    opcodes.mov(rbx, 25);
-    opcodes.push(rax);
-    opcodes.push(rbx);
-    opcodes.pop(rax);
-    opcodes.pop(rbx);
+    opcodes.lea(rax, &value);
     opcodes.ret();
-
     opcodes.render(renderer);
 
-    int(*pfunc)() = (int(*)())renderer.memory();
+    cout << &value << endl;
 
-    cout << pfunc();
+    uintptr_t (*pfunc)() = (uintptr_t(*)())renderer.memory();
+
+    cout << hex << pfunc();
 
     return 0;
 }
