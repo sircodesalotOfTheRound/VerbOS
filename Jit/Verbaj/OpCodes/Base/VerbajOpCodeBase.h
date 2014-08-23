@@ -3,20 +3,22 @@
 // Copyright (c) 2014 Reuben Kuhnert. All rights reserved.
 //
 
+#ifndef __VerbajOpCode_H_
+#define __VerbajOpCode_H_
 
 #include "JitRenderer.h"
 #include "VirtualRegisterStage.h"
 
-#ifndef __VerbajOpCode_H_
-#define __VerbajOpCode_H_
+namespace jit {
+    class StackFrame;
+}
 
 namespace verbaj {
     class VerbajOpCodeBase {
     public:
         virtual ~VerbajOpCodeBase() { }
 
-        virtual void apply(jit::VirtualRegisterStage&) const = 0;
-
+        virtual void apply(jit::StackFrame&) const = 0;
     };
 }
 

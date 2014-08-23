@@ -34,6 +34,8 @@ namespace op {
             }
         }
 
+        void clear() { op_codes_.clear(); }
+
         iterator begin() { return op_codes_.begin(); }
         iterator end() { return op_codes_.end(); }
 

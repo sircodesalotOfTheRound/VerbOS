@@ -6,12 +6,11 @@
 #include "VLdui64.h"
 #include "VerbajPrimitives.h"
 
-void verbaj::VLdui64::apply(jit::VirtualRegisterStage &stage) const {
+void verbaj::VLdui64::apply(jit::StackFrame& frame) const {
     using namespace jit;
 
-
-
     // Create a new virtual register and add it.
+    jit::VirtualRegisterStage stage = frame.stage();
     VirtualRegister::Priority priority (1);
     VirtualRegister::Offset offset (1);
 
@@ -27,9 +26,7 @@ void verbaj::VLdui64::apply(jit::VirtualRegisterStage &stage) const {
 void verbaj::VLdui64::perform_load(jit::VirtualRegisterCheckoutRef checkout) const {
     auto sys_register = checkout.sys_register();
     auto virt_register = checkout.virtual_register();
-    auto& opcodes = checkout.opcodes();
-
-    std::cout << "applying to register: " << sys_register << std::endl;
+    op::ProcessorOpCodeSet& opcodes = checkout.opcodes();
 
     // Move the value to the register. Done.
     opcodes.mov(sys_register, value_);

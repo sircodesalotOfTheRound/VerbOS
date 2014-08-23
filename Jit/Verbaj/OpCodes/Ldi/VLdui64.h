@@ -17,7 +17,7 @@ namespace verbaj {
     public:
         VLdui64(int to_register, uint64_t value) : register_index(to_register), value_(value) { }
 
-        void apply(jit::VirtualRegisterStage& stage) const override;
+        void apply(jit::StackFrame& frame) const override;
 
     private:
         void perform_load(jit::VirtualRegisterCheckoutRef) const;
