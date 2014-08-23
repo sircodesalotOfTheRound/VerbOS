@@ -12,6 +12,7 @@
 #include "VerbajPrimitives.h"
 #include "VLdui64.h"
 #import "StackFrame.h"
+#include "VRet.h"
 
 #include <unistd.h>
 #include <sys/mman.h>
@@ -28,7 +29,9 @@ int main() {
     JitRenderer renderer(memory());
 
     StackFrame frame;
-    frame.add_op(new VLdui64(1, 100));
+    frame.add_op(new VLdui64(1, 69));
+    frame.add_op(new VLdui64(2, 42));
+    frame.add_op(new VRet(1));
 
     frame.apply(renderer);
 

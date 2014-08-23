@@ -30,7 +30,7 @@ namespace jit {
 
         const arch::CpuRegister& sys_register() const { return reg_; }
         const VirtualRegister& virtual_register() const { return virtual_register_; }
-        op::ProcessorOpCodeSet& opcodes() { return opcodes_; }
+        op::ProcessorOpCodeSet&jit_opcodes() { return opcodes_; }
     };
 
     using VirtualRegisterCheckoutRef = VirtualRegisterCheckout&;

@@ -9,10 +9,11 @@ void jit::StackFrame::apply(jit::JitRenderer& renderer) {
     // Clear the existing opcodes.
     jit_opcodes.clear();
 
-    for (auto& verbaj_op : verbaj_ops) {
+    // Apply the Verbaj opcodes.
+    for (auto &verbaj_op : verbaj_ops) {
         verbaj_op->apply(*this);
     }
 
-    jit_opcodes.ret();
     jit_opcodes.render(renderer);
 }
+

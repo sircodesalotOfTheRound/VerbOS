@@ -30,7 +30,6 @@ namespace jit {
 
         void apply(jit::JitRenderer& renderer);
 
-
         verbaj::VerbajOpCodeSet& opcodes() { return verbaj_ops; }
         op::ProcessorOpCodeSet& sys_ops() { return jit_opcodes; }
         VirtualRegisterStage& stage() { return stage_; }
