@@ -15,6 +15,8 @@
 #include "ProcessorMovOpCode.h"
 #include "ProcessorIncOpCode.h"
 #include "ProcessorDecOpCode.h"
+#include "ProcessorPushOpCode.h"
+#include "ProcessorPopOpCode.h"
 
 namespace op {
     class ProcessorOpCodeSet {
@@ -47,6 +49,14 @@ namespace op {
 
         void dec(const arch::CpuRegister& sys_register) {
             add(new op::ProcessorDecOpCode(sys_register));
+        }
+
+        void push(const arch::CpuRegister& sys_register) {
+            add(new op::ProcessorPushOpCode(sys_register));
+        }
+
+        void pop(const arch::CpuRegister& sys_register) {
+            add(new op::ProcessorPopOpCode(sys_register));
         }
 
     private:

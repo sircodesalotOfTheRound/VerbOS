@@ -88,7 +88,6 @@ jit::VirtualRegisterBinding jit::VirtualRegisterStage::checkout(int register_ind
 
 void jit::VirtualRegisterStage::release(int register_index, const VirtualRegisterBinding binding) {
     register_queue_.push(binding);
-
 }
 
 void jit::VirtualRegisterStage::persist_virtual_register(VirtualRegisterBinding binding) {

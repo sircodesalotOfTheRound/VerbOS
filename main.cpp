@@ -32,15 +32,24 @@ void add(jit::VirtualRegisterStage& stage, int l_reg, int r_reg) {
 
 int main() {
     jit::JitRenderer renderer(memory());
-    op::ProcessorOpCodeSet op_codes { };
+    op::ProcessorOpCodeSet opcodes { };
 
-    jit::VirtualRegisterStage stage { 3, op_codes };
-    jit::VirtualRegister reg { "name", vm_uint64, VirtualRegister::Priority(1), VirtualRegister::Offset(0) };
+    auto rax = arch::OsxRegisters::rax;
+    auto rbx = arch::OsxRegisters::rbx;
 
-    stage.insert_at(0, { "left_hand_side", vm_uint64, VirtualRegister::Priority(1), VirtualRegister::Offset(1) });
-    stage.insert_at(1, { "right_hand_side", vm_uint64, VirtualRegister::Priority(1), VirtualRegister::Offset(2) });
+    opcodes.mov(rax, 15);
+    opcodes.mov(rbx, 25);
+    opcodes.push(rax);
+    opcodes.push(rbx);
+    opcodes.pop(rax);
+    opcodes.pop(rbx);
+    opcodes.ret();
 
-    add(stage, 0, 1);
+    opcodes.render(renderer);
+
+    int(*pfunc)() = (int(*)())renderer.memory();
+
+    cout << pfunc();
 
     return 0;
 }
