@@ -30,15 +30,8 @@ int main() {
 
     uint64_t (*pfunc)() = (uint64_t(*)())renderer.memory();
 
-    for (int index = 0; index < 100; ++index) {
-        cout << hex << (int)((byte*)renderer.memory())[index] << " ";
+    renderer.debug_print();
 
-        if (index % 10 == 0) {
-            cout << endl;
-        }
-    }
-
-    cout << endl << endl;
     cout << dec << pfunc() << endl;
 
     return 0;

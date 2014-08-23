@@ -72,6 +72,20 @@ namespace jit {
             write_opcode(opcode | (lhs.register_code() << 3) | rhs.register_code());
         }
 
+        void debug_print() {
+            using namespace std;
+
+            cout << hex;
+            for (int index = 0; index < write_offset_; ++index) {
+                cout << (int)((byte*)memory_)[index] << " ";
+
+                if (index % 10 == 0) {
+                    cout << endl;
+                }
+            }
+            cout << dec << endl;
+        }
+
         void* memory() const { return memory_;}
         void* current_location() const { return &memory_[write_offset_]; }
     };
