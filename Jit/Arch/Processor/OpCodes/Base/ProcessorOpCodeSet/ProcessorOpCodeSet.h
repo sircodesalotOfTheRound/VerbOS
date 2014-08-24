@@ -19,6 +19,8 @@
 #include "ProcessorPopOpCode.h"
 #import "ProcessorRegToRegMovOp.h"
 #import "ProcessorMovRegToMemOp.h"
+#include "ProcessorAddRegToRegOpCode.h"
+#import "ProcessorSubRegToRegOpCode.h"
 
 namespace op {
     class ProcessorOpCodeSet {
@@ -45,6 +47,14 @@ namespace op {
         // OpCodes
         void ret() { add(new ProcessorReturnOpCode()); }
         void label(std::string label) { add(new ProcessorLabelOpCode(label)); }
+
+        void add(arch::ConstCpuRegisterRef lhs, arch::ConstCpuRegisterRef rhs) {
+            add(new op::ProcessorAddRegToRegOpCode(lhs, rhs));
+        }
+
+        void sub(arch::ConstCpuRegisterRef lhs, arch::ConstCpuRegisterRef rhs) {
+            add(new op::ProcessorSubRegToRegOpCode(lhs, rhs));
+        }
 
         void mov(arch::ConstCpuRegisterRef sys_register, uint64_t value) {
             add(new op::ProcessorMovConstToRegOpCode(sys_register, value));
