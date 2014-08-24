@@ -3,9 +3,9 @@
 // Copyright (c) 2014 Reuben Kuhnert. All rights reserved.
 //
 
-#include "StackFrame.h"
+#include "VirtualStackFrame.h"
 
-void jit::StackFrame::apply(jit::JitRenderer& renderer) {
+void jit::VirtualStackFrame::apply(jit::JitRenderer& renderer) {
     // Clear the existing opcodes.
     jit_opcodes.clear();
 
@@ -17,7 +17,7 @@ void jit::StackFrame::apply(jit::JitRenderer& renderer) {
     jit_opcodes.render(renderer);
 }
 
-void jit::StackFrame::debug_print() {
+void jit::VirtualStackFrame::debug_print() {
     // Clear the existing opcodes.
     jit_opcodes.debug_print();
 }

@@ -2,6 +2,7 @@
 #include "ProcessorOpCodeSet.h"
 #include "VLdui64.h"
 #include "VRet.h"
+#import "VirtualStackFrameRegisterSet.h"
 
 #include <unistd.h>
 #include <sys/mman.h>
@@ -15,24 +16,12 @@ using namespace std;
 using namespace verbaj;
 
 int main() {
-    JitRenderer renderer(memory());
-    op::ProcessorOpCodeSet set { };
+    VirtualStackFrameRegisterSet set (4, 4, 4, 4);
 
-    auto rax = arch::OsxRegisters::rax;
-    auto rbx = arch::OsxRegisters::rbx;
+    set[1] = VirtualRegister::EMPTY;
 
-    set.mov(rax, 10);
-    set.sub(rax, 5);
-
-    set.ret();
-
-    set.render(renderer);
-
-    uint64_t (*pfunc)() = (uint64_t(*)())renderer.memory();
-
-    cout << dec << pfunc() << endl;
-
-    renderer.debug_print();
+    cout << set[1] << endl;
+    cout << set.total() << endl;
 
     return 0;
 }

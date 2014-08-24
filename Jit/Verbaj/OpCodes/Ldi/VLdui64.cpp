@@ -6,7 +6,7 @@
 #include "VLdui64.h"
 #include "VerbajPrimitives.h"
 
-void verbaj::VLdui64::apply(jit::StackFrame& frame) const {
+void verbaj::VLdui64::apply(jit::VirtualStackFrame & frame) const {
     using namespace jit;
 
     // Create a new virtual register and add it.

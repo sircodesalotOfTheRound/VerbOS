@@ -33,7 +33,17 @@ namespace jit {
         };
 
     public:
-        VirtualRegister() : VirtualRegister(VirtualRegister::EMPTY) {
+        VirtualRegister() : VirtualRegister(VirtualRegister::EMPTY) { }
+
+        VirtualRegister(const VirtualRegister& rhs) :
+            priority_(rhs.priority_),
+            name_(rhs.name_),
+            type_(rhs.type_),
+            is_empty_(rhs.is_empty_),
+            is_persisted_(rhs.is_persisted_),
+            is_pointer_(rhs.is_pointer_)
+        {
+
         }
 
 

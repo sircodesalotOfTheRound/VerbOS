@@ -16,13 +16,13 @@ namespace verbaj {
 }
 
 namespace jit {
-    class StackFrame {
+    class VirtualStackFrame {
         verbaj::VerbajOpCodeSet verbaj_ops;
         op::ProcessorOpCodeSet jit_opcodes;
         VirtualRegisterStage stage_;
 
     public:
-        StackFrame() : stage_ (0, jit_opcodes) { }
+        VirtualStackFrame() : stage_ (0, jit_opcodes) { }
 
         void add_op(verbaj::VerbajOpCodeBase* opcode) {
             verbaj_ops.add(opcode);

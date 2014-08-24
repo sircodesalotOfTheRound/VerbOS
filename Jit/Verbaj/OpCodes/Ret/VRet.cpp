@@ -4,9 +4,9 @@
 //
 
 #include "VRet.h"
-#include "StackFrame.h"
+#include "VirtualStackFrame.h"
 
-void verbaj::VRet::apply(jit::StackFrame &frame) const {
+void verbaj::VRet::apply(jit::VirtualStackFrame &frame) const {
     auto& stage = frame.stage();
 
     stage.with_register(register_index_, [](jit::VirtualRegisterCheckoutRef checkout) {

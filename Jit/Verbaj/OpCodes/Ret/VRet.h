@@ -17,7 +17,7 @@ namespace verbaj {
     public:
         VRet(int register_index) : register_index_(register_index) { }
 
-        void apply(jit::StackFrame&) const;
+        void apply(jit::VirtualStackFrame &) const;
     };
 }
 

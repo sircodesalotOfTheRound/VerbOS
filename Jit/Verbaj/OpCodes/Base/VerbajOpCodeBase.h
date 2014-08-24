@@ -10,7 +10,7 @@
 #include "VirtualRegisterStage.h"
 
 namespace jit {
-    class StackFrame;
+    class VirtualStackFrame;
 }
 
 namespace verbaj {
@@ -18,7 +18,7 @@ namespace verbaj {
     public:
         virtual ~VerbajOpCodeBase() { }
 
-        virtual void apply(jit::StackFrame&) const = 0;
+        virtual void apply(jit::VirtualStackFrame &) const = 0;
     };
 }
 
