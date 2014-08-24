@@ -4,18 +4,19 @@
 //
 
 
-#ifndef __ProcessorAddOpCode_H_
-#define __ProcessorAddOpCode_H_
+
+#ifndef __ProcessorAddConstToRegOpCode_H_
+#define __ProcessorAddConstToRegOpCode_H_
 
 #include "ProcessorOpCodeBase.h"
 
 namespace op {
-    class ProcessorAddRegToRegOpCode : public ProcessorOpCodeBase {
+    class ProcessorAddConstToRegOpCode : public ProcessorOpCodeBase {
         arch::CpuRegister lhs_;
-        arch::CpuRegister rhs_;
+        uint64_t rhs_;
 
     public:
-        ProcessorAddRegToRegOpCode(const arch::CpuRegister& lhs, const arch::CpuRegister& rhs) : lhs_(lhs), rhs_(rhs) { }
+        ProcessorAddConstToRegOpCode(const arch::CpuRegister& lhs, uint64_t value) : lhs_(lhs), rhs_(value) { }
 
         std::string rep() const override {
             std::stringstream rep;
@@ -25,9 +26,9 @@ namespace op {
         };
 
         size_t size() const override { return 5; }
-        void render(jit::JitRenderer&) const;
+        void render(jit::JitRenderer&) const override;
     };
 }
 
 
-#endif //__ProcessorAddOpCode_H_
+#endif //__ProcessorAddConstToRegOpCode_H_

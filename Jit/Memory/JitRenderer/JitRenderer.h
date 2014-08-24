@@ -86,7 +86,7 @@ namespace jit {
             for (int index = 0; index < write_offset_; ++index) {
                 cout << (int)((byte*)memory_)[index] << " ";
 
-                if (index % 10 == 0) {
+                if (index > 1 && index % 10 == 0) {
                     cout << endl;
                 }
             }

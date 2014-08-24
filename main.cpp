@@ -19,11 +19,10 @@ int main() {
     op::ProcessorOpCodeSet set { };
 
     auto rax = arch::OsxRegisters::rax;
-    auto r8 = arch::OsxRegisters::rbx;
+    auto rbx = arch::OsxRegisters::rbx;
 
     set.mov(rax, 10);
-    set.mov(r8, 5);
-    set.sub(rax, r8);
+    set.sub(rax, 5);
 
     set.ret();
 
@@ -32,6 +31,8 @@ int main() {
     uint64_t (*pfunc)() = (uint64_t(*)())renderer.memory();
 
     cout << dec << pfunc() << endl;
+
+    renderer.debug_print();
 
     return 0;
 }
