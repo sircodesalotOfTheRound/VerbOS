@@ -18,9 +18,8 @@ namespace jit {
         std::string name_;
         mutable const SystemType* type_;
         bool is_empty_;
-        ssize_t offset_;
         bool is_persisted_;
-        bool is_temporary_;
+        bool is_pointer_;
 
     public:
         struct Priority {
@@ -38,14 +37,13 @@ namespace jit {
         }
 
 
-        VirtualRegister(std::string name, const SystemType& type, Priority priority, Offset offset, bool is_temporary)
+        VirtualRegister(std::string name, const SystemType& type, Priority priority, bool is_pointer)
             : name_(name),
               type_(&type),
               priority_(priority.priority_),
-              offset_(offset.offset_),
               is_empty_(false),
               is_persisted_(false),
-              is_temporary_(is_temporary)
+              is_pointer_(is_pointer)
         {
 
         }
@@ -54,9 +52,8 @@ namespace jit {
         std::string name() const { return name_; }
         int priority() const { return priority_; }
         bool is_empty() const { return is_empty_; }
-        ssize_t offset() { return offset_; }
         const SystemType &def() const { return *type_; }
-        bool is_temporary() const { return is_temporary_; }
+        bool is_pointer() const { return is_pointer_; }
 
         friend std::ostream& operator<<(std::ostream& stream, const VirtualRegister& reg) {
             return stream << reg.name_ << " : " << *reg.type_;
@@ -68,11 +65,10 @@ namespace jit {
         void is_persisted(bool persisted) { is_persisted_ = persisted; }
 
     private:
-        VirtualRegister(std::string name, const SystemType& type, int priority, bool is_empty, ssize_t offset)
+        VirtualRegister(std::string name, const SystemType& type, int priority, bool is_empty)
             : name_(name),
               type_(&type),
               priority_(priority),
-              offset_(offset),
               is_empty_(is_empty)
           {
 
