@@ -19,7 +19,7 @@ namespace jit {
         mutable const SystemType* type_;
         bool is_empty_;
         bool is_persisted_;
-        bool is_pointer_;
+        bool is_constant_;
 
     public:
         struct Priority {
@@ -41,19 +41,19 @@ namespace jit {
             type_(rhs.type_),
             is_empty_(rhs.is_empty_),
             is_persisted_(rhs.is_persisted_),
-            is_pointer_(rhs.is_pointer_)
+            is_constant_(rhs.is_constant_)
         {
 
         }
 
 
-        VirtualRegister(std::string name, const SystemType& type, Priority priority, bool is_pointer)
+        VirtualRegister(std::string name, const SystemType& type, Priority priority, bool is_constant)
             : name_(name),
               type_(&type),
               priority_(priority.priority_),
               is_empty_(false),
               is_persisted_(false),
-              is_pointer_(is_pointer)
+              is_constant_(is_constant)
         {
 
         }
@@ -63,7 +63,7 @@ namespace jit {
         int priority() const { return priority_; }
         bool is_empty() const { return is_empty_; }
         const SystemType &def() const { return *type_; }
-        bool is_pointer() const { return is_pointer_; }
+        bool is_constant() const { return is_constant_; }
 
         friend std::ostream& operator<<(std::ostream& stream, const VirtualRegister& reg) {
             return stream << reg.name_ << " : " << *reg.type_;
