@@ -3,6 +3,9 @@
 #include "VLdui64.h"
 #include "VRet.h"
 #import "VirtualStackFrameRegisterSet.h"
+#import "ObjectInstanceHeader.h"
+#include "VerbajPrimitives.h"
+#import "ObjectInstance.h"
 
 #include <unistd.h>
 #include <sys/mman.h>
@@ -16,18 +19,11 @@ using namespace std;
 using namespace verbaj;
 
 int main() {
-    JitRenderer renderer { memory() };
-    VirtualStackFrame stack_frame;
+    auto& object = verbaj::VerbajPrimitives::vm_object;
 
-    stack_frame.add_op(new VLdui64(1, 42));
-    stack_frame.add_op(new VLdui64(2, 69));
-    stack_frame.add_op(new VRet(2));
+    auto header = new (object) types::ObjectInstance;
+    cout << header->type() << endl;
+    //cout << header->type() << endl;
 
-    stack_frame.apply(renderer);
-
-
-    uint64_t (*pfunc)() = (uint64_t(*)())renderer.memory();
-
-    cout << pfunc() << endl;
     return 0;
 }
