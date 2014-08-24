@@ -14,7 +14,7 @@ void verbaj::VLdui64::apply(jit::StackFrame& frame) const {
     VirtualRegister::Priority priority (5);
     VirtualRegister::Offset offset (1);
 
-    VirtualRegister virtual_register { "v_reg", VerbajPrimitives::vm_uint64, priority, offset };
+    VirtualRegister virtual_register { "v_reg", VerbajPrimitives::vm_uint64, priority, offset, true };
     stage.insert_at(register_index, virtual_register);
 
     // Perform the load

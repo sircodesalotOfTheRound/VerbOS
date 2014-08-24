@@ -24,7 +24,7 @@ namespace op {
         std::string rep() const override { return "inc"; }
 
         void render(jit::JitRenderer& renderer) const override {
-            renderer.write_preamble64();
+            renderer.write_preamble64lhs(sys_register_);
             renderer.write_opcode(0xFF);
             renderer.write_opcode_masked(0xc8, sys_register_);
         }

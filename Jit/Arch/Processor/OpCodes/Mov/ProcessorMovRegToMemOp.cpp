@@ -6,11 +6,12 @@
 #include "ProcessorMovRegToMemOp.h"
 
 void op::ProcessorMovRegToMemOp::render(jit::JitRenderer &renderer) const {
-    renderer.write_preamble64();
-
     if (direction_ == DIRECTION::FROM_MEMORY) {
+        renderer.write_preamble64(register_, memory_location_.sys_register());
         renderer.write_opcode(0x8b);
+
     } else {
+        renderer.write_preamble64(memory_location_.sys_register(), register_);
         renderer.write_opcode(0x89);
     }
 
@@ -20,6 +21,6 @@ void op::ProcessorMovRegToMemOp::render(jit::JitRenderer &renderer) const {
         renderer.write_opcode_masked(0x00, register_, memory_location_.sys_register());
     } else {
         renderer.write_opcode_masked(0x40, register_, memory_location_.sys_register());
-        renderer.write_int8(memory_location_.offset());
+        renderer.write_int8((uint8_t)memory_location_.offset());
     }
 }

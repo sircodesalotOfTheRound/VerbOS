@@ -20,6 +20,7 @@ namespace jit {
         bool is_empty_;
         ssize_t offset_;
         bool is_persisted_;
+        bool is_temporary_;
 
     public:
         struct Priority {
@@ -37,46 +38,25 @@ namespace jit {
         }
 
 
-        VirtualRegister(std::string name, const SystemType& type, Priority priority, Offset offset)
+        VirtualRegister(std::string name, const SystemType& type, Priority priority, Offset offset, bool is_temporary)
             : name_(name),
               type_(&type),
               priority_(priority.priority_),
               offset_(offset.offset_),
               is_empty_(false),
-              is_persisted_(false)
+              is_persisted_(false),
+              is_temporary_(is_temporary)
         {
 
         }
 
-        VirtualRegister(const VirtualRegister& rhs)
-            : name_(rhs.name_),
-              type_(rhs.type_),
-              priority_(rhs.priority_),
-              offset_(rhs.offset_),
-              is_empty_(rhs.is_empty_),
-              is_persisted_(rhs.is_persisted_)
-        {
-
-        }
-
-        VirtualRegister& operator=(const VirtualRegister& rhs) {
-            if (this == &rhs) return *this;
-
-            name_ = rhs.name_;
-            type_ = rhs.type_;
-            priority_ = rhs.priority_;
-            is_empty_ = rhs.is_empty_;
-            offset_ = rhs.offset_;
-            is_persisted_ = rhs.is_persisted_;
-
-            return *this;
-        }
 
         std::string name() const { return name_; }
         int priority() const { return priority_; }
         bool is_empty() const { return is_empty_; }
         ssize_t offset() { return offset_; }
         const SystemType &def() const { return *type_; }
+        bool is_temporary() const { return is_temporary_; }
 
         friend std::ostream& operator<<(std::ostream& stream, const VirtualRegister& reg) {
             return stream << reg.name_ << " : " << *reg.type_;

@@ -17,25 +17,32 @@ namespace jit {
     public:
         JitRenderer(void* memory) : memory_((byte*)memory), write_offset_(0) { }
 
-        void write_preamble64() {
-            write_int8(0x48);
+        void write_preamble64lhs(const arch::CpuRegister& reg) {
+            if (reg.is_extended()) write_int8(0x49);
+            else write_int8(0x48);
         }
 
-        void write_extension_preamble(const arch::CpuRegister& lhs, const arch::CpuRegister& rhs) {
-            // If both, then the prefix is 0x4d.
+        void write_preamble64rhs(const arch::CpuRegister& reg) {
+            if (reg.is_extended()) write_int8(0x4c);
+            else write_int8(0x48);
+        }
+
+        void write_preamble64(const arch::CpuRegister &lhs, const arch::CpuRegister &rhs) {
+            // If both sides are extended, then the prefix is 0x4d.
            if (lhs.is_extended() && rhs.is_extended()) {
                write_int8(0x4d);
-           } else {
-               // Otherwise, lhs is 0x49, and rhs is 0x4c.
+
+           } else if (lhs.is_extended() || rhs.is_extended()) {
+               // Otherwise, lhs-extended is 0x49, and rhs is 0x4c.
                if (lhs.is_extended()) write_int8(0x49);
                if (rhs.is_extended()) write_int8(0x4c);
-           }
-        }
 
-        void write_extension_preamble(const arch::CpuRegister&reg) {
-            if (reg.is_extended()) write_int8(0x49);
-        }
+           } else {
 
+                // If neither side is extended:
+                write_int8(0x48);
+            }
+        }
 
         void write_int8(uint8_t value) {
             memory_[write_offset_++] = value;
