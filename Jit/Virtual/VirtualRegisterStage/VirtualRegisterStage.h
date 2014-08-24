@@ -15,6 +15,7 @@
 #import "VirtualRegisterCheckout.h"
 #include "OsxRegisters.h"
 #include "ProcessorOpCodeSet.h"
+#import "VirtualStackFrameRegisterSet.h"
 
 namespace jit {
     class VirtualRegisterStage {
@@ -58,7 +59,7 @@ namespace jit {
         void persist_virtual_register(VirtualRegisterBinding binding);
 
     private:
-        std::array<VirtualRegister, 256> registers_;
+        VirtualStackFrameRegisterSet registers_;
         std::priority_queue<VirtualRegisterBinding, std::vector<VirtualRegisterBinding>, std::greater<VirtualRegisterBinding>> register_queue_;
         std::unordered_map<int, VirtualRegisterBinding> mapped_bindings_;
     };

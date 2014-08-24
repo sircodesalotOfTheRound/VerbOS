@@ -6,7 +6,9 @@
 #include "VirtualRegisterStage.h"
 
 jit::VirtualRegisterStage::VirtualRegisterStage(int parameter_count, op::ProcessorOpCodeSet& op_codes)
-        : parameter_count_(parameter_count), op_codes_(op_codes) {
+        : parameter_count_(parameter_count), op_codes_(op_codes),
+           registers_(10,10,10,10)
+{
 
     register_queue_.push(VirtualRegisterBinding(arch::OsxRegisters::rax));
     register_queue_.push(VirtualRegisterBinding(arch::OsxRegisters::rbx));

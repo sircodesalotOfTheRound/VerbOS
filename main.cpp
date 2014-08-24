@@ -16,12 +16,18 @@ using namespace std;
 using namespace verbaj;
 
 int main() {
-    VirtualStackFrameRegisterSet set (4, 4, 4, 4);
+    JitRenderer renderer { memory() };
+    VirtualStackFrame stack_frame;
 
-    set[1] = VirtualRegister::EMPTY;
+    stack_frame.add_op(new VLdui64(1, 42));
+    stack_frame.add_op(new VLdui64(2, 69));
+    stack_frame.add_op(new VRet(2));
 
-    cout << set[1] << endl;
-    cout << set.total() << endl;
+    stack_frame.apply(renderer);
 
+
+    uint64_t (*pfunc)() = (uint64_t(*)())renderer.memory();
+
+    cout << pfunc() << endl;
     return 0;
 }

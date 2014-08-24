@@ -24,6 +24,10 @@ namespace jit {
             total_(parameters + locals + constants + objects)
         {
             registers_.reserve(total_);
+
+            for (int index = 0; index != total_; ++index) {
+                registers_[index] = VirtualRegister::EMPTY;
+            }
         }
 
         VirtualRegister& operator[](int index) { return registers_[index]; }
