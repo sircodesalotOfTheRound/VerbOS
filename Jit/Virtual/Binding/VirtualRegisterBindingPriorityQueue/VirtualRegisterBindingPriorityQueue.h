@@ -34,6 +34,7 @@ namespace jit {
             auto binding = register_map_iterator->second;
 
             auto set_iterator = queue_.find(binding);
+
             queue_.erase(set_iterator);
             register_map_.erase(register_map_iterator);
 
