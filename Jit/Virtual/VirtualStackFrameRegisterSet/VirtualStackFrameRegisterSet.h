@@ -32,11 +32,11 @@ namespace jit {
 
         VirtualRegister& operator[](int index) { return registers_[index]; }
 
-        int total() const { return total_; }
-        int parameters() const { return parameters_; }
-        int locals() const { return parameters_; }
-        int constants() const { return constants_; }
-        int objects() const { return objects_; }
+        size_t total() const { return total_; }
+        size_t parameters() const { return parameters_; }
+        size_t locals() const { return parameters_; }
+        size_t constants() const { return constants_; }
+        size_t objects() const { return objects_; }
     };
 }
 

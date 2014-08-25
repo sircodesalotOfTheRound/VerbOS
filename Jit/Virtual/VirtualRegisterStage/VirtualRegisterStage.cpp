@@ -85,7 +85,7 @@ void jit::VirtualRegisterStage::release(int register_index, const VirtualRegiste
 
 void jit::VirtualRegisterStage::persist_virtual_register(VirtualRegisterBinding binding) {
     VirtualRegister& virtual_register = binding.virtual_register();
-    const arch::CpuRegister& cpu_register = binding.sys_register();
+    //const arch::CpuRegister& cpu_register = binding.sys_register();
 
     // TODO: Mov opcode to save the register data.
     //op_codes_.mov(arch::OsxRegisters::rax, cpu_register);
