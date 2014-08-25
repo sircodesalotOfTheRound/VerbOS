@@ -33,7 +33,7 @@ int main() {
     frame.insert(new VLdui64(8, 8));
     frame.insert(new VLdui64(9, 9));
     frame.insert(new VLdui64(10, 10));
-    frame.insert(new VRet(10));
+    frame.insert(new VRet(3));
     frame.apply(renderer);
 
     frame.debug_print();

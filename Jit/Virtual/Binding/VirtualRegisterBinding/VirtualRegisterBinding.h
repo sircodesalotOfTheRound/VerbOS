@@ -27,7 +27,7 @@ namespace jit {
         }
 
         bool operator>(const VirtualRegisterBinding &rhs) const {
-            return priority() > rhs.priority();
+            return rhs.priority() > priority();
         }
 
         const arch::CpuRegister& sys_register() const { return sys_register_; }

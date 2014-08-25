@@ -17,6 +17,7 @@
 #include "ProcessorOpCodeSet.h"
 #import "VirtualStackFrameRegisterSet.h"
 #import "VirtualRegisterBindingTable.h"
+#import "VirtualRegisterBindingPriorityQueue.h"
 
 namespace jit {
     class VirtualRegisterStage {
@@ -64,7 +65,7 @@ namespace jit {
     private:
         VirtualStackFrameRegisterSet registers_;
 
-        std::priority_queue<VirtualRegisterBinding, std::vector<VirtualRegisterBinding>, std::greater<VirtualRegisterBinding>> register_queue_;
+        VirtualRegisterBindingPriorityQueue register_queue_;
         VirtualRegisterBindingTable binding_table;
     };
 }

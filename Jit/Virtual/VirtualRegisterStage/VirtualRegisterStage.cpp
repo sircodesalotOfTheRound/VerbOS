@@ -57,8 +57,7 @@ jit::VirtualRegisterBinding jit::VirtualRegisterStage::checkout(int virtual_regi
     }
 
     // (2) Otherwise grab an available binding from the queue (lowest priority):
-    VirtualRegisterBinding binding = register_queue_.top();
-    register_queue_.pop();
+    VirtualRegisterBinding binding = register_queue_.pop();
 
     // (3) If something else is already bound to it, persist, then free that binding.
     if (!binding.is_empty()) {
