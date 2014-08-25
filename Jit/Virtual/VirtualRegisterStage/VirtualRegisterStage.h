@@ -16,6 +16,7 @@
 #include "OsxRegisters.h"
 #include "ProcessorOpCodeSet.h"
 #import "VirtualStackFrameRegisterSet.h"
+#import "VirtualRegisterBindingTable.h"
 
 namespace jit {
     class VirtualRegisterStage {
@@ -42,6 +43,8 @@ namespace jit {
             registers_[index] = virtual_register;
         }
 
+        void force_binding(int register_index, arch::ConstCpuRegisterRef cpu_register);
+
         void clear_register(int index) {
             registers_[index] = VirtualRegister::EMPTY;
         }
@@ -49,7 +52,7 @@ namespace jit {
         void with_register(int register_index, std::function<void(VirtualRegisterCheckoutRef)> callback);
         void with_registers(int lhs, int rhs, std::function<void(VirtualRegisterCheckoutRef,VirtualRegisterCheckoutRef)> callback);
 
-        const VirtualRegister& operator[](int index) { return registers_[index]; }
+        VirtualRegister& operator[](int index) { return registers_[index]; }
 
     private:
         VirtualRegisterBinding checkout(int virtual_register_index);
@@ -62,8 +65,7 @@ namespace jit {
         VirtualStackFrameRegisterSet registers_;
 
         std::priority_queue<VirtualRegisterBinding, std::vector<VirtualRegisterBinding>, std::greater<VirtualRegisterBinding>> register_queue_;
-        std::unordered_map<int, VirtualRegisterBinding> mapped_bindings_by__virtual_register_number;
-        std::unordered_map<arch::CpuRegister, VirtualRegisterBinding> mapped_binding_by_cpu_register;
+        VirtualRegisterBindingTable binding_table;
     };
 }
 

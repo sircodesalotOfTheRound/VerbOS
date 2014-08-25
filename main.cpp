@@ -20,27 +20,26 @@ using namespace std;
 using namespace verbaj;
 
 int main() {
-    VirtualRegisterBindingTable table;
+    JitRenderer renderer(memory());
+    VirtualStackFrame frame;
 
-    auto rax = arch::OsxRegisters::rax;
-    auto r8 = arch::OsxRegisters::r8;
+    frame.insert(new VLdui64(1, 1));
+    frame.insert(new VLdui64(2, 2));
+    frame.insert(new VLdui64(3, 3));
+    frame.insert(new VLdui64(4, 4));
+    frame.insert(new VLdui64(5, 5));
+    frame.insert(new VLdui64(6, 6));
+    frame.insert(new VLdui64(7, 7));
+    frame.insert(new VLdui64(8, 8));
+    frame.insert(new VLdui64(9, 9));
+    frame.insert(new VLdui64(10, 10));
+    frame.insert(new VRet(10));
+    frame.apply(renderer);
 
-    VirtualRegisterBinding binding (arch::OsxRegisters::rax);
-    VirtualRegister v_reg ("my_reg", verbaj::VerbajPrimitives::vm_object, VirtualRegister::Priority(1), false);
-    binding.bind(5, v_reg);
+    frame.debug_print();
 
-    table.insert_binding(binding);
-
-
-    table.remove_binding(rax);
-
-    cout << table.is_bound(1) << endl;
-    cout << table.is_bound(5) << endl;
-    cout << table.is_bound(rax) << endl;
-    cout << table.is_bound(r8) << endl;
-
-
-    //cout << table[rax].bound_register_number() << endl;
+    uint64_t(*pfunc)() = (uint64_t(*)())renderer.memory();
+    cout << pfunc() << endl;
 
     return 0;
 }

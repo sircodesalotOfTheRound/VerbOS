@@ -11,6 +11,7 @@
 
 namespace jit {
     class VirtualRegisterBinding {
+        const static int IS_FREE = -1;
         arch::CpuRegister sys_register_;
 
         int bound_register_number_;
@@ -20,7 +21,7 @@ namespace jit {
         VirtualRegisterBinding(const arch::CpuRegister &sys_register) :
             sys_register_(sys_register),
             virtual_register_(VirtualRegister::EMPTY),
-            bound_register_number_(-1)
+            bound_register_number_(IS_FREE)
         {
 
         }
@@ -39,10 +40,13 @@ namespace jit {
         }
 
         int bound_register_number() const { return bound_register_number_; }
+
         void clear() {
             virtual_register_ = VirtualRegister::EMPTY;
-            bound_register_number_ = -1;
+            bound_register_number_ = IS_FREE;
         }
+
+        bool is_empty() { return bound_register_number_ == IS_FREE; }
 
     };
 

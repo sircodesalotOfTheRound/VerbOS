@@ -32,12 +32,16 @@ namespace jit {
             cpu_register_bindings.insert({ cpu_register, binding });
         }
 
-        ConstVirtualRegisterBindingRef operator[](arch::ConstCpuRegisterRef reg) {
+        VirtualRegisterBinding& operator[](arch::ConstCpuRegisterRef reg) {
             return cpu_register_bindings.at(reg);
         }
 
-        ConstVirtualRegisterBindingRef operator[](int virtual_register_index) {
+        VirtualRegisterBinding& operator[](int virtual_register_index) {
             return virtual_register_bindings.at(virtual_register_index);
+        }
+
+        void remove_binding(ConstVirtualRegisterBindingRef binding) {
+            remove_binding(binding.bound_register_number());
         }
 
         void remove_binding(int virtual_register_index) {

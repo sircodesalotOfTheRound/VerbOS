@@ -24,7 +24,7 @@ namespace jit {
     public:
         VirtualStackFrame() : stage_ (0, jit_opcodes) { }
 
-        void add_op(verbaj::VerbajOpCodeBase* opcode) {
+        void insert(verbaj::VerbajOpCodeBase *opcode) {
             verbaj_ops.add(opcode);
         }
 

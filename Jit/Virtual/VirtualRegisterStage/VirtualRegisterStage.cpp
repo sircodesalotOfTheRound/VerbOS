@@ -51,39 +51,34 @@ void jit::VirtualRegisterStage::with_registers(int lhs, int rhs, std::function<v
 }
 
 jit::VirtualRegisterBinding jit::VirtualRegisterStage::checkout(int virtual_register_index) {
-
-    // If the requested register is already bound, return it.
-    auto binding_iter = mapped_bindings_by__virtual_register_number.find(virtual_register_index);
-    if (binding_iter != mapped_bindings_by__virtual_register_number.end()) {
-        return binding_iter->second;
+    // (1) If the virtual-reg is already bound to a cpu-reg, return that binding.
+    if (binding_table.is_bound(virtual_register_index)) {
+        return binding_table[virtual_register_index];
     }
 
-    // Otherwise grab a binding from the queue:
-    VirtualRegisterBinding available_binding = register_queue_.top();
+    // (2) Otherwise grab an available binding from the queue (lowest priority):
+    VirtualRegisterBinding binding = register_queue_.top();
     register_queue_.pop();
 
-    // If the binding is already in use, then free it:
-    int bound_virtual_register_number = available_binding.bound_register_number();
-    auto existing_binding_iter = mapped_bindings_by__virtual_register_number.find(bound_virtual_register_number);
-    if (existing_binding_iter != mapped_bindings_by__virtual_register_number.end()) {
-        VirtualRegisterBinding& existing_binding = existing_binding_iter->second;
+    // (3) If something else is already bound to it, persist, then free that binding.
+    if (!binding.is_empty()) {
         // Store the variable to memory
-        persist_virtual_register(existing_binding);
+        persist_virtual_register(binding);
 
-        // Erase from current binding list (both virtual-register and cpu-register).
-        mapped_bindings_by__virtual_register_number.erase(existing_binding_iter);
+        // Delete the existing binding
+        binding_table.remove_binding(binding);
     }
 
-    // Mark the register as un-saved
+    // Mark the register as modified (not-persisted).
     VirtualRegister virtual_register = registers_[virtual_register_index];
     virtual_register.is_persisted(false);
 
     // Bind the data, then add to binding list.
-    available_binding.bind(virtual_register_index, virtual_register);
-    mapped_bindings_by__virtual_register_number.insert({virtual_register_index, available_binding });
+    binding.bind(virtual_register_index, virtual_register);
+    binding_table.insert_binding(binding);
 
     // Return the binding.
-    return available_binding;
+    return binding;
 }
 
 void jit::VirtualRegisterStage::release(int register_index, const VirtualRegisterBinding binding) {
@@ -99,4 +94,17 @@ void jit::VirtualRegisterStage::persist_virtual_register(VirtualRegisterBinding 
 
     // Mark as persisted
     virtual_register.is_persisted(true);
+}
+
+void jit::VirtualRegisterStage::force_binding(int register_index, arch::CpuRegister const &cpu_register) {
+    /*// First clear whatever bindings the virtual/cpu registers might be tied to.
+    if (binding_table.is_bound(register_index)) {
+        persist_virtual_register(binding_table[register_index]);
+    }
+
+    if (binding_table.is_bound(cpu_register)) {
+        persist_virtual_register(cpu_register);
+    }
+
+    */
 }
