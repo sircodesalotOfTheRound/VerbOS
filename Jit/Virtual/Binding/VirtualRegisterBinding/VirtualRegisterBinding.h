@@ -11,14 +11,14 @@
 
 namespace jit {
     class VirtualRegisterBinding {
-        const arch::CpuRegister* sys_register_;
+        arch::CpuRegister sys_register_;
 
         int bound_register_number_;
         VirtualRegister virtual_register_;
 
     public:
         VirtualRegisterBinding(const arch::CpuRegister &sys_register) :
-            sys_register_(&sys_register),
+            sys_register_(sys_register),
             virtual_register_(VirtualRegister::EMPTY),
             bound_register_number_(-1)
         {
@@ -29,7 +29,7 @@ namespace jit {
             return priority() > rhs.priority();
         }
 
-        const arch::CpuRegister& sys_register() { return *sys_register_; }
+        const arch::CpuRegister& sys_register() const { return sys_register_; }
         VirtualRegister& virtual_register() { return virtual_register_; }
         int priority() const { return virtual_register_.priority(); }
 
@@ -38,7 +38,7 @@ namespace jit {
             virtual_register_ = virtual_register;
         }
 
-        int bound_register_number() { return bound_register_number_; }
+        int bound_register_number() const { return bound_register_number_; }
         void clear() {
             virtual_register_ = VirtualRegister::EMPTY;
             bound_register_number_ = -1;

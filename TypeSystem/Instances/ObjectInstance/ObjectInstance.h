@@ -21,7 +21,10 @@ namespace types {
 
         void* operator new (size_t size, const SystemType& type) {
             ObjectInstance *instance = (ObjectInstance*) malloc(size);
+
+            // Set the object type. Then zeroize the meta info.
             instance->header_.data_[0] = (uintptr_t)&type;
+            instance->header_.data_[1] = 0;
 
             return instance;
         }

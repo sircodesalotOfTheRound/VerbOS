@@ -50,11 +50,11 @@ void jit::VirtualRegisterStage::with_registers(int lhs, int rhs, std::function<v
     release(rhs, rhs_binding);
 }
 
-jit::VirtualRegisterBinding jit::VirtualRegisterStage::checkout(int register_index) {
+jit::VirtualRegisterBinding jit::VirtualRegisterStage::checkout(int virtual_register_index) {
 
     // If the requested register is already bound, return it.
-    auto binding_iter = mapped_bindings_.find(register_index);
-    if (binding_iter != mapped_bindings_.end()) {
+    auto binding_iter = mapped_bindings_by__virtual_register_number.find(virtual_register_index);
+    if (binding_iter != mapped_bindings_by__virtual_register_number.end()) {
         return binding_iter->second;
     }
 
@@ -64,23 +64,23 @@ jit::VirtualRegisterBinding jit::VirtualRegisterStage::checkout(int register_ind
 
     // If the binding is already in use, then free it:
     int bound_virtual_register_number = available_binding.bound_register_number();
-    auto existing_binding_iter = mapped_bindings_.find(bound_virtual_register_number);
-    if (existing_binding_iter != mapped_bindings_.end()) {
+    auto existing_binding_iter = mapped_bindings_by__virtual_register_number.find(bound_virtual_register_number);
+    if (existing_binding_iter != mapped_bindings_by__virtual_register_number.end()) {
         VirtualRegisterBinding& existing_binding = existing_binding_iter->second;
         // Store the variable to memory
         persist_virtual_register(existing_binding);
 
-        // Erase from current binding list.
-        mapped_bindings_.erase(existing_binding_iter);
+        // Erase from current binding list (both virtual-register and cpu-register).
+        mapped_bindings_by__virtual_register_number.erase(existing_binding_iter);
     }
 
     // Mark the register as un-saved
-    VirtualRegister virtual_register = registers_[register_index];
+    VirtualRegister virtual_register = registers_[virtual_register_index];
     virtual_register.is_persisted(false);
 
     // Bind the data, then add to binding list.
-    available_binding.bind(register_index, virtual_register);
-    mapped_bindings_.insert({ register_index , available_binding });
+    available_binding.bind(virtual_register_index, virtual_register);
+    mapped_bindings_by__virtual_register_number.insert({virtual_register_index, available_binding });
 
     // Return the binding.
     return available_binding;

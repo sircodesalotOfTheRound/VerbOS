@@ -13,7 +13,8 @@ namespace types {
     struct ObjectInstanceHeader {
         // 0 - 8 : System Type
         // 9 - 16 : Garbage Collection Meta
-        uintptr_t data_[16];
+        using raw_header_bytes = uintptr_t[2];
+        raw_header_bytes data_;
 
         SystemType& type() { return *(SystemType*)(data_[0]); }
     };

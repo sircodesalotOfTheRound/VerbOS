@@ -52,7 +52,7 @@ namespace jit {
         const VirtualRegister& operator[](int index) { return registers_[index]; }
 
     private:
-        VirtualRegisterBinding checkout(int register_index);
+        VirtualRegisterBinding checkout(int virtual_register_index);
         void release(int register_index, const VirtualRegisterBinding binding);
 
     private:
@@ -60,8 +60,10 @@ namespace jit {
 
     private:
         VirtualStackFrameRegisterSet registers_;
+
         std::priority_queue<VirtualRegisterBinding, std::vector<VirtualRegisterBinding>, std::greater<VirtualRegisterBinding>> register_queue_;
-        std::unordered_map<int, VirtualRegisterBinding> mapped_bindings_;
+        std::unordered_map<int, VirtualRegisterBinding> mapped_bindings_by__virtual_register_number;
+        std::unordered_map<arch::CpuRegister, VirtualRegisterBinding> mapped_binding_by_cpu_register;
     };
 }
 
