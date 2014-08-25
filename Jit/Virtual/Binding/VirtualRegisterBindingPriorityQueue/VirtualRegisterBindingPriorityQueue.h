@@ -4,38 +4,44 @@
 //
 
 
-#ifndef __VirtualRegisterBindingPriorityQueeu_H_
-#define __VirtualRegisterBindingPriorityQueeu_H_
+#ifndef __VirtualRegisterBindingPriorityQueue_H_
+#define __VirtualRegisterBindingPriorityQueue_H_
 
 #include <set>
 #include <map>
 #include "VirtualRegisterBinding.h"
+#include "OsxRegisters.h"
 
 namespace jit {
     class VirtualRegisterBindingPriorityQueue {
-        std::unordered_map<arch::CpuRegister, VirtualRegisterBinding> register_map_;
-        std::multiset<VirtualRegisterBinding, std::greater<VirtualRegisterBinding>> queue_;
+        struct VirtualRegisterBindingComparator {
+            bool operator()(const VirtualRegisterBinding& lhs, const VirtualRegisterBinding& rhs) {
+                return lhs.priority() < rhs.priority();
+            }
+        };
 
     public:
         VirtualRegisterBinding pop() {
-            auto binding_iterator = queue_.begin();
-            auto binding = *binding_iterator;
+            VirtualRegisterBinding binding = *queue_.begin();
 
-            auto register_map_iterator = register_map_.find(binding.sys_register());
-
-            register_map_.erase(register_map_iterator);
-            queue_.erase(binding_iterator);
+            std::cout << binding.sys_register() << std::endl;
+            register_map_.erase(register_map_.find(binding.sys_register()));
+            queue_.erase(queue_.begin());
 
             return binding;
         }
 
         VirtualRegisterBinding pop(arch::ConstCpuRegisterRef cpu_register) {
             auto register_map_iterator = register_map_.find(cpu_register);
-            auto binding = register_map_iterator->second;
+            VirtualRegisterBinding binding = register_map_iterator->second;
 
-            auto set_iterator = queue_.find(binding);
+            auto found_iter = std::find_if(queue_.begin(), queue_.end(),
+                [&](const VirtualRegisterBinding& item) {
 
-            queue_.erase(set_iterator);
+                return item.sys_register() == cpu_register;
+            });
+
+            queue_.erase(found_iter);
             register_map_.erase(register_map_iterator);
 
             return binding;
@@ -45,6 +51,13 @@ namespace jit {
             queue_.insert(binding);
             register_map_.insert({ binding.sys_register(), binding });
         }
+
+        bool is_empty() { return queue_.empty(); }
+
+    private:
+
+        std::multiset<VirtualRegisterBinding, VirtualRegisterBindingComparator> queue_;
+        std::unordered_map<arch::CpuRegister, VirtualRegisterBinding> register_map_;
     };
 }
 

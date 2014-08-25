@@ -9,7 +9,6 @@ jit::VirtualRegisterStage::VirtualRegisterStage(int parameter_count, op::Process
         : parameter_count_(parameter_count), op_codes_(op_codes),
            registers_(10,10,10,10)
 {
-
     register_queue_.push(VirtualRegisterBinding(arch::OsxRegisters::rax));
     register_queue_.push(VirtualRegisterBinding(arch::OsxRegisters::rbx));
     register_queue_.push(VirtualRegisterBinding(arch::OsxRegisters::rcx));

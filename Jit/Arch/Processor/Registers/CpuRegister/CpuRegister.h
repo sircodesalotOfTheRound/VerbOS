@@ -38,6 +38,10 @@ namespace arch {
                     && is_extended_ == rhs.is_extended_;
         }
 
+        bool operator!=(const CpuRegister& rhs) const {
+            return !(*this == rhs);
+        }
+
         DereferencedCpuRegister operator*() const {
             return DereferencedCpuRegister(this);
         }
