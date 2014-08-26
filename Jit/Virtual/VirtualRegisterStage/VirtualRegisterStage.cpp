@@ -7,7 +7,8 @@
 
 jit::VirtualRegisterStage::VirtualRegisterStage(size_t parameter_count, op::ProcessorOpCodeSet &op_codes)
         : parameter_count_(parameter_count), jit_opcodes(op_codes),
-          virtual_registers_(10, 10, 10, 10) {
+          virtual_registers_(10, 10, 10, 10)
+{
     register_queue_.push(VirtualRegisterBinding(arch::OsxRegisters::rax));
     register_queue_.push(VirtualRegisterBinding(arch::OsxRegisters::rbx));
     register_queue_.push(VirtualRegisterBinding(arch::OsxRegisters::rcx));
@@ -88,7 +89,7 @@ void jit::VirtualRegisterStage::persist_virtual_register(VirtualRegisterBinding 
     // Mov the value from the currently bound register to the stack.
     auto& rbp = arch::OsxRegisters::rbp;
     off_t offset = calculate_persistence_offset(binding.bound_register_number());
-    jit_opcodes.mov(rbp[-offset], binding.sys_register());
+    jit_opcodes.mov(rbp[(int)-offset], binding.sys_register());
 
     // Mark the register as persisted.
     virtual_registers_[binding].is_persisted(true);
@@ -100,7 +101,7 @@ void jit::VirtualRegisterStage::persist_virtual_register(VirtualRegisterBinding 
 void jit::VirtualRegisterStage::load_virtual_register_from_persistence(VirtualRegisterBinding binding) {
     auto& rbp = arch::OsxRegisters::rbp;
     off_t offset = calculate_persistence_offset(binding.bound_register_number());
-    jit_opcodes.mov(binding.sys_register(), rbp[-offset]);
+    jit_opcodes.mov(binding.sys_register(), rbp[(int)-offset]);
 
     virtual_registers_[binding].is_persisted(false);
 }

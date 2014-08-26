@@ -24,7 +24,6 @@ namespace jit {
         VirtualRegisterBinding pop() {
             VirtualRegisterBinding binding = *queue_.begin();
 
-            std::cout << binding.sys_register() << std::endl;
             register_map_.erase(register_map_.find(binding.sys_register()));
             queue_.erase(queue_.begin());
 

@@ -13,6 +13,7 @@
 #define __VirtualRegister_H_
 
 namespace jit {
+    //TODO : Make virtual registers non-copyable. Copying renders 'is_persisted_' invalid.
     class VirtualRegister {
         int priority_;
         std::string name_;

@@ -2,13 +2,6 @@
 #include "ProcessorOpCodeSet.h"
 #include "VLdui64.h"
 #include "VRet.h"
-#import "VirtualStackFrameRegisterSet.h"
-#import "ObjectInstanceHeader.h"
-#include "VerbajPrimitives.h"
-#import "ObjectInstance.h"
-#import "VirtualRegisterBindingTable.h"
-#include "VCall.h"
-#import "Functions.h"
 
 #include <unistd.h>
 #include <sys/mman.h>
@@ -47,7 +40,7 @@ int main() {
     frame.insert(new VLdui64(15, 15));
     frame.insert(new VLdui64(16, 16));
     frame.insert(new VLdui64(17, 17));
-    frame.insert(new VRet(17));
+    frame.insert(new VRet(15));
 
     frame.apply(renderer);
     frame.debug_print();
