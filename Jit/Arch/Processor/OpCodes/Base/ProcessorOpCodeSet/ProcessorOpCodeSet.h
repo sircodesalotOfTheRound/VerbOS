@@ -23,6 +23,7 @@
 #import "ProcessorSubRegToRegOpCode.h"
 #import "ProcessorAddConstToRegOpCode.h"
 #import "ProcessorSubConstToRegOpCode.h"
+#import "ProcessorCallOpCode.h"
 
 namespace op {
     class ProcessorOpCodeSet {
@@ -49,6 +50,11 @@ namespace op {
         // OpCodes
         void ret() { add(new ProcessorReturnOpCode()); }
         void label(std::string label) { add(new ProcessorLabelOpCode(label)); }
+
+        template<class T>
+        void call(T location) {
+            add(new op::ProcessorCallOpCode((void*)location));
+        }
 
         void add(arch::ConstCpuRegisterRef lhs, uint64_t rhs) {
             add(new op::ProcessorAddConstToRegOpCode(lhs, rhs));

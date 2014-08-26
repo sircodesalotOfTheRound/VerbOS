@@ -5,10 +5,9 @@
 
 #include "VirtualRegisterStage.h"
 
-jit::VirtualRegisterStage::VirtualRegisterStage(int parameter_count, op::ProcessorOpCodeSet& op_codes)
+jit::VirtualRegisterStage::VirtualRegisterStage(size_t parameter_count, op::ProcessorOpCodeSet &op_codes)
         : parameter_count_(parameter_count), op_codes_(op_codes),
-           registers_(10,10,10,10)
-{
+          registers_(10, 10, 10, 10) {
     register_queue_.push(VirtualRegisterBinding(arch::OsxRegisters::rax));
     register_queue_.push(VirtualRegisterBinding(arch::OsxRegisters::rbx));
     register_queue_.push(VirtualRegisterBinding(arch::OsxRegisters::rcx));
@@ -29,7 +28,7 @@ jit::VirtualRegisterStage::VirtualRegisterStage(int parameter_count, op::Process
 
 void jit::VirtualRegisterStage::with_register(int register_index, std::function<void(VirtualRegisterCheckoutRef)> callback) {
     VirtualRegisterBinding binding = checkout(register_index);
-    VirtualRegisterCheckout register_checkout { binding.sys_register(), binding.virtual_register(), op_codes_ };
+    VirtualRegisterCheckout register_checkout{binding.sys_register(), binding.virtual_register(), op_codes_};
 
     callback(register_checkout);
 
@@ -40,10 +39,10 @@ void jit::VirtualRegisterStage::with_registers(int lhs, int rhs, std::function<v
     VirtualRegisterBinding lhs_binding = checkout(lhs);
     VirtualRegisterBinding rhs_binding = checkout(rhs);
 
-    VirtualRegisterCheckout lhs_checkout { lhs_binding.sys_register(), lhs_binding.virtual_register(), op_codes_ };
-    VirtualRegisterCheckout rhs_checkout { rhs_binding.sys_register(), rhs_binding.virtual_register(), op_codes_ };
+    VirtualRegisterCheckout lhs_checkout{lhs_binding.sys_register(), lhs_binding.virtual_register(), op_codes_};
+    VirtualRegisterCheckout rhs_checkout{rhs_binding.sys_register(), rhs_binding.virtual_register(), op_codes_};
 
-    callback (lhs_checkout, rhs_checkout);
+    callback(lhs_checkout, rhs_checkout);
 
     release(lhs, lhs_binding);
     release(rhs, rhs_binding);
@@ -84,7 +83,7 @@ void jit::VirtualRegisterStage::release(int register_index, const VirtualRegiste
 }
 
 void jit::VirtualRegisterStage::persist_virtual_register(VirtualRegisterBinding binding) {
-    VirtualRegister& virtual_register = binding.virtual_register();
+    VirtualRegister &virtual_register = binding.virtual_register();
     //const arch::CpuRegister& cpu_register = binding.sys_register();
 
     // TODO: Mov opcode to save the register data.
@@ -105,4 +104,25 @@ void jit::VirtualRegisterStage::force_binding(int register_index, arch::CpuRegis
     }
 
     */
+}
+
+void jit::VirtualRegisterStage::stage_argument(int register_index) {
+    const arch::CpuRegister* binding_register;
+
+    switch (staged_argument_count_) {
+        case 1:
+            binding_register = &arch::OsxRegisters::rdi;
+            break;
+
+        case 2:
+            binding_register = &arch::OsxRegisters::rsi;
+            break;
+
+        default:
+            throw std::logic_error("invalid argument");
+    }
+
+    if (binding_table.is_bound(register_index)) {
+
+    }
 }

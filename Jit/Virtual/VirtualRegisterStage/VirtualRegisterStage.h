@@ -22,7 +22,8 @@
 namespace jit {
     class VirtualRegisterStage {
         op::ProcessorOpCodeSet& op_codes_;
-        int parameter_count_;
+        size_t parameter_count_;
+        size_t staged_argument_count_;
 
         struct VirutalRegisterPtrOps {
             bool operator()(const Ptr_Virtual_Register lhs, const Ptr_Virtual_Register rhs) {
@@ -31,9 +32,9 @@ namespace jit {
         };
 
     public:
-        VirtualRegisterStage(int parameter_count, op::ProcessorOpCodeSet& op_codes);
+        VirtualRegisterStage(size_t parameter_count, op::ProcessorOpCodeSet& op_codes);
 
-        int parameter_count() { return parameter_count_; }
+        size_t parameter_count() { return parameter_count_; }
 
         void insert_at(int index, VirtualRegister virtual_register) {
             // First ensure that the register is empty.
@@ -53,7 +54,11 @@ namespace jit {
         void with_register(int register_index, std::function<void(VirtualRegisterCheckoutRef)> callback);
         void with_registers(int lhs, int rhs, std::function<void(VirtualRegisterCheckoutRef,VirtualRegisterCheckoutRef)> callback);
 
+        void stage_argument(int register_index);
+
         VirtualRegister& operator[](int index) { return registers_[index]; }
+
+        size_t staged_argument_count() const { return staged_argument_count_; }
 
     private:
         VirtualRegisterBinding checkout(int virtual_register_index);

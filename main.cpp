@@ -7,6 +7,7 @@
 #include "VerbajPrimitives.h"
 #import "ObjectInstance.h"
 #import "VirtualRegisterBindingTable.h"
+#include "VCall.h"
 
 #include <unistd.h>
 #include <sys/mman.h>
@@ -19,6 +20,14 @@ using namespace jit;
 using namespace std;
 using namespace verbaj;
 
+int my_function(int value) {
+    __asm { push 0 }
+    cout << "working so far: " << value << endl;
+    __asm { pop rdi }
+
+    return 5;
+}
+
 int main() {
     JitRenderer renderer(memory());
     VirtualStackFrame frame;
@@ -29,16 +38,19 @@ int main() {
     frame.insert(new VLdui64(4, 4));
     frame.insert(new VLdui64(5, 5));
     frame.insert(new VLdui64(6, 6));
-    frame.insert(new VLdui64(7, 7));
+    frame.insert(new VLdui64(7, 1));
     frame.insert(new VLdui64(8, 8));
     frame.insert(new VLdui64(9, 9));
     frame.insert(new VLdui64(10, 10));
+    frame.insert(new VCall(&my_function));
     frame.insert(new VRet(3));
-    frame.apply(renderer);
 
+    frame.apply(renderer);
     frame.debug_print();
 
+
     uint64_t(*pfunc)() = (uint64_t(*)())renderer.memory();
+
     cout << pfunc() << endl;
 
     return 0;

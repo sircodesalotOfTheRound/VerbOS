@@ -22,7 +22,11 @@ namespace jit {
         VirtualRegisterStage stage_;
 
     public:
-        VirtualStackFrame() : stage_ (0, jit_opcodes) { }
+        VirtualStackFrame()
+            : stage_ (0, jit_opcodes)
+        {
+
+        }
 
         void insert(verbaj::VerbajOpCodeBase *opcode) {
             verbaj_ops.add(opcode);
@@ -35,6 +39,8 @@ namespace jit {
         VirtualRegisterStage& stage() { return stage_; }
 
         void debug_print();
+
+        size_t staged_argument_count() { return stage_.staged_argument_count(); }
     private:
 
     };
