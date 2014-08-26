@@ -8,6 +8,7 @@
 #import "ObjectInstance.h"
 #import "VirtualRegisterBindingTable.h"
 #include "VCall.h"
+#import "Functions.h"
 
 #include <unistd.h>
 #include <sys/mman.h>
@@ -21,20 +22,26 @@ using namespace std;
 using namespace verbaj;
 using namespace arch;
 
-uint64_t my_function(int value) {
-    cout << "working so far: " << value << endl;
-
-    return 10;
+uint64_t add_together(uint64_t lhs, uint64_t rhs) {
+    return lhs + rhs;
 }
 
 int main() {
     JitRenderer renderer(memory());
     VirtualStackFrame frame;
 
+    frame.insert(new VLdui64(1, 1));
+    frame.insert(new VLdui64(2, 2));
+    frame.insert(new VLdui64(3, 3));
+    frame.insert(new VLdui64(4, 4));
+    frame.insert(new VLdui64(5, 5));
+    frame.insert(new VLdui64(6, 6));
+    frame.insert(new VLdui64(7, 7));
+    frame.insert(new VLdui64(8, 8));
     frame.insert(new VLdui64(9, 9));
     frame.insert(new VLdui64(10, 10));
-    frame.insert(new VCall(&my_function));
-    frame.insert(new VRet(3));
+    frame.insert(new VCall(&add_together));
+    frame.insert(new VRet(1));
 
     frame.apply(renderer);
     frame.debug_print();

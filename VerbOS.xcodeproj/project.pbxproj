@@ -44,6 +44,7 @@
 		D3343D92A79DD9AE07C00D01 /* VRet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343C5F84808BBF9404F3DA /* VRet.cpp */; };
 		D3343DAE028573F2B3AF1B28 /* VirtualStackFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343E6A89D0B5C25B3B6DD9 /* VirtualStackFrame.cpp */; };
 		D3343E1224295D0CE40FCFDA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D33435B68005F8843C9CC90A /* main.cpp */; };
+		D3343E80E929FF4761A7AF3E /* Functions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343D17742A2EE5A4D89399 /* Functions.cpp */; };
 		D3343EC1B335BEDBD23143D8 /* VirtualRegister.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343BFE80A4EB9840BB90B2 /* VirtualRegister.cpp */; };
 		D3343EC65BCE7355B9E5E833 /* ProcessorOpCodeSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343CEF8568EF2D0527DDC6 /* ProcessorOpCodeSet.cpp */; };
 		D3343EE0A31E461A5F8C6EA4 /* ProcessorSubConstToRegOpCode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343BE464D764D069988450 /* ProcessorSubConstToRegOpCode.cpp */; };
@@ -88,6 +89,7 @@
 		D33433D5EE5026A887E71B2A /* SystemString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemString.h; sourceTree = "<group>"; };
 		D33433EF662085AE97DD67EC /* ProcessorRegToRegMovOp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProcessorRegToRegMovOp.cpp; sourceTree = "<group>"; };
 		D33433F592516F97A0316177 /* VCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCall.h; sourceTree = "<group>"; };
+		D3343424AC03A139960F8614 /* Functions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Functions.h; sourceTree = "<group>"; };
 		D334343BA618C9D33B2EFBCF /* ProcessorCallOpCode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProcessorCallOpCode.cpp; sourceTree = "<group>"; };
 		D334343CE9E8D57650B5089A /* ProcessorAddRegToRegOpCode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProcessorAddRegToRegOpCode.cpp; sourceTree = "<group>"; };
 		D3343543161CEFE69B86174A /* ProcessorPopOpCode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProcessorPopOpCode.cpp; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 		D3343CA74F8CDC84746CFF11 /* ProcessorSubRegToRegOpCode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProcessorSubRegToRegOpCode.cpp; sourceTree = "<group>"; };
 		D3343CEF8568EF2D0527DDC6 /* ProcessorOpCodeSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProcessorOpCodeSet.cpp; sourceTree = "<group>"; };
 		D3343D0844C240B23149C3F0 /* VLdui64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VLdui64.cpp; sourceTree = "<group>"; };
+		D3343D17742A2EE5A4D89399 /* Functions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Functions.cpp; sourceTree = "<group>"; };
 		D3343D8AA226DD9CE74185CA /* ProcessorReturnOpCode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProcessorReturnOpCode.cpp; sourceTree = "<group>"; };
 		D3343DCBCE333BE3760F9298 /* ProcessorOpCodeOperand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProcessorOpCodeOperand.cpp; sourceTree = "<group>"; };
 		D3343DDE4CFD4A19F61DCD7D /* SystemTypeFieldDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemTypeFieldDefinition.h; sourceTree = "<group>"; };
@@ -192,6 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				D3343E04CFA517E4809FA6A1 /* TypeDef */,
+				D33434EED3C3100A5DE59FF3 /* Functions */,
 			);
 			path = Coding;
 			sourceTree = "<group>";
@@ -331,6 +335,15 @@
 				D334308031F1A94E66E947F2 /* JitRenderer */,
 			);
 			path = Memory;
+			sourceTree = "<group>";
+		};
+		D33434EED3C3100A5DE59FF3 /* Functions */ = {
+			isa = PBXGroup;
+			children = (
+				D3343D17742A2EE5A4D89399 /* Functions.cpp */,
+				D3343424AC03A139960F8614 /* Functions.h */,
+			);
+			path = Functions;
 			sourceTree = "<group>";
 		};
 		D33434F122883740843817A9 /* Architectures */ = {
@@ -766,6 +779,7 @@
 				D3343D66A5D62B10F64B54C1 /* VStageReg.cpp in Sources */,
 				D334309B4094B1EDD3120DAE /* VCall.cpp in Sources */,
 				D33432AF75F113CDDB3D5A67 /* ProcessorCallOpCode.cpp in Sources */,
+				D3343E80E929FF4761A7AF3E /* Functions.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
