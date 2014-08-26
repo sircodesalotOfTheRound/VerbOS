@@ -40,8 +40,14 @@ int main() {
     frame.insert(new VLdui64(8, 8));
     frame.insert(new VLdui64(9, 9));
     frame.insert(new VLdui64(10, 10));
-    frame.insert(new VCall(&add_together));
-    frame.insert(new VRet(1));
+    frame.insert(new VLdui64(11, 11));
+    frame.insert(new VLdui64(12, 12));
+    frame.insert(new VLdui64(13, 13));
+    frame.insert(new VLdui64(14, 14));
+    frame.insert(new VLdui64(15, 15));
+    frame.insert(new VLdui64(16, 16));
+    frame.insert(new VLdui64(17, 17));
+    frame.insert(new VRet(17));
 
     frame.apply(renderer);
     frame.debug_print();

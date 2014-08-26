@@ -29,12 +29,23 @@ namespace op {
         }
 
         size_t size() const override { return 3; }
-        std::string rep() const override { return "mov"; }
+        std::string rep() const override {
+            std::stringstream stream;
+
+            if (direction_ == DIRECTION::TO_MEMORY) {
+                stream << "mov " << memory_location_ << ", " << register_;
+            } else {
+                stream << "mov " << register_ << ", " << memory_location_;
+            }
+
+            return stream.str();
+        }
+
         void render(jit::JitRenderer&) const override;
 
     private:
         DIRECTION direction_; // are we saving or reading from memory
-        arch::ConstCpuRegisterRef register_;
+        arch::CpuRegister register_;
         arch::DereferencedCpuRegister memory_location_;
     };
 }

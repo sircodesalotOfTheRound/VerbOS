@@ -8,6 +8,7 @@
 
 #include <vector>
 #include "VirtualRegister.h"
+#include "VirtualRegisterBinding.h"
 
 namespace jit {
     class VirtualStackFrameRegisterSet {
@@ -28,6 +29,10 @@ namespace jit {
             for (int index = 0; index != total_; ++index) {
                 registers_[index] = VirtualRegister::EMPTY;
             }
+        }
+
+        VirtualRegister& operator[](ConstVirtualRegisterBindingRef binding) {
+            return registers_[binding.bound_register_number()];
         }
 
         VirtualRegister& operator[](int index) { return registers_[index]; }

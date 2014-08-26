@@ -46,6 +46,7 @@ namespace jit {
 
     };
 
+    using VirtualRegisterBindingRef = const VirtualRegisterBinding&;
     using ConstVirtualRegisterBindingRef = const VirtualRegisterBinding&;
 }
 

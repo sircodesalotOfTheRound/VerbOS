@@ -19,7 +19,7 @@ namespace jit {
     class VirtualStackFrame {
         verbaj::VerbajOpCodeSet verbaj_ops;
         op::ProcessorOpCodeSet jit_opcodes;
-        VirtualRegisterStage stage_;
+        jit::VirtualRegisterStage stage_;
 
     public:
         VirtualStackFrame()

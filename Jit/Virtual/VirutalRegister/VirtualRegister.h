@@ -71,7 +71,7 @@ namespace jit {
 
         const static VirtualRegister& EMPTY;
 
-        bool is_persisted() { return is_persisted_; }
+        bool is_persisted() const { return is_persisted_; }
         void is_persisted(bool persisted) { is_persisted_ = persisted; }
 
     private:

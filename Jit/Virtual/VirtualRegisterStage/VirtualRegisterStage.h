@@ -21,7 +21,7 @@
 
 namespace jit {
     class VirtualRegisterStage {
-        op::ProcessorOpCodeSet& op_codes_;
+        op::ProcessorOpCodeSet&jit_opcodes;
         size_t parameter_count_;
         size_t staged_argument_count_;
 
@@ -38,17 +38,17 @@ namespace jit {
 
         void insert_at(int index, VirtualRegister virtual_register) {
             // First ensure that the register is empty.
-            if (!registers_[index].is_empty()) {
+            if (!virtual_registers_[index].is_empty()) {
                 throw std::logic_error("Invalid program: attempting to overwrite register.");
             }
 
-            registers_[index] = virtual_register;
+            virtual_registers_[index] = virtual_register;
         }
 
         void force_binding(int register_index, arch::ConstCpuRegisterRef cpu_register);
 
         void clear_register(int index) {
-            registers_[index] = VirtualRegister::EMPTY;
+            virtual_registers_[index] = VirtualRegister::EMPTY;
         }
 
         void with_register(int register_index, std::function<void(VirtualRegisterCheckoutRef)> callback);
@@ -56,19 +56,20 @@ namespace jit {
 
         void stage_argument(int register_index);
 
-        VirtualRegister& operator[](int index) { return registers_[index]; }
+        VirtualRegister& operator[](int index) { return virtual_registers_[index]; }
 
         size_t staged_argument_count() const { return staged_argument_count_; }
 
     private:
         VirtualRegisterBinding checkout(int virtual_register_index);
-        void release(int register_index, const VirtualRegisterBinding binding);
+        void release(int register_index, ConstVirtualRegisterBindingRef binding);
 
-    private:
+        off_t calculate_persistence_offset(int virtual_register_number);
         void persist_virtual_register(VirtualRegisterBinding binding);
+        void load_virtual_register_from_persistence(VirtualRegisterBinding binding);
 
     private:
-        VirtualStackFrameRegisterSet registers_;
+        VirtualStackFrameRegisterSet virtual_registers_;
 
         VirtualRegisterBindingPriorityQueue register_queue_;
         VirtualRegisterBindingTable binding_table;

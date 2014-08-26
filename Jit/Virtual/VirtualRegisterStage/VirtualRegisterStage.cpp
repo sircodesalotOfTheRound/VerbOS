@@ -6,8 +6,8 @@
 #include "VirtualRegisterStage.h"
 
 jit::VirtualRegisterStage::VirtualRegisterStage(size_t parameter_count, op::ProcessorOpCodeSet &op_codes)
-        : parameter_count_(parameter_count), op_codes_(op_codes),
-          registers_(10, 10, 10, 10) {
+        : parameter_count_(parameter_count), jit_opcodes(op_codes),
+          virtual_registers_(10, 10, 10, 10) {
     register_queue_.push(VirtualRegisterBinding(arch::OsxRegisters::rax));
     register_queue_.push(VirtualRegisterBinding(arch::OsxRegisters::rbx));
     register_queue_.push(VirtualRegisterBinding(arch::OsxRegisters::rcx));
@@ -28,7 +28,7 @@ jit::VirtualRegisterStage::VirtualRegisterStage(size_t parameter_count, op::Proc
 
 void jit::VirtualRegisterStage::with_register(int register_index, std::function<void(VirtualRegisterCheckoutRef)> callback) {
     VirtualRegisterBinding binding = checkout(register_index);
-    VirtualRegisterCheckout register_checkout{binding.sys_register(), binding.virtual_register(), op_codes_};
+    VirtualRegisterCheckout register_checkout{binding.sys_register(), binding.virtual_register(), jit_opcodes};
 
     callback(register_checkout);
 
@@ -39,8 +39,8 @@ void jit::VirtualRegisterStage::with_registers(int lhs, int rhs, std::function<v
     VirtualRegisterBinding lhs_binding = checkout(lhs);
     VirtualRegisterBinding rhs_binding = checkout(rhs);
 
-    VirtualRegisterCheckout lhs_checkout{lhs_binding.sys_register(), lhs_binding.virtual_register(), op_codes_};
-    VirtualRegisterCheckout rhs_checkout{rhs_binding.sys_register(), rhs_binding.virtual_register(), op_codes_};
+    VirtualRegisterCheckout lhs_checkout{lhs_binding.sys_register(), lhs_binding.virtual_register(), jit_opcodes};
+    VirtualRegisterCheckout rhs_checkout{rhs_binding.sys_register(), rhs_binding.virtual_register(), jit_opcodes};
 
     callback(lhs_checkout, rhs_checkout);
 
@@ -66,33 +66,52 @@ jit::VirtualRegisterBinding jit::VirtualRegisterStage::checkout(int virtual_regi
         binding_table.remove_binding(binding);
     }
 
-    // Mark the register as modified (not-persisted).
-    VirtualRegister virtual_register = registers_[virtual_register_index];
-    virtual_register.is_persisted(false);
-
-    // Bind the data, then add to binding list.
+    // Bind the virtual-register to a physical one.
+    VirtualRegister virtual_register = virtual_registers_[virtual_register_index];
     binding.bind(virtual_register_index, virtual_register);
     binding_table.insert_binding(binding);
+
+    // If the register was previously persisted, load its value from memory.
+    if (virtual_register.is_persisted()) {
+        load_virtual_register_from_persistence(binding);
+    }
 
     // Return the binding.
     return binding;
 }
 
-void jit::VirtualRegisterStage::release(int register_index, const VirtualRegisterBinding binding) {
+void jit::VirtualRegisterStage::release(int register_index, const VirtualRegisterBinding& binding) {
     register_queue_.push(binding);
 }
 
 void jit::VirtualRegisterStage::persist_virtual_register(VirtualRegisterBinding binding) {
-    VirtualRegister &virtual_register = binding.virtual_register();
-    //const arch::CpuRegister& cpu_register = binding.sys_register();
+    // Mov the value from the currently bound register to the stack.
+    auto& rbp = arch::OsxRegisters::rbp;
+    off_t offset = calculate_persistence_offset(binding.bound_register_number());
+    jit_opcodes.mov(rbp[-offset], binding.sys_register());
 
-    // TODO: Mov opcode to save the register data.
-    //op_codes_.mov(arch::OsxRegisters::rax, cpu_register);
+    // Mark the register as persisted.
+    virtual_registers_[binding].is_persisted(true);
 
-    // Mark as persisted
-    virtual_register.is_persisted(true);
+    // Clear the binding.
+    binding.clear();
 }
 
+void jit::VirtualRegisterStage::load_virtual_register_from_persistence(VirtualRegisterBinding binding) {
+    auto& rbp = arch::OsxRegisters::rbp;
+    off_t offset = calculate_persistence_offset(binding.bound_register_number());
+    jit_opcodes.mov(binding.sys_register(), rbp[-offset]);
+
+    virtual_registers_[binding].is_persisted(false);
+}
+
+off_t jit::VirtualRegisterStage::calculate_persistence_offset(int virtual_register_number) {
+    using namespace arch;
+    const static off_t base_pointer_offset = 8;
+
+    // Get the base pointer register (the base of the stack).
+    return base_pointer_offset + (virtual_register_number * 8);
+}
 void jit::VirtualRegisterStage::force_binding(int register_index, arch::CpuRegister const &cpu_register) {
     /*// First clear whatever bindings the virtual/cpu registers might be tied to.
     if (binding_table.is_bound(register_index)) {
@@ -126,3 +145,5 @@ void jit::VirtualRegisterStage::stage_argument(int register_index) {
 
     }
 }
+
+
