@@ -19,27 +19,18 @@ void* memory() {
 using namespace jit;
 using namespace std;
 using namespace verbaj;
+using namespace arch;
 
-int my_function(int value) {
-    __asm { push 0 }
+uint64_t my_function(int value) {
     cout << "working so far: " << value << endl;
-    __asm { pop rdi }
 
-    return 5;
+    return 10;
 }
 
 int main() {
     JitRenderer renderer(memory());
     VirtualStackFrame frame;
 
-    frame.insert(new VLdui64(1, 1));
-    frame.insert(new VLdui64(2, 2));
-    frame.insert(new VLdui64(3, 3));
-    frame.insert(new VLdui64(4, 4));
-    frame.insert(new VLdui64(5, 5));
-    frame.insert(new VLdui64(6, 6));
-    frame.insert(new VLdui64(7, 1));
-    frame.insert(new VLdui64(8, 8));
     frame.insert(new VLdui64(9, 9));
     frame.insert(new VLdui64(10, 10));
     frame.insert(new VCall(&my_function));
@@ -47,6 +38,8 @@ int main() {
 
     frame.apply(renderer);
     frame.debug_print();
+
+    renderer.debug_print();
 
 
     uint64_t(*pfunc)() = (uint64_t(*)())renderer.memory();

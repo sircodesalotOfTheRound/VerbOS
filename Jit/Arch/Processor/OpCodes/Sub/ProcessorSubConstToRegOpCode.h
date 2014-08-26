@@ -20,7 +20,7 @@ namespace op {
 
         std::string rep() const override {
             std::stringstream rep;
-            rep << "add " << lhs_ << ", " << rhs_;
+            rep << "sub " << lhs_ << ", " << rhs_;
 
             return rep.str();
         };
