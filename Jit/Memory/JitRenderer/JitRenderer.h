@@ -6,6 +6,7 @@
 #ifndef __JitRenderer_H_
 #define __JitRenderer_H_
 
+#import <iomanip>
 #include "TypeDef.h"
 #include "CpuRegister.h"
 
@@ -82,13 +83,12 @@ namespace jit {
         void debug_print() {
             using namespace std;
 
-            cout << hex;
             for (int index = 0; index < write_offset_; ++index) {
-                cout << (int)((byte*)memory_)[index] << " ";
-
-                if (index > 1 && index % 10 == 0) {
+                if (index != 0 && index % 10 == 0) {
                     cout << endl;
                 }
+
+                cout << setfill('0') << setw(2) << hex << (int)memory_[index] << " ";
             }
             cout << dec << endl;
         }
