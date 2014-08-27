@@ -10,7 +10,7 @@ void verbaj::VLdui64::apply(jit::VirtualStackFrame & frame) const {
     using namespace jit;
 
     // Create a new virtual register and add it.
-    auto& stage = frame.stage();
+    auto& stage = frame.register_stage();
     VirtualRegister::Priority priority (5);
 
     VirtualRegister virtual_register { "v_reg", VerbajPrimitives::vm_uint64, priority, true };

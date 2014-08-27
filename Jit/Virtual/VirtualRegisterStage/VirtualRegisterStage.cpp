@@ -51,8 +51,8 @@ void jit::VirtualRegisterStage::with_registers(int lhs, int rhs, std::function<v
 
 jit::VirtualRegisterBinding jit::VirtualRegisterStage::checkout(int virtual_register_index) {
     // (1) If the virtual-reg is already bound to a cpu-reg, return that binding.
-    if (binding_table.is_bound(virtual_register_index)) {
-        return binding_table[virtual_register_index];
+    if (binding_table_.is_bound(virtual_register_index)) {
+        return binding_table_[virtual_register_index];
     }
 
     // (2) Otherwise grab an available binding from the queue (lowest priority):
@@ -64,13 +64,13 @@ jit::VirtualRegisterBinding jit::VirtualRegisterStage::checkout(int virtual_regi
         persist_virtual_register(binding);
 
         // Delete the existing binding
-        binding_table.remove_binding(binding);
+        binding_table_.remove_binding(binding);
     }
 
     // Bind the virtual-register to a physical one.
     VirtualRegister virtual_register = virtual_registers_[virtual_register_index];
     binding.bind(virtual_register_index, virtual_register);
-    binding_table.insert_binding(binding);
+    binding_table_.insert_binding(binding);
 
     // If the register was previously persisted, load its value from memory.
     if (virtual_register.is_persisted()) {
@@ -130,11 +130,11 @@ void jit::VirtualRegisterStage::stage_argument(int register_index) {
     const arch::CpuRegister* binding_register;
 
     switch (staged_argument_count_) {
-        case 1:
+        case 0:
             binding_register = &arch::OsxRegisters::rdi;
             break;
 
-        case 2:
+        case 1:
             binding_register = &arch::OsxRegisters::rsi;
             break;
 
@@ -142,9 +142,15 @@ void jit::VirtualRegisterStage::stage_argument(int register_index) {
             throw std::logic_error("invalid argument");
     }
 
-    if (binding_table.is_bound(register_index)) {
-
+    // Save whatever might be sitting on that register.
+    if (binding_table_.is_bound(*binding_register)) {
+        persist_virtual_register(binding_table_[*binding_register]);
     }
+
+    VirtualRegisterBinding binding = register_queue_.pop(*binding_register);
+    binding.bind(register_index, virtual_registers_[register_index]);
+
+    staged_argument_count_++;
 }
 
 

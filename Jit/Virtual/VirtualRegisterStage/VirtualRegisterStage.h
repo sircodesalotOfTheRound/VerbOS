@@ -72,7 +72,7 @@ namespace jit {
         VirtualStackFrameRegisterSet virtual_registers_;
 
         VirtualRegisterBindingPriorityQueue register_queue_;
-        VirtualRegisterBindingTable binding_table;
+        VirtualRegisterBindingTable binding_table_;
     };
 }
 

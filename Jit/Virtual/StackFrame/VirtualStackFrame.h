@@ -19,11 +19,11 @@ namespace jit {
     class VirtualStackFrame {
         verbaj::VerbajOpCodeSet verbaj_ops;
         op::ProcessorOpCodeSet jit_opcodes;
-        jit::VirtualRegisterStage stage_;
+        jit::VirtualRegisterStage register_stage_;
 
     public:
         VirtualStackFrame()
-            : stage_ (0, jit_opcodes)
+            : register_stage_(0, jit_opcodes)
         {
 
         }
@@ -36,11 +36,14 @@ namespace jit {
 
         verbaj::VerbajOpCodeSet& opcodes() { return verbaj_ops; }
         op::ProcessorOpCodeSet& sys_ops() { return jit_opcodes; }
-        VirtualRegisterStage& stage() { return stage_; }
+        VirtualRegisterStage&register_stage() { return register_stage_; }
 
         void debug_print();
 
-        size_t staged_argument_count() { return stage_.staged_argument_count(); }
+        void stage_argument(int virtual_register) {
+            register_stage_.stage_argument(virtual_register);
+        }
+        size_t staged_argument_count() { return register_stage_.staged_argument_count(); }
     private:
 
     };

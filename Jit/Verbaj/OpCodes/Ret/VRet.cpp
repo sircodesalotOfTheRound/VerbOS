@@ -7,7 +7,7 @@
 #include "VirtualStackFrame.h"
 
 void verbaj::VRet::apply(jit::VirtualStackFrame &frame) const {
-    auto& stage = frame.stage();
+    auto& stage = frame.register_stage();
 
     stage.with_register(register_index_, [](jit::VirtualRegisterCheckoutRef checkout) {
         using namespace arch;

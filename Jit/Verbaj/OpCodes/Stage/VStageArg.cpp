@@ -3,9 +3,9 @@
 // Copyright (c) 2014 Reuben Kuhnert. All rights reserved.
 //
 
-#include "VStageReg.h"
+#include "VStageArg.h"
 #include "VirtualStackFrame.h"
 
-void verbaj::VStageReg::apply(jit::VirtualStackFrame &frame) {
-
+void verbaj::VStageReg::apply(jit::VirtualStackFrame &frame) const {
+    frame.stage_argument(virutal_register_);
 }

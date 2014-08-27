@@ -6,17 +6,19 @@
 
 #include "VerbajOpCodeBase.h"
 
-#ifndef __VStageReg_H_
-#define __VStageReg_H_
+#ifndef VSTAGE_ARG_H
+#define VSTAGE_ARG_H
 
 namespace verbaj {
     class VStageReg : public VerbajOpCodeBase {
-        int register_;
+        int virutal_register_;
 
     public:
-        virtual void apply(jit::VirtualStackFrame &);
+        VStageReg(int virtual_register) : virutal_register_(virtual_register) { }
+
+        void apply(jit::VirtualStackFrame &) const;
     };
 }
 
 
-#endif //__VStageReg_H_
+#endif // VSTAGE_ARG_H
