@@ -66,7 +66,7 @@ namespace jit {
             return variable_;
         }
 
-        int virutal_variable_number() const {
+        int virtual_variable_number() const {
             if (!contains_variable()) {
                 throw std::logic_error("register does not contain variable");
             }

@@ -6,6 +6,7 @@
 #include "VirtualVariableStackPersistenceStage.h"
 #include "VerbajPrimitives.h"
 #include "VirtualVariableSystemRegisterStage.h"
+#import "VirtualVariableStagingAllocator.h"
 
 #include <unistd.h>
 #include <sys/mman.h>
@@ -24,25 +25,23 @@ uint64_t add_together(uint64_t lhs, uint64_t rhs) {
 }
 
 int main() {
-    SystemRegisterPriorityQueue queue;
-    VirtualVariableSystemRegisterBinding binding(0, OsxRegisters::rax);
+    VirtualVariableStagingAllocator allocator(10);
 
-    queue.insert_system_register_binding(VirtualVariableSystemRegisterBinding(0, OsxRegisters::rax));
-    queue.insert_system_register_binding(VirtualVariableSystemRegisterBinding(1, OsxRegisters::rbx));
-    queue.insert_system_register_binding(VirtualVariableSystemRegisterBinding(2, OsxRegisters::rcx));
-    queue.insert_system_register_binding(VirtualVariableSystemRegisterBinding(3, OsxRegisters::rdx));
+    VirtualVariable variable(1, VerbajPrimitives::vm_object, 1, true);
+    allocator.bind_to_system_register(std::move(variable));
 
-    VirtualVariable variable (3, VerbajPrimitives::vm_object, 1, true);
-
-    queue.bind(arch::OsxRegisters::rdx, std::move(variable));
-
-    cout << queue.is_bound(1);
-    cout << queue.is_bound(2);
-    cout << queue.is_bound(3);
+    VirtualVariable variable2(2, VerbajPrimitives::vm_object, 1, true);
+    allocator.bind_to_stack_persistence(std::move(variable2));
 
 
-    cout << queue.unbind(3).type() << endl;
 
+    allocator.with_register(1, [](VirtualVariableCheckout& checkout) {
+        cout << checkout.sys_register() << endl;
+    });
+
+    allocator.with_register(2, [](VirtualVariableCheckout& checkout) {
+        cout << checkout.sys_register() << endl;
+    });
 
     return 0;
 }

@@ -29,7 +29,7 @@ namespace jit {
         int register_index() const { return register_index_; }
 
         bool operator<(const SystemRegisterPriority& rhs) const {
-            return priority_ < rhs.priority_;
+            return rhs.priority_ < priority_;
         }
     };
 }

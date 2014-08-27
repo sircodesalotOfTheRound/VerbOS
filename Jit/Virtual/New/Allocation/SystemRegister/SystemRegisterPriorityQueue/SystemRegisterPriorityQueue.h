@@ -50,7 +50,11 @@ namespace jit {
             return bindings_[register_index].contains_variable();
         }
 
-        VirtualVariableCheckout checkout(int virtual_variable_number) {
+        arch::CpuRegister get_variable_register(int virtual_variable_number) {
+            return borrow(virtual_variable_number).sys_register();
+        }
+
+        VirtualVariableCheckout borrow(int virtual_variable_number) {
             if (!is_bound(virtual_variable_number)) {
                 throw std::logic_error("variable is not bound to a register");
             }
@@ -63,10 +67,14 @@ namespace jit {
             VirtualVariableSystemRegisterBinding& binding = dequeue();
 
             binding.bind_variable(variable.variable_number(), std::move(variable));
-            bound_variable_map_.insert( {binding.virutal_variable_number(), binding.binding_number() });
+            bound_variable_map_.insert( {binding.virtual_variable_number(), binding.binding_number() });
         }
 
         void bind(const arch::CpuRegister& cpu_register, VirtualVariable&& variable) {
+            if (variable.is_empty()) {
+                throw std::logic_error("variable content is empty. is it already bound?");
+            }
+
             if (is_bound(variable.variable_number())) {
                throw std::logic_error("variable is already bound");
             }
@@ -142,9 +150,8 @@ namespace jit {
         void prioritize() {
             queue_ = std::priority_queue<SystemRegisterPriority>();
 
-            int register_index = 0;
             for (auto& binding : bindings_) {
-                SystemRegisterPriority priority(binding.sys_register(), binding.priority(), register_index++);
+                SystemRegisterPriority priority(binding.sys_register(), binding.priority(), binding.binding_number());
                 queue_.push(priority);
             }
         }

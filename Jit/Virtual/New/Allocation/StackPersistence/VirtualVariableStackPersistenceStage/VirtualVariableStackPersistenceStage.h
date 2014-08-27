@@ -24,20 +24,29 @@ namespace jit {
             return !virtual_variables_[virtual_register_number].is_empty();
         }
 
-        void persist_variable(int virtual_register_number, VirtualVariable&& variable) {
-            virtual_variables_[virtual_register_number] = std::move(variable);
+        bool contains_variable(const VirtualVariable &variable) {
+            return contains_variable(variable.variable_number());
         }
 
-        VirtualVariable&& retrieve_variable(int virtual_register_number) {
+        void persist_variable(VirtualVariable &&variable) {
+            if (variable.is_empty()) {
+                throw std::logic_error("variable content is empty.");
+            }
+
+            virtual_variables_.insert(virtual_variables_.begin() + variable.variable_number(), std::move(variable));
+        }
+
+        VirtualVariable &&release(int virtual_register_number) {
             if (!contains_variable(virtual_register_number)) {
                 throw std::logic_error("virtual register did not contain variable");
             }
 
-            VirtualVariable variable = std::move(virtual_variables_[virtual_register_number]);
-            return std::move(variable);
+            return std::move(virtual_variables_.at(virtual_register_number));
         }
 
-        size_t size() const { return virtual_variables_.size(); }
+        size_t size() const {
+            return virtual_variables_.size();
+        }
     };
 }
 

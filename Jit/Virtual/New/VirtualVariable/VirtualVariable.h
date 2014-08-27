@@ -82,6 +82,7 @@ namespace jit {
             variable.priority_ = 0;
             variable.type_ = &SystemType::NONE;
             variable.is_empty_ = true;
+            variable.variable_number_ = none;
             variable.is_object_reference_ = false;
         }
 

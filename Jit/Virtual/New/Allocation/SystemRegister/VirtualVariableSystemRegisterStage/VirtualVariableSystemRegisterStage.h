@@ -38,13 +38,32 @@ namespace jit {
             register_queue_.insert_system_register_binding(VirtualVariableSystemRegisterBinding(13, OsxRegisters::r15));
         }
 
-        void with_register(int register_index, std::function<void(VirtualVariableCheckout)> callback) {
-            /*VirtualRegisterBinding binding = checkout(register_index);
-            VirtualRegisterCheckout register_checkout{binding.sys_register(), binding.virtual_register(), jit_opcodes};
+        void with_register(int virtual_register_number, std::function<void(VirtualVariableCheckout&)>& callback) {
+            VirtualVariableCheckout checkout = register_queue_.borrow(virtual_register_number);
 
-            callback(register_checkout);
+            callback(checkout);
+        }
 
-            release(register_index, binding);*/
+        void with_register(int lhs_register_number, int rhs_register_number,
+            std::function<void(VirtualVariableCheckout&, VirtualVariableCheckout&)>& callback) {
+
+            VirtualVariableCheckout lhs = register_queue_.borrow(lhs_register_number);
+            VirtualVariableCheckout rhs = register_queue_.borrow(rhs_register_number);
+
+            callback(lhs, rhs);
+        }
+        
+        
+        bool is_bound(int virtual_register_number) {
+            return register_queue_.is_bound(virtual_register_number);
+        }
+        
+        void bind(VirtualVariable&& variable) {
+            register_queue_.bind(std::move(variable));
+        }
+        
+        VirtualVariable&& unbind(int virtual_variable_number) {
+            return register_queue_.unbind(virtual_variable_number);
         }
 
     };
