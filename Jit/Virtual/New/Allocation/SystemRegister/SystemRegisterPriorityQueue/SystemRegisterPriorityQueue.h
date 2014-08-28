@@ -15,6 +15,8 @@
 
 namespace jit {
     class SystemRegisterPriorityQueue {
+        using iterator = std::vector<VirtualVariableSystemRegisterBinding>::iterator;
+
         bool queue_invalidated_;
 
         std::vector<VirtualVariableSystemRegisterBinding> bindings_;
@@ -28,6 +30,9 @@ namespace jit {
         {
             bindings_.reserve(15);
         }
+
+        iterator begin() { return bindings_.begin(); }
+        iterator end() { return bindings_.end(); }
 
         void insert_system_register_binding(VirtualVariableSystemRegisterBinding &&binding)  {
             register_map_.insert({ binding.sys_register(), binding.binding_number() });

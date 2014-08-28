@@ -31,6 +31,10 @@ namespace jit {
             std::cout << var.type() << std::endl;
         }
 
+        void show() {
+            sys_register_stage_.show();
+        }
+
         void bind_to_system_register(VirtualVariable &&variable) {
             validate_variable(variable);
 

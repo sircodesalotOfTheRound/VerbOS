@@ -44,6 +44,14 @@ namespace jit {
             callback(checkout);
         }
 
+        void show() {
+            for (auto& item : register_queue_) {
+                if (item.contains_variable()) {
+                    std::cout << item.variable_number() << ": " << item.sys_register() << std::endl;
+                }
+            }
+        }
+
         void with_register(int lhs_register_number, int rhs_register_number,
             std::function<void(VirtualVariableCheckout&, VirtualVariableCheckout&)>& callback) {
 

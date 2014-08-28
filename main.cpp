@@ -25,12 +25,14 @@ uint64_t add_together(uint64_t lhs, uint64_t rhs) {
 }
 
 int main() {
-    VirtualVariableStagingAllocator allocator(10);
+    VirtualVariableStagingAllocator allocator(20);
 
     for (int index = 0; index != 16; ++index) {
         VirtualVariable variable(index, VerbajPrimitives::vm_object, 1, true);
         allocator.bind_to_system_register(std::move(variable));
     }
+
+    allocator.show();
 
 
     return 0;
