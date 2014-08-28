@@ -17,7 +17,7 @@ void verbaj::VRet::apply(jit::VirtualStackFrame &frame) const {
 
         // Mov return code to 'rax'. Then replace 'rbp'.
         jit_opcodes.mov(OsxRegisters::rax, sys_register);
-        jit_opcodes.add(OsxRegisters::rsp, 512);
+        jit_opcodes.add(OsxRegisters::rsp, 256);
         jit_opcodes.pop(OsxRegisters::rbp);
         jit_opcodes.ret();
     });

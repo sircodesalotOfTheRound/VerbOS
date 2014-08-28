@@ -29,12 +29,10 @@ int main() {
     JitRenderer renderer(memory());
     VirtualStackFrame frame(20);
 
-    for (int index = 1; index != 20; ++index) {
+    for (int index = 1; index != 15; ++index) {
         frame.insert(new VLdui64(index, index));
     }
 
-    frame.insert(new VStageArg(7));
-    frame.insert(new VStageArg(19));
     //frame.insert(new VCall(&add_together));
     frame.insert(new VRet(13));
 
