@@ -72,6 +72,11 @@ namespace jit {
             return std::move(binding);
         }
 
+        VirtualVariableSystemRegisterBinding&& dequeue_binding(const arch::CpuRegister& sys_register) {
+            VirtualVariableSystemRegisterBinding&& binding = std::move(register_queue_.dequeue_binding(sys_register));
+            return std::move(binding);
+        }
+
         void bind(VirtualVariableSystemRegisterBinding&& binding) {
             register_queue_.bind(std::move(binding));
         }

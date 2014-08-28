@@ -26,16 +26,30 @@ namespace jit {
             validate_variable(variable);
 
             stack_persistence_stage_.persist_variable(std::move(variable));
-
-            VirtualVariable&& var = stack_persistence_stage_.release(2);
-            std::cout << var.type() << std::endl;
         }
 
         void show() {
             sys_register_stage_.show();
         }
 
-        void bind_to_system_register(VirtualVariable &&variable) {
+        void bind_to_system_register(const arch::CpuRegister& sys_register, int variable_index) {
+            //For now only deal with variables on the stack.
+            VirtualVariable&& variable = stack_persistence_stage_.release(variable_index);
+
+            validate_variable(variable);
+
+            VirtualVariableSystemRegisterBinding&& binding = std::move(sys_register_stage_.dequeue_binding(sys_register));
+
+            if (binding.contains_variable()) {
+                VirtualVariable&& released_variable = binding.release_variable();
+                stack_persistence_stage_.persist_variable(std::move(released_variable));
+            }
+
+            binding.bind_variable(std::move(variable));
+            sys_register_stage_.bind(std::move(binding));
+        }
+        
+        void bind_to_system_register(VirtualVariable&& variable) {
             validate_variable(variable);
 
             VirtualVariableSystemRegisterBinding&& binding = std::move(sys_register_stage_.dequeue_binding());
@@ -79,6 +93,14 @@ namespace jit {
 
         void load_variable_from_persistence(int variable_number) {
             // Only stage the variable if it isn't already there.
+            if (!sys_register_stage_.is_bound(variable_number)) {
+                VirtualVariable variable = stack_persistence_stage_.release(variable_number);
+
+                bind_to_system_register(std::move(variable));
+            }
+        }
+        
+        void load_variable_from_persistence(arch::CpuRegister& sys_register, int variable_number) {
             if (!sys_register_stage_.is_bound(variable_number)) {
                 VirtualVariable variable = stack_persistence_stage_.release(variable_number);
 

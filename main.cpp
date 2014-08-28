@@ -27,10 +27,10 @@ uint64_t add_together(uint64_t lhs, uint64_t rhs) {
 int main() {
     VirtualVariableStagingAllocator allocator(20);
 
-    for (int index = 0; index != 16; ++index) {
-        VirtualVariable variable(index, VerbajPrimitives::vm_object, 1, true);
-        allocator.bind_to_system_register(std::move(variable));
-    }
+    VirtualVariable variable(2, VerbajPrimitives::vm_object, 1, true);
+
+    allocator.bind_to_stack_persistence(std::move(variable));
+    allocator.bind_to_system_register(OsxRegisters::rax, 2);
 
     allocator.show();
 
