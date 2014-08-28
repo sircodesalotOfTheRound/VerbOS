@@ -15,14 +15,12 @@ namespace jit {
         static const int none = -1;
 
         arch::CpuRegister sys_register_;
-        int virtual_variable_number_;
         int binding_number_;
         VirtualVariable variable_;
 
     public:
         VirtualVariableSystemRegisterBinding(int binding_number, const arch::CpuRegister &cpu_register) :
                 sys_register_(cpu_register),
-                virtual_variable_number_(none),
                 binding_number_(binding_number) {
 
         }
@@ -31,25 +29,23 @@ namespace jit {
         // Move constructor
         VirtualVariableSystemRegisterBinding(VirtualVariableSystemRegisterBinding &&rhs) :
                 sys_register_(rhs.sys_register_),
-                virtual_variable_number_(rhs.virtual_variable_number_),
                 binding_number_(rhs.binding_number_),
-                variable_(std::move(rhs.variable_)) {
+                variable_(std::move(rhs.variable_))
+        {
             rhs.variable_ = VirtualVariable();
-            rhs.binding_number_ = -1;
-            rhs.virtual_variable_number_ = none;
+            rhs.binding_number_ = none;
         }
 
-        VirtualVariableSystemRegisterBinding &operator=(VirtualVariableSystemRegisterBinding &rhs) {
+        VirtualVariableSystemRegisterBinding& operator=(VirtualVariableSystemRegisterBinding &&rhs) {
             if (this == &rhs) return *this;
 
             sys_register_ = rhs.sys_register_;
-            virtual_variable_number_ = rhs.virtual_variable_number_;
             binding_number_ = rhs.binding_number_;
             variable_ = std::move(rhs.variable_);
 
-            rhs.virtual_variable_number_ = none;
             rhs.binding_number_ = none;
             rhs.variable_ = VirtualVariable();
+
             return *this;
         }
 
@@ -59,27 +55,30 @@ namespace jit {
         }
 
         bool contains_variable() const {
-            return virtual_variable_number_ != none;
+            return !variable_.is_empty();
         }
 
         VirtualVariable &variable() {
             return variable_;
         }
 
-        int virtual_variable_number() const {
+        VirtualVariable&& release_variable() {
+            return std::move(variable_);
+        }
+
+        int variable_number() const {
             if (!contains_variable()) {
                 throw std::logic_error("register does not contain variable");
             }
 
-            return virtual_variable_number_;
+            return variable_.variable_number();
         }
 
-        void bind_variable(int virtual_variable_number, VirtualVariable &&variable) {
+        void bind_variable(VirtualVariable &&variable) {
             if (contains_variable()) {
                 throw std::logic_error("binding already contains a variable");
             }
 
-            virtual_variable_number_ = virtual_variable_number;
             variable_ = std::move(variable);
         }
 
@@ -97,7 +96,6 @@ namespace jit {
 
     private:
         VirtualVariableSystemRegisterBinding(const VirtualVariableSystemRegisterBinding &) = delete;
-
         VirtualVariableSystemRegisterBinding operator=(const VirtualVariableSystemRegisterBinding &) = delete;
 
     };

@@ -63,11 +63,23 @@ namespace jit {
             return VirtualVariableCheckout (binding.sys_register(), binding.variable());
         }
 
-        void bind(VirtualVariable&& variable) {
-            VirtualVariableSystemRegisterBinding& binding = dequeue();
+        VirtualVariableSystemRegisterBinding&& dequeue_binding() {
+            VirtualVariableSystemRegisterBinding&& binding = std::move(dequeue());
 
-            binding.bind_variable(variable.variable_number(), std::move(variable));
-            bound_variable_map_.insert( {binding.virtual_variable_number(), binding.binding_number() });
+            return std::move(binding);
+        }
+
+        void bind(VirtualVariableSystemRegisterBinding&& binding) {
+            VirtualVariable& variable = binding.variable();
+
+            // Insert the binding into the lookup.
+            bound_variable_map_.insert({binding.variable_number(), binding.binding_number() });
+
+            // Reinsert the binding
+            bindings_[binding.binding_number()] = std::move(binding);
+            //bindings_.emplace(bindings_.begin() + binding.binding_number(), std::move(binding));
+
+            queue_invalidated_ = true;
         }
 
         void bind(const arch::CpuRegister& cpu_register, VirtualVariable&& variable) {
@@ -81,7 +93,7 @@ namespace jit {
 
             VirtualVariableSystemRegisterBinding& binding = dequeue(cpu_register);
 
-            binding.bind_variable( variable.variable_number(), std::move(variable));
+            binding.bind_variable(std::move(variable));
             bound_variable_map_.insert( { variable.variable_number(), binding.binding_number() });
         }
 
@@ -123,7 +135,7 @@ namespace jit {
             return bindings_[binding_number_iter->second];
         }
 
-        VirtualVariableSystemRegisterBinding& dequeue() {
+        VirtualVariableSystemRegisterBinding&& dequeue() {
             if (queue_invalidated_) {
                 prioritize();
             }
@@ -132,8 +144,7 @@ namespace jit {
             const SystemRegisterPriority& priority = queue_.top();
             queue_.pop();
 
-            VirtualVariableSystemRegisterBinding& binding = bindings_[priority.register_index()];
-            return binding;
+            return std::move(bindings_[priority.register_index()]);
         }
 
         VirtualVariableSystemRegisterBinding& dequeue(const arch::CpuRegister& sys_register) {

@@ -30,7 +30,15 @@ namespace jit {
         }
 
         void bind_to_system_register(VirtualVariable &&variable) {
-            sys_register_stage_.bind(std::move(variable));
+            VirtualVariableSystemRegisterBinding&& binding = std::move(sys_register_stage_.dequeue_binding());
+
+            if (binding.contains_variable()) {
+                VirtualVariable&& released_variable = binding.release_variable();
+                stack_persistence_stage_.persist_variable(std::move(released_variable));
+            }
+
+            binding.bind_variable(std::move(variable));
+            sys_register_stage_.bind(std::move(binding));
         }
 
         void with_register(int virtual_register_number, std::function<void(VirtualVariableCheckout &)> callback) {
@@ -48,7 +56,6 @@ namespace jit {
             load_variable_from_persistence(rhs_register_number);
 
             sys_register_stage_.with_register(lhs_register_number, rhs_register_number, callback);
-
         }
 
     private:
@@ -56,7 +63,8 @@ namespace jit {
             // Only stage the variable if it isn't already there.
             if (!sys_register_stage_.is_bound(variable_number)) {
                 VirtualVariable variable = stack_persistence_stage_.release(variable_number);
-                sys_register_stage_.bind(std::move(variable));
+
+                bind_to_system_register(std::move(variable));
             }
         }
     };

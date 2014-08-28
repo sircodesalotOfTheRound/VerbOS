@@ -62,6 +62,7 @@ namespace jit {
             priority_ = rhs.priority_;
             type_ = rhs.type_;
             is_empty_ = rhs.is_empty_;
+            variable_number_ = rhs.variable_number_;
             is_object_reference_ = rhs.is_object_reference_;
 
             // Delete rhs.

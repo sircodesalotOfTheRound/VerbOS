@@ -58,8 +58,14 @@ namespace jit {
             return register_queue_.is_bound(virtual_register_number);
         }
         
-        void bind(VirtualVariable&& variable) {
-            register_queue_.bind(std::move(variable));
+        VirtualVariableSystemRegisterBinding&& dequeue_binding() {
+            VirtualVariableSystemRegisterBinding&& binding = std::move(register_queue_.dequeue_binding());
+
+            return std::move(binding);
+        }
+
+        void bind(VirtualVariableSystemRegisterBinding&& binding) {
+            register_queue_.bind(std::move(binding));
         }
         
         VirtualVariable&& unbind(int virtual_variable_number) {
