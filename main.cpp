@@ -30,6 +30,12 @@ int main() {
 
     VirtualVariable variable (2, VerbajPrimitives::vm_object, 1, true);
     allocator.new_local(std::move(variable));
+    allocator.lock_to_system_register(arch::OsxRegisters::rax, 2);
+
+
+    allocator.with_register(2, [](VirtualVariableCheckout& local) {
+        cout << local.variable_number() << ":" << local.sys_register() << endl;
+    });
 
 
     return 0;

@@ -39,12 +39,12 @@ namespace jit {
             unstaged_variables_[variable.variable_number()] = std::move(variable);
         }
 
-        void unlock_bindings() {
+        void unlock_register_bindings() {
             sys_register_stage_.unlock_bindings();
         }
 
         // Bind a variable to a specific register.
-        void bind_to_system_register(const arch::CpuRegister& sys_register, int variable_index) {
+        void lock_to_system_register(const arch::CpuRegister& sys_register, int variable_index) {
             VirtualVariable&& variable = release_variable(variable_index);
             VirtualVariableSystemRegisterBinding&& binding
                 = std::move(sys_register_stage_.dequeue_binding(sys_register));
@@ -55,20 +55,14 @@ namespace jit {
         }
 
         // Callback for performing tasks with a single register.
-        void with_register(int virtual_register_number, std::function<void(VirtualVariableCheckout&)> callback) {
-            // Ensure the variable is staged.
-            load_variable_from_persistence(virtual_register_number);
-
-            sys_register_stage_.with_register(virtual_register_number, callback);
+        void with_register(int variable_number, std::function<void(VirtualVariableCheckout&)> callback) {
+            bind_to_system_register(variable_number);
+            sys_register_stage_.with_register(variable_number, callback);
         }
 
         // Callback for performing tasks with two registers.
         void with_register(int lhs_register_number, int rhs_register_number,
             std::function<void(VirtualVariableCheckout&, VirtualVariableCheckout&)> callback) {
-
-            // Ensure the variables are staged.
-            load_variable_from_persistence(lhs_register_number);
-            load_variable_from_persistence(rhs_register_number);
 
             sys_register_stage_.with_register(lhs_register_number, rhs_register_number, callback);
         }
@@ -77,14 +71,16 @@ namespace jit {
 
         // Not sure if this is neccesary.
         void bind_to_system_register(int variable_number) {
-            VirtualVariable&& variable = release_variable(variable_number);
-            VirtualVariableSystemRegisterBinding&& binding = std::move(sys_register_stage_.dequeue_binding());
+            if (!is_register_staged(variable_number)) {
+                VirtualVariable&& variable = release_variable(variable_number);
+                VirtualVariableSystemRegisterBinding&& binding = std::move(sys_register_stage_.dequeue_binding());
 
-            apply_binding(std::move(variable), std::move(binding));
+                apply_binding(std::move(variable), std::move(binding));
+            }
         }
 
         bool is_unstaged(int variable_number) {
-            return unstaged_variables_[variable_number].is_empty();
+            return !unstaged_variables_[variable_number].is_empty();
         }
 
         bool is_stack_persisted(int variable_number) {
@@ -140,6 +136,7 @@ namespace jit {
         void apply_binding(VirtualVariable&& variable, VirtualVariableSystemRegisterBinding&& binding) {
             validate_variable(variable);
 
+            // If something is already there, then persist it first.
             if (binding.contains_variable()) {
                 stack_persist(binding);
             }

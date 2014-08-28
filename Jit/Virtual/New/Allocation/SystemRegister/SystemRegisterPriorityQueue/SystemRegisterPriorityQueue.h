@@ -91,7 +91,7 @@ namespace jit {
             queue_invalidated_ = true;
         }
 
-        // Temporary deprecation!
+        /*// Temporary deprecation!
         void bind(const arch::CpuRegister& cpu_register, VirtualVariable&& variable) {
             validate_variable(variable);
 
@@ -99,7 +99,7 @@ namespace jit {
             binding.bind_variable(std::move(variable));
 
             bind_metadata(binding);
-        }
+        }*/
 
         VirtualVariable&& unbind(int virtual_variable_number) {
             if (!is_bound(virtual_variable_number)) {

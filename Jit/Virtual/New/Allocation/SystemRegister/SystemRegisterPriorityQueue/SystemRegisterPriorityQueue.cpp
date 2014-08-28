@@ -10,8 +10,13 @@ void jit::SystemRegisterPriorityQueue::prioritize() {
     queue_ = std::priority_queue<SystemRegisterPriority>();
 
     for (auto& binding : bindings_) {
-        SystemRegisterPriority priority(binding.sys_register(), binding.priority(), binding.binding_number());
-        queue_.push(priority);
+        // If the binding is locked (because a variable needs to sit on
+        // a particular register, usually before a method call) then
+        // we don't want to add that to the priority queue.
+        if (!binding.is_locked()) {
+            SystemRegisterPriority priority(binding.sys_register(), binding.priority(), binding.binding_number());
+            queue_.push(priority);
+        }
     }
 }
 
@@ -59,7 +64,7 @@ jit::VirtualVariable&& jit::SystemRegisterPriorityQueue::release(int virtual_reg
 }
 
 void jit::SystemRegisterPriorityQueue::bind_metadata(VirtualVariableSystemRegisterBinding& binding) {
-    if (binding.contains_variable() && !binding.is_locked()) {
+    if (binding.contains_variable()) {
         // Erase from register lookup.
         register_map_.insert({binding.sys_register(), binding.variable_number()});
 
