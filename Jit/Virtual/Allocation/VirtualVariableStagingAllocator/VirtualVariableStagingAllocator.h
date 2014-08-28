@@ -86,10 +86,8 @@ namespace jit {
         }
 
     private:
-        // Bind a variable to a specific register.
-        void lock_variable_to_register(const arch::CpuRegister& sys_register, int variable_index) {
-
-            // PART 1: Clearing out the registers we need.
+        void release_registers_for_locking(const arch::CpuRegister& sys_register, int variable_index) {
+                        // PART 1: Clearing out the registers we need.
             // First make sure the register is empty. Or if we're already bound to it.
             if (does_register_hold_data(sys_register)) {
                 VirtualVariableSystemRegisterBinding&& binding = std::move(sys_register_stage_.dequeue_binding(sys_register));
@@ -131,8 +129,11 @@ namespace jit {
                 // Re-submit the binding.
                 sys_register_stage_.bind(std::move(binding));
             }
+        }
 
-            // PART2: Rebinding the register
+
+        void perform_register_lock(const arch::CpuRegister& sys_register, int variable_index) {
+                        // PART2: Rebinding the register
             // Now that the variable has been freed (and is now unstaged)
             // Rebind it to the corect destination register.
             if (is_stack_persisted(variable_index)) {
@@ -162,6 +163,12 @@ namespace jit {
 
                 binding.lock();
             }
+        }
+
+        // Bind a variable to a specific register.
+        void lock_variable_to_register(const arch::CpuRegister& sys_register, int variable_index) {
+            release_registers_for_locking(sys_register, variable_index);
+            perform_register_lock(sys_register, variable_index);
         }
 
 

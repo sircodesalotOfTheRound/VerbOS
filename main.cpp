@@ -1,7 +1,6 @@
 #include <iostream>
 #include "ProcessorOpCodeSet.h"
 #include "VLdui64.h"
-#include "VerbajPrimitives.h"
 #include "VRet.h"
 #include "VCall.h"
 #include "VStageArg.h"
@@ -30,7 +29,7 @@ int main() {
     frame.insert(new VLdui64(2, 42));
     frame.insert(new VLdui64(3, 32));
     frame.insert(new VLdui64(4, 100));
-    frame.insert(new VStageArg(3));
+    frame.insert(new VStageArg(2));
     frame.insert(new VStageArg(4));
     frame.insert(new VCall(&add_together));
     frame.insert(new VRet(2));
