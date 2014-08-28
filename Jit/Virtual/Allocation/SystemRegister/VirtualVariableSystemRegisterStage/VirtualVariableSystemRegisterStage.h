@@ -42,10 +42,13 @@ namespace jit {
         void with_register(op::ProcessorOpCodeSet& jit_opcodes, int virtual_register_number,
                 std::function<void(VirtualVariableCheckout&)>& callback)
         {
-            VirtualVariableSystemRegisterBinding& binding = register_queue_.borrow(virtual_register_number);
+            VirtualVariableSystemRegisterBinding&& binding
+                = std::move(register_queue_.dequeue_binding(virtual_register_number));
 
             VirtualVariableCheckout checkout (jit_opcodes, binding.sys_register(), binding.variable());
             callback(checkout);
+
+            register_queue_.bind(std::move(binding));
         }
 
         void show() {
@@ -69,11 +72,19 @@ namespace jit {
         bool is_staged(int virtual_register_number) {
             return register_queue_.is_bound(virtual_register_number);
         }
-        
+
+        bool is_bound(const arch::CpuRegister& reg) {
+            return register_queue_.is_bound(reg);
+        }
+
         VirtualVariableSystemRegisterBinding&& dequeue_binding() {
             VirtualVariableSystemRegisterBinding&& binding = std::move(register_queue_.dequeue_binding());
 
             return std::move(binding);
+        }
+
+        VirtualVariableSystemRegisterBinding&& dequeue_binding(int variable_index) {
+            return register_queue_.dequeue_binding(variable_index);
         }
 
         VirtualVariableSystemRegisterBinding&& dequeue_binding(const arch::CpuRegister& sys_register) {
@@ -81,18 +92,10 @@ namespace jit {
             return std::move(binding);
         }
 
-        VirtualVariableSystemRegisterBinding& view_binding(int variable_index) {
-            return register_queue_.borrow(variable_index);
-        }
-
         void bind(VirtualVariableSystemRegisterBinding&& binding) {
             register_queue_.bind(std::move(binding));
         }
         
-        VirtualVariable&& release(int virtual_variable_number) {
-            return std::move(register_queue_.unbind(virtual_variable_number));
-        }
-
         void unlock_bindings() {
             register_queue_.unlock_bindings();
         }

@@ -8,7 +8,6 @@
 
 void verbaj::VStageArg::apply(jit::VirtualStackFrame &frame) const {
     auto& stage = frame.variable_stage();
-    auto & rdi = arch::OsxRegisters::rdi;
 
     stage.stage_argument(variable_number);
 }

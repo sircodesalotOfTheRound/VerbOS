@@ -28,8 +28,10 @@ int main() {
 
     frame.insert(new VLdui64(1, 69));
     frame.insert(new VLdui64(2, 42));
-    frame.insert(new VStageArg(1));
-    frame.insert(new VStageArg(2));
+    frame.insert(new VLdui64(3, 32));
+    frame.insert(new VLdui64(4, 100));
+    frame.insert(new VStageArg(3));
+    frame.insert(new VStageArg(4));
     frame.insert(new VCall(&add_together));
     frame.insert(new VRet(2));
 
@@ -37,7 +39,7 @@ int main() {
 
     uint64_t(*pfunc)() = (uint64_t(*)())renderer.memory();
 
-    cout << pfunc() << endl;
+    pfunc();
     frame.debug_print();
 
     return 0;

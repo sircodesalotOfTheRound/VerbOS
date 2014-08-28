@@ -26,16 +26,20 @@ namespace jit {
 
     public:
         SystemRegisterPriorityQueue() :
-            queue_invalidated_(true)
-        {
+            queue_invalidated_(true) {
             bindings_.reserve(15);
         }
 
-        iterator begin() { return bindings_.begin(); }
-        iterator end() { return bindings_.end(); }
+        iterator begin() {
+            return bindings_.begin();
+        }
 
-        void insert_system_register_binding(VirtualVariableSystemRegisterBinding &&binding)  {
-            register_map_.insert({ binding.sys_register(), binding.binding_number() });
+        iterator end() {
+            return bindings_.end();
+        }
+
+        void insert_system_register_binding(VirtualVariableSystemRegisterBinding&& binding) {
+            register_map_.insert({binding.sys_register(), binding.binding_number()});
             bindings_.push_back(std::move(binding));
 
         }
@@ -55,58 +59,37 @@ namespace jit {
             return bindings_[register_index].contains_variable();
         }
 
-        arch::CpuRegister get_variable_register(int virtual_variable_number) {
-            return borrow(virtual_variable_number).sys_register();
-        }
-
-        VirtualVariableSystemRegisterBinding& borrow(int virtual_variable_number) {
-            if (!is_bound(virtual_variable_number)) {
-                throw std::logic_error("variable is not bound to a register");
-            }
-
-            return get_binding(virtual_variable_number);
-        }
-
         VirtualVariableSystemRegisterBinding&& dequeue_binding() {
             VirtualVariableSystemRegisterBinding&& binding = std::move(dequeue());
+
+            return std::move(binding);
+        }
+
+        VirtualVariableSystemRegisterBinding&& dequeue_binding(int variable_number) {
+            VirtualVariableSystemRegisterBinding&& binding = std::move(dequeue(variable_number));
             return std::move(binding);
         }
 
         VirtualVariableSystemRegisterBinding&& dequeue_binding(const arch::CpuRegister& sys_register) {
             VirtualVariableSystemRegisterBinding&& binding = std::move(dequeue(sys_register));
+
+            // Since we're not using the priority queue, we need to invalidate it.
+            queue_invalidated_ = true;
             return std::move(binding);
         }
 
         void bind(VirtualVariableSystemRegisterBinding&& binding) {
-            VirtualVariable& variable = binding.variable();
-            validate_variable(variable);
+            if (binding.contains_variable()) {
+                validate_variable(binding.variable());
+            }
 
             // Insert the binding into the lookup.
             bind_metadata(binding);
 
             // Reinsert the binding
             bindings_[binding.binding_number()] = std::move(binding);
-
-            queue_invalidated_ = true;
         }
 
-        /*// Temporary deprecation!
-        void bind(const arch::CpuRegister& cpu_register, VirtualVariable&& variable) {
-            validate_variable(variable);
-
-            VirtualVariableSystemRegisterBinding& binding = dequeue(cpu_register);
-            binding.bind_variable(std::move(variable));
-
-            bind_metadata(binding);
-        }*/
-
-        VirtualVariable&& unbind(int virtual_variable_number) {
-            if (!is_bound(virtual_variable_number)) {
-                throw std::logic_error("variable is not bound");
-            }
-
-            return std::move(release(virtual_variable_number));
-        }
 
         void unlock_bindings() {
             for (auto& binding : bindings_) {
@@ -119,33 +102,29 @@ namespace jit {
             if (variable.is_empty()) {
                 throw std::logic_error("variable content is empty. is it already bound?");
             }
-
-            if (is_bound(variable.variable_number())) {
-               throw std::logic_error("variable is already bound");
-            }
         }
 
         // Remove information used to look up this variable (since it's no
         // longer bound to a physical register).
         void remove_metadata(VirtualVariableSystemRegisterBinding& binding) {
-            // Erase from register lookup.
+            // Erase the system-register to binding mapping.
             register_map_.erase(register_map_.find(binding.sys_register()));
 
-            // Erase from bound variable map.
-            bound_variable_map_.erase(bound_variable_map_.find(binding.variable_number()));
+            // Erase from bound variable map (only if there is a bound variable).
+            if (binding.contains_variable()) {
+                bound_variable_map_.erase(bound_variable_map_.find(binding.variable_number()));
+            }
         }
 
         void bind_metadata(VirtualVariableSystemRegisterBinding& binding);
 
-        VirtualVariable && release(int virtual_register_index);
+        int register_index_from_cpu_register(const arch::CpuRegister& sys_register);
 
-        int register_index_from_cpu_register(const arch::CpuRegister &sys_register);
+        VirtualVariableSystemRegisterBinding&& dequeue();
 
-        VirtualVariableSystemRegisterBinding & get_binding(int virtual_register_number);
+        VirtualVariableSystemRegisterBinding&& dequeue(int variable_number);
 
-        VirtualVariableSystemRegisterBinding && dequeue();
-
-        VirtualVariableSystemRegisterBinding & dequeue(const arch::CpuRegister& sys_register);
+        VirtualVariableSystemRegisterBinding&& dequeue(const arch::CpuRegister& sys_register);
 
         void prioritize();
     };

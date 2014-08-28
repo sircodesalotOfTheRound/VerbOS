@@ -69,6 +69,10 @@ namespace jit {
         }
 
         VirtualVariable&& release_variable() {
+            if (is_locked_) {
+                throw std::logic_error("binding is locked, cannot release variable");
+            }
+
             return std::move(variable_);
         }
 

@@ -20,13 +20,31 @@ void jit::SystemRegisterPriorityQueue::prioritize() {
     }
 }
 
-jit::VirtualVariableSystemRegisterBinding& jit::SystemRegisterPriorityQueue::dequeue(const arch::CpuRegister& sys_register) {
+jit::VirtualVariableSystemRegisterBinding&& jit::SystemRegisterPriorityQueue::dequeue(const arch::CpuRegister& sys_register) {
     int sys_register_index = register_index_from_cpu_register(sys_register);
+
+    VirtualVariableSystemRegisterBinding&& binding = std::move(bindings_[sys_register_index]);
+
+    remove_metadata(binding);
 
     // Circumventing the priority queue invalidates it.
     queue_invalidated_ = true;
-    return bindings_[sys_register_index];
+
+    return std::move(binding);
 }
+
+jit::VirtualVariableSystemRegisterBinding&& jit::SystemRegisterPriorityQueue::dequeue(int virtual_variable) {
+    int register_binding_index = bound_variable_map_.at(virtual_variable);
+
+    VirtualVariableSystemRegisterBinding&& binding = std::move(bindings_[register_binding_index]);
+    remove_metadata(binding);
+
+    // Circumventing the priority queue like this invalidates it.
+    queue_invalidated_ = true;
+
+    return std::move(binding);
+}
+
 
 jit::VirtualVariableSystemRegisterBinding&& jit::SystemRegisterPriorityQueue::dequeue() {
     if (queue_invalidated_) {
@@ -37,38 +55,23 @@ jit::VirtualVariableSystemRegisterBinding&& jit::SystemRegisterPriorityQueue::de
     const SystemRegisterPriority& priority = queue_.top();
     queue_.pop();
 
-    return std::move(bindings_[priority.register_index()]);
+    VirtualVariableSystemRegisterBinding&& binding = std::move(bindings_[priority.register_index()]);
+    remove_metadata(binding);
+
+    return std::move(binding);
 }
 
-jit::VirtualVariableSystemRegisterBinding &jit::SystemRegisterPriorityQueue::get_binding(int virtual_register_number) {
-    auto binding_number_iter = bound_variable_map_.find(virtual_register_number);
-
-    if (binding_number_iter == bound_variable_map_.end()) {
-        throw std::logic_error("variable is not bound");
-    }
-
-    return bindings_[binding_number_iter->second];
-}
-
-int jit::SystemRegisterPriorityQueue::register_index_from_cpu_register(const arch::CpuRegister &sys_register) {
+int jit::SystemRegisterPriorityQueue::register_index_from_cpu_register(const arch::CpuRegister& sys_register) {
     return register_map_.at(sys_register);
 }
 
-jit::VirtualVariable&& jit::SystemRegisterPriorityQueue::release(int virtual_register_index) {
-    VirtualVariableSystemRegisterBinding& binding = get_binding(virtual_register_index);
-
-    remove_metadata(binding);
-
-    // return the variable.
-    return std::move(binding.release_variable());
-}
-
 void jit::SystemRegisterPriorityQueue::bind_metadata(VirtualVariableSystemRegisterBinding& binding) {
-    if (binding.contains_variable()) {
-        // Erase from register lookup.
-        register_map_.insert({binding.sys_register(), binding.variable_number()});
+    // Map the system-register to the binding number.
+    register_map_.insert({ binding.sys_register(), binding.binding_number() });
 
+    // If there is a variable, map the variable number to the binding number.
+    if (binding.contains_variable()) {
         // Erase from bound variable map.
-        bound_variable_map_.insert({binding.variable_number(), binding.binding_number()});
+        bound_variable_map_.insert({ binding.variable_number(), binding.binding_number()});
     }
 }
