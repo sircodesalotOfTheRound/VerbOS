@@ -59,13 +59,12 @@ namespace jit {
             return borrow(virtual_variable_number).sys_register();
         }
 
-        VirtualVariableCheckout borrow(int virtual_variable_number) {
+        VirtualVariableSystemRegisterBinding& borrow(int virtual_variable_number) {
             if (!is_bound(virtual_variable_number)) {
                 throw std::logic_error("variable is not bound to a register");
             }
 
-            VirtualVariableSystemRegisterBinding& binding = get_binding(virtual_variable_number);
-            return VirtualVariableCheckout (binding.sys_register(), binding.variable());
+            return get_binding(virtual_variable_number);
         }
 
         VirtualVariableSystemRegisterBinding&& dequeue_binding() {

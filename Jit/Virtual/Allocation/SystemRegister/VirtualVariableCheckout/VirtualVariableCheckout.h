@@ -20,10 +20,11 @@ namespace jit {
 
     public:
         VirtualVariableCheckout(
+            op::ProcessorOpCodeSet& jit_opcodes,
             const arch::CpuRegister& sys_register,
             const VirtualVariable& virtual_variable):
 
-            jit_opcodes_(jit_opcodes_),
+            jit_opcodes_(jit_opcodes),
             cpu_register_(sys_register),
             virtual_variable_(virtual_variable)
         {

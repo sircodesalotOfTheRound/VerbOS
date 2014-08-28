@@ -2,6 +2,7 @@
 #include "ProcessorOpCodeSet.h"
 #include "VLdui64.h"
 #include "VerbajPrimitives.h"
+#include "VRet.h"
 
 #include <unistd.h>
 #include <sys/mman.h>
@@ -20,17 +21,18 @@ uint64_t add_together(uint64_t lhs, uint64_t rhs) {
 }
 
 int main() {
-    op::ProcessorOpCodeSet jit_opcodes { };
-    VirtualVariableStagingAllocator allocator(jit_opcodes, 20);
+    JitRenderer renderer(memory());
+    VirtualStackFrame frame(20);
 
-    VirtualVariable variable (2, VerbajPrimitives::vm_object, 1, true);
-    allocator.new_local(std::move(variable));
-    allocator.lock_to_system_register(arch::OsxRegisters::rax, 2);
+    frame.insert(new VLdui64(1, 69));
+    frame.insert(new VLdui64(2, 42));
+    frame.insert(new VRet(2));
 
+    frame.apply(renderer);
 
-    allocator.with_register(2, [](VirtualVariableCheckout& local) {
-        cout << local.variable_number() << ":" << local.sys_register() << endl;
-    });
+    uint64_t(*pfunc)() = (uint64_t(*)())renderer.memory();
+
+    cout << pfunc() << endl;
 
 
     return 0;

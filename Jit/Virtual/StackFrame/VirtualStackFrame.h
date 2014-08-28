@@ -22,7 +22,7 @@ namespace jit {
         jit::VirtualVariableStagingAllocator variable_stage_;
 
     public:
-        VirtualStackFrame(int max_variable_count)
+        VirtualStackFrame(size_t max_variable_count)
             : variable_stage_(jit_opcodes, max_variable_count)
         {
 

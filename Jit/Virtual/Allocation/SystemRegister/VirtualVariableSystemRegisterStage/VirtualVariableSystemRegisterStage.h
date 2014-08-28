@@ -18,7 +18,8 @@ namespace jit {
         SystemRegisterPriorityQueue register_queue_;
 
     public:
-        VirtualVariableSystemRegisterStage() {
+        VirtualVariableSystemRegisterStage()
+        {
             using namespace arch;
             register_queue_.insert_system_register_binding(VirtualVariableSystemRegisterBinding(0, OsxRegisters::rax));
             register_queue_.insert_system_register_binding(VirtualVariableSystemRegisterBinding(1, OsxRegisters::rbx));
@@ -38,9 +39,12 @@ namespace jit {
             register_queue_.insert_system_register_binding(VirtualVariableSystemRegisterBinding(13, OsxRegisters::r15));
         }
 
-        void with_register(int virtual_register_number, std::function<void(VirtualVariableCheckout&)>& callback) {
-            VirtualVariableCheckout checkout = register_queue_.borrow(virtual_register_number);
+        void with_register(op::ProcessorOpCodeSet& jit_opcodes, int virtual_register_number,
+                std::function<void(VirtualVariableCheckout&)>& callback)
+        {
+            VirtualVariableSystemRegisterBinding& binding = register_queue_.borrow(virtual_register_number);
 
+            VirtualVariableCheckout checkout (jit_opcodes, binding.sys_register(), binding.variable());
             callback(checkout);
         }
 
@@ -54,11 +58,11 @@ namespace jit {
 
         void with_register(int lhs_register_number, int rhs_register_number,
             std::function<void(VirtualVariableCheckout&, VirtualVariableCheckout&)>& callback) {
-
+/*
             VirtualVariableCheckout lhs = register_queue_.borrow(lhs_register_number);
             VirtualVariableCheckout rhs = register_queue_.borrow(rhs_register_number);
 
-            callback(lhs, rhs);
+            callback(lhs, rhs);*/
         }
         
         

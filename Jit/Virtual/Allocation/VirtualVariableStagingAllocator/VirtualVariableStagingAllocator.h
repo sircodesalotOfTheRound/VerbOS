@@ -57,7 +57,7 @@ namespace jit {
         // Callback for performing tasks with a single register.
         void with_register(int variable_number, std::function<void(VirtualVariableCheckout&)> callback) {
             bind_to_system_register(variable_number);
-            sys_register_stage_.with_register(variable_number, callback);
+            sys_register_stage_.with_register(jit_opcodes_, variable_number, callback);
         }
 
         // Callback for performing tasks with two registers.
