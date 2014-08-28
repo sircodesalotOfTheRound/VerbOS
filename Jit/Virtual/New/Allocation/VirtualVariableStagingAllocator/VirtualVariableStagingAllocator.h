@@ -23,6 +23,8 @@ namespace jit {
         }
 
         void bind_to_stack_persistence(VirtualVariable &&variable) {
+            validate_variable(variable);
+
             stack_persistence_stage_.persist_variable(std::move(variable));
 
             VirtualVariable&& var = stack_persistence_stage_.release(2);
@@ -30,6 +32,8 @@ namespace jit {
         }
 
         void bind_to_system_register(VirtualVariable &&variable) {
+            validate_variable(variable);
+
             VirtualVariableSystemRegisterBinding&& binding = std::move(sys_register_stage_.dequeue_binding());
 
             if (binding.contains_variable()) {
@@ -59,6 +63,16 @@ namespace jit {
         }
 
     private:
+        void validate_variable(const VirtualVariable& variable) {
+            if (variable.is_empty()) {
+                throw std::logic_error("variable is invalid");
+            }
+
+            if (variable.variable_number() > stack_persistence_stage_.size()) {
+                throw std::logic_error("variable number is larger than allocated stack space");
+            }
+        }
+
         void load_variable_from_persistence(int variable_number) {
             // Only stage the variable if it isn't already there.
             if (!sys_register_stage_.is_bound(variable_number)) {
