@@ -8,7 +8,6 @@
 #define __VirtualVariableStackPersistenceStage_H_
 
 #include <vector>
-#include "VirtualRegister.h"
 #import "VirtualVariable.h"
 #include "ProcessorOpCodeSet.h"
 #include "OsxRegisters.h"

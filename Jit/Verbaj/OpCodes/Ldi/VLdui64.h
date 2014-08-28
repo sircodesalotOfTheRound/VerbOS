@@ -22,7 +22,7 @@ namespace verbaj {
         void apply(jit::VirtualStackFrame & frame) const override;
 
     private:
-        void perform_load(jit::VirtualRegisterCheckoutRef) const;
+        void perform_load(jit::VirtualVariableCheckout&) const;
     };
 }
 

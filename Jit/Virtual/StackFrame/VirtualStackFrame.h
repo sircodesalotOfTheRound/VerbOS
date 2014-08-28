@@ -8,8 +8,8 @@
 
 #include "JitRenderer.h"
 #include "ProcessorOpCodeSet.h"
-#include "VirtualRegisterStage.h"
 #include "VerbajOpCodeSet.h"
+#include "VirtualVariableStagingAllocator.h"
 
 namespace verbaj {
     class VerbajOpCodeBase;
@@ -19,11 +19,11 @@ namespace jit {
     class VirtualStackFrame {
         verbaj::VerbajOpCodeSet verbaj_ops;
         op::ProcessorOpCodeSet jit_opcodes;
-        jit::VirtualRegisterStage register_stage_;
+        jit::VirtualVariableStagingAllocator variable_stage_;
 
     public:
-        VirtualStackFrame()
-            : register_stage_(0, jit_opcodes)
+        VirtualStackFrame(int max_variable_count)
+            : variable_stage_(jit_opcodes, max_variable_count)
         {
 
         }
@@ -36,14 +36,9 @@ namespace jit {
 
         verbaj::VerbajOpCodeSet& opcodes() { return verbaj_ops; }
         op::ProcessorOpCodeSet& sys_ops() { return jit_opcodes; }
-        VirtualRegisterStage&register_stage() { return register_stage_; }
+        VirtualVariableStagingAllocator& variable_stage() { return variable_stage_; }
 
         void debug_print();
-
-        void stage_argument(int virtual_register) {
-            register_stage_.stage_argument(virtual_register);
-        }
-        size_t staged_argument_count() { return register_stage_.staged_argument_count(); }
     private:
 
     };

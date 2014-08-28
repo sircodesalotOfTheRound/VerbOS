@@ -7,5 +7,5 @@
 #include "VirtualStackFrame.h"
 
 void verbaj::VStageReg::apply(jit::VirtualStackFrame &frame) const {
-    frame.stage_argument(virutal_register_);
+    //frame.stage_argument(virutal_register_);
 }

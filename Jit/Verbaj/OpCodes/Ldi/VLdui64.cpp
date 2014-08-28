@@ -10,19 +10,18 @@ void verbaj::VLdui64::apply(jit::VirtualStackFrame & frame) const {
     using namespace jit;
 
     // Create a new virtual register and add it.
-    auto& stage = frame.register_stage();
-    VirtualRegister::Priority priority (5);
+    auto& stage = frame.variable_stage();
 
-    VirtualRegister virtual_register { "v_reg", VerbajPrimitives::vm_uint64, priority, true };
-    stage.insert_at(register_index, virtual_register);
+    VirtualVariable variable { register_index, VerbajPrimitives::vm_uint64, 1, false };
+    stage.new_local(std::move(variable));
 
     // Perform the load
-    stage.with_register(register_index, [&](jit::VirtualRegisterCheckoutRef checkout) {
+    stage.with_register(register_index, [&](jit::VirtualVariableCheckout& checkout) {
         perform_load(checkout);
     });
 }
 
-void verbaj::VLdui64::perform_load(jit::VirtualRegisterCheckoutRef checkout) const {
+void verbaj::VLdui64::perform_load(jit::VirtualVariableCheckout& checkout) const {
     auto sys_register = checkout.sys_register();
     op::ProcessorOpCodeSet& opcodes = checkout.jit_opcodes();
 

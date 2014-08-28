@@ -7,7 +7,7 @@
 #define __VerbajOpCode_H_
 
 #include "JitRenderer.h"
-#include "VirtualRegisterStage.h"
+#include "VirtualVariableStagingAllocator.h"
 
 namespace jit {
     class VirtualStackFrame;
