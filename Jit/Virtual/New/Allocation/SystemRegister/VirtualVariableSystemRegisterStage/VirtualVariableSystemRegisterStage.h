@@ -62,7 +62,7 @@ namespace jit {
         }
         
         
-        bool is_bound(int virtual_register_number) {
+        bool is_staged(int virtual_register_number) {
             return register_queue_.is_bound(virtual_register_number);
         }
         
@@ -81,8 +81,12 @@ namespace jit {
             register_queue_.bind(std::move(binding));
         }
         
-        VirtualVariable&& unbind(int virtual_variable_number) {
+        VirtualVariable&& release(int virtual_variable_number) {
             return std::move(register_queue_.unbind(virtual_variable_number));
+        }
+
+        void unlock_bindings() {
+            register_queue_.unlock_bindings();
         }
 
     };

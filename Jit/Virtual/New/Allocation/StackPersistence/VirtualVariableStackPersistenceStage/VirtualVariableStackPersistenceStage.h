@@ -10,13 +10,16 @@
 #include <vector>
 #include "VirtualRegister.h"
 #import "VirtualVariable.h"
+#include "ProcessorOpCodeSet.h"
+#include "OsxRegisters.h"
 
 namespace jit {
     class VirtualVariableStackPersistenceStage {
         std::vector<VirtualVariable> virtual_variables_;
 
     public:
-        VirtualVariableStackPersistenceStage(size_t size) {
+        VirtualVariableStackPersistenceStage(size_t size)
+        {
             virtual_variables_.resize(size);
         }
 
@@ -28,8 +31,10 @@ namespace jit {
             return contains_variable(variable.variable_number());
         }
 
-        void persist_variable(VirtualVariable &&variable) {
+        void persist_variable(arch::CpuRegister& from_register, VirtualVariable &&variable) {
             validate_variable(variable);
+
+            // Emit the storage opcode.
             virtual_variables_[variable.variable_number()] = std::move(variable);
         }
 
@@ -46,6 +51,8 @@ namespace jit {
         }
 
     private:
+
+
         void validate_variable(const VirtualVariable& variable) {
             if (variable.is_empty()) {
                 throw std::logic_error("variable content is empty.");

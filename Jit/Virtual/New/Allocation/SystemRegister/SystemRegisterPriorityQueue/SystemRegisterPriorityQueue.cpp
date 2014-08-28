@@ -59,7 +59,7 @@ jit::VirtualVariable&& jit::SystemRegisterPriorityQueue::release(int virtual_reg
 }
 
 void jit::SystemRegisterPriorityQueue::bind_metadata(VirtualVariableSystemRegisterBinding& binding) {
-    if (binding.contains_variable()) {
+    if (binding.contains_variable() && !binding.is_locked()) {
         // Erase from register lookup.
         register_map_.insert({binding.sys_register(), binding.variable_number()});
 

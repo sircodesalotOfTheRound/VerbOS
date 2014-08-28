@@ -109,6 +109,12 @@ namespace jit {
             return std::move(release(virtual_variable_number));
         }
 
+        void unlock_bindings() {
+            for (auto& binding : bindings_) {
+                binding.unlock();
+            }
+        }
+
     private:
         void validate_variable(const VirtualVariable& variable) {
             if (variable.is_empty()) {
