@@ -20,10 +20,15 @@ namespace jit {
         // Variables that are neither on the stack nor register bound.
         std::vector<VirtualVariable> unstaged_variables_;
 
+        // Staged arguments are those register-bound variables that
+        // are locked to certain registers (because of ABI).
+        int staged_argument_count_;
+
     public:
         VirtualVariableStagingAllocator(op::ProcessorOpCodeSet& jit_opcodes, size_t size)
             : stack_persistence_stage_(size),
-              jit_opcodes_(jit_opcodes) {
+              jit_opcodes_(jit_opcodes),
+              staged_argument_count_(0) {
             unstaged_variables_.resize(size);
         }
 
@@ -39,19 +44,32 @@ namespace jit {
             unstaged_variables_[variable.variable_number()] = std::move(variable);
         }
 
-        void unlock_register_bindings() {
+        void unlock_argument_bindings() {
+            staged_argument_count_ = 0;
             sys_register_stage_.unlock_bindings();
         }
 
         // Bind a variable to a specific register.
-        void lock_to_system_register(const arch::CpuRegister& sys_register, int variable_index) {
-            VirtualVariable&& variable = release_variable(variable_index);
-            VirtualVariableSystemRegisterBinding&& binding
-                = std::move(sys_register_stage_.dequeue_binding(sys_register));
+        void stage_argument(int variable_index) {
+            using namespace arch;
+            CpuRegister bind_to_register;
 
-            binding.lock();
+            switch (staged_argument_count_) {
+                case 0:
+                    bind_to_register = OsxRegisters::rdi;
+                    break;
 
-            apply_binding(std::move(variable), std::move(binding));
+                case 1:
+                    bind_to_register = OsxRegisters::rsi;
+                    break;
+
+                default:
+                    // TODO: Fix this eventually.
+                    throw std::logic_error("too many arguments");
+            }
+
+            lock_variable_to_register(bind_to_register, variable_index);
+            staged_argument_count_++;
         }
 
         // Callback for performing tasks with a single register.
@@ -68,6 +86,28 @@ namespace jit {
         }
 
     private:
+        // Bind a variable to a specific register.
+        void lock_variable_to_register(const arch::CpuRegister& sys_register, int variable_index) {
+
+            // If the variable is already bound to a register.
+            // Emit an opcode that moves the value between registers.
+            if (is_register_staged(variable_index)) {
+                VirtualVariableSystemRegisterBinding& binding = view_binding(variable_index);
+                jit_opcodes_.mov(sys_register, binding.sys_register());
+            }
+
+            VirtualVariable&& variable = release_variable(variable_index);
+            VirtualVariableSystemRegisterBinding&& binding
+                = std::move(sys_register_stage_.dequeue_binding(sys_register));
+
+            binding.lock();
+
+            apply_binding(std::move(variable), std::move(binding));
+        }
+
+        VirtualVariableSystemRegisterBinding& view_binding(int variable_index) {
+            return sys_register_stage_.view_binding(variable_index);
+        }
 
         // Not sure if this is neccesary.
         void bind_to_system_register(int variable_number) {

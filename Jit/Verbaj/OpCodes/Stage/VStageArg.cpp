@@ -6,6 +6,9 @@
 #include "VStageArg.h"
 #include "VirtualStackFrame.h"
 
-void verbaj::VStageReg::apply(jit::VirtualStackFrame &frame) const {
-    //frame.stage_argument(virutal_register_);
+void verbaj::VStageArg::apply(jit::VirtualStackFrame &frame) const {
+    auto& stage = frame.variable_stage();
+    auto & rdi = arch::OsxRegisters::rdi;
+
+    stage.stage_argument(variable_number);
 }

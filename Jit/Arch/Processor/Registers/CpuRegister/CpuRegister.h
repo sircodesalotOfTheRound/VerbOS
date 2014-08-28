@@ -19,6 +19,7 @@ namespace arch {
         bool is_extended_;
 
     public:
+        CpuRegister() { }
         CpuRegister(std::string name, byte code, byte size, bool is_extended)
                 : name_(name), register_code_(code), size_(size), is_extended_(is_extended) {
         }

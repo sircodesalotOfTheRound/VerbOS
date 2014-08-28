@@ -10,11 +10,11 @@
 #define VSTAGE_ARG_H
 
 namespace verbaj {
-    class VStageReg : public VerbajOpCodeBase {
-        int virutal_register_;
+    class VStageArg : public VerbajOpCodeBase {
+        int variable_number;
 
     public:
-        VStageReg(int virtual_register) : virutal_register_(virtual_register) { }
+        VStageArg(int virtual_register) : variable_number(virtual_register) { }
 
         void apply(jit::VirtualStackFrame &) const;
     };

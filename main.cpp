@@ -3,6 +3,8 @@
 #include "VLdui64.h"
 #include "VerbajPrimitives.h"
 #include "VRet.h"
+#include "VCall.h"
+#include "VStageArg.h"
 
 #include <unistd.h>
 #include <sys/mman.h>
@@ -16,8 +18,8 @@ using namespace std;
 using namespace verbaj;
 using namespace arch;
 
-uint64_t add_together(uint64_t lhs, uint64_t rhs) {
-    return lhs + rhs;
+void add_together(uint64_t lhs, uint64_t rhs) {
+    cout << lhs << " + " << rhs << " = " << (lhs + rhs) << endl;
 }
 
 int main() {
@@ -26,6 +28,9 @@ int main() {
 
     frame.insert(new VLdui64(1, 69));
     frame.insert(new VLdui64(2, 42));
+    frame.insert(new VStageArg(1));
+    frame.insert(new VStageArg(2));
+    frame.insert(new VCall(&add_together));
     frame.insert(new VRet(2));
 
     frame.apply(renderer);
@@ -33,7 +38,7 @@ int main() {
     uint64_t(*pfunc)() = (uint64_t(*)())renderer.memory();
 
     cout << pfunc() << endl;
-
+    frame.debug_print();
 
     return 0;
 }

@@ -81,6 +81,10 @@ namespace jit {
             return std::move(binding);
         }
 
+        VirtualVariableSystemRegisterBinding& view_binding(int variable_index) {
+            return register_queue_.borrow(variable_index);
+        }
+
         void bind(VirtualVariableSystemRegisterBinding&& binding) {
             register_queue_.bind(std::move(binding));
         }
