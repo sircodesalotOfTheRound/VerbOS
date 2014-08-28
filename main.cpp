@@ -27,11 +27,23 @@ uint64_t add_together(uint64_t lhs, uint64_t rhs) {
 int main() {
     VirtualVariableStagingAllocator allocator(20);
 
-    VirtualVariable variable(2, VerbajPrimitives::vm_object, 1, true);
+    for (int index = 0; index != 10; ++index) {
+        VirtualVariable variable(index, VerbajPrimitives::vm_object, 1, true);
+        allocator.stack_persist(std::move(variable));
+    }
 
-    allocator.bind_to_stack_persistence(std::move(variable));
-    allocator.bind_to_system_register(OsxRegisters::rax, 2);
+    //VirtualVariable variable(2, VerbajPrimitives::vm_object, 1, true);
 
+    for (int index = 0; index != 10; ++index) {
+        allocator.with_register(index, [](const VirtualVariableCheckout& checkout) {
+            cout << checkout.variable_number() << ": " << checkout.sys_register() << endl;
+        });
+    }
+
+    //allocator.stack_persist(std::move(variable));
+    allocator.bind_to_system_register(OsxRegisters::rsi, 2);
+
+    cout << std::endl;
     allocator.show();
 
 

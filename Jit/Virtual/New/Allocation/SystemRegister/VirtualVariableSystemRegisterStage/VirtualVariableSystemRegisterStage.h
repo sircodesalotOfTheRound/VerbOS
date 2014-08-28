@@ -82,7 +82,7 @@ namespace jit {
         }
         
         VirtualVariable&& unbind(int virtual_variable_number) {
-            return register_queue_.unbind(virtual_variable_number);
+            return std::move(register_queue_.unbind(virtual_variable_number));
         }
 
     };

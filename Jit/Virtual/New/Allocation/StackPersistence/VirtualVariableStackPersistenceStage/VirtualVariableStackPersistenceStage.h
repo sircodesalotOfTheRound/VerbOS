@@ -29,11 +29,8 @@ namespace jit {
         }
 
         void persist_variable(VirtualVariable &&variable) {
-            if (variable.is_empty()) {
-                throw std::logic_error("variable content is empty.");
-            }
-
-            virtual_variables_.insert(virtual_variables_.begin() + variable.variable_number(), std::move(variable));
+            validate_variable(variable);
+            virtual_variables_[variable.variable_number()] = std::move(variable);
         }
 
         VirtualVariable &&release(int virtual_register_number) {
@@ -46,6 +43,17 @@ namespace jit {
 
         size_t size() const {
             return virtual_variables_.size();
+        }
+
+    private:
+        void validate_variable(const VirtualVariable& variable) {
+            if (variable.is_empty()) {
+                throw std::logic_error("variable content is empty.");
+            }
+
+            if (contains_variable(variable.variable_number())) {
+                throw std::logic_error("stack already contains this variable");
+            }
         }
     };
 }
