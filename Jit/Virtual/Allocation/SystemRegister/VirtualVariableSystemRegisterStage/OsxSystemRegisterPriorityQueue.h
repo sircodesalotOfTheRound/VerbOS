@@ -14,34 +14,33 @@
 #define __VirtualVariableSystemRegisterStage_H_
 
 namespace jit {
-    class VirtualVariableSystemRegisterStage {
-        using iterator = std::vector<VirtualVariableSystemRegisterBinding>::iterator;
+    class OsxSystemRegisterPriorityQueue : public SystemRegisterPriorityQueue {
 
-        SystemRegisterPriorityQueue register_queue_;
+//        SystemRegisterPriorityQueue register_queue_;
 
 
     public:
-        VirtualVariableSystemRegisterStage()
+        OsxSystemRegisterPriorityQueue()
         {
             using namespace arch;
-            register_queue_.insert_system_register_binding(VirtualVariableSystemRegisterBinding(0, OsxRegisters::rax));
-            register_queue_.insert_system_register_binding(VirtualVariableSystemRegisterBinding(1, OsxRegisters::rbx));
-            register_queue_.insert_system_register_binding(VirtualVariableSystemRegisterBinding(2, OsxRegisters::rcx));
-            register_queue_.insert_system_register_binding(VirtualVariableSystemRegisterBinding(3, OsxRegisters::rdx));
+            insert_system_register_binding(VirtualVariableSystemRegisterBinding(0, OsxRegisters::rax));
+            insert_system_register_binding(VirtualVariableSystemRegisterBinding(1, OsxRegisters::rbx));
+            insert_system_register_binding(VirtualVariableSystemRegisterBinding(2, OsxRegisters::rcx));
+            insert_system_register_binding(VirtualVariableSystemRegisterBinding(3, OsxRegisters::rdx));
 
-            register_queue_.insert_system_register_binding(VirtualVariableSystemRegisterBinding(4, OsxRegisters::rsi));
-            register_queue_.insert_system_register_binding(VirtualVariableSystemRegisterBinding(5, OsxRegisters::rdi));
+            insert_system_register_binding(VirtualVariableSystemRegisterBinding(4, OsxRegisters::rsi));
+            insert_system_register_binding(VirtualVariableSystemRegisterBinding(5, OsxRegisters::rdi));
 
-            register_queue_.insert_system_register_binding(VirtualVariableSystemRegisterBinding(6, OsxRegisters::r8));
-            register_queue_.insert_system_register_binding(VirtualVariableSystemRegisterBinding(7, OsxRegisters::r9));
-            register_queue_.insert_system_register_binding(VirtualVariableSystemRegisterBinding(8, OsxRegisters::r10));
-            register_queue_.insert_system_register_binding(VirtualVariableSystemRegisterBinding(9, OsxRegisters::r11));
-            register_queue_.insert_system_register_binding(VirtualVariableSystemRegisterBinding(10, OsxRegisters::r12));
-            register_queue_.insert_system_register_binding(VirtualVariableSystemRegisterBinding(11, OsxRegisters::r13));
-            register_queue_.insert_system_register_binding(VirtualVariableSystemRegisterBinding(12, OsxRegisters::r14));
-            register_queue_.insert_system_register_binding(VirtualVariableSystemRegisterBinding(13, OsxRegisters::r15));
+            insert_system_register_binding(VirtualVariableSystemRegisterBinding(6, OsxRegisters::r8));
+            insert_system_register_binding(VirtualVariableSystemRegisterBinding(7, OsxRegisters::r9));
+            insert_system_register_binding(VirtualVariableSystemRegisterBinding(8, OsxRegisters::r10));
+            insert_system_register_binding(VirtualVariableSystemRegisterBinding(9, OsxRegisters::r11));
+            insert_system_register_binding(VirtualVariableSystemRegisterBinding(10, OsxRegisters::r12));
+            insert_system_register_binding(VirtualVariableSystemRegisterBinding(11, OsxRegisters::r13));
+            insert_system_register_binding(VirtualVariableSystemRegisterBinding(12, OsxRegisters::r14));
+            insert_system_register_binding(VirtualVariableSystemRegisterBinding(13, OsxRegisters::r15));
         }
-
+/*
         iterator begin() { return register_queue_.begin(); }
         iterator end() { return register_queue_.end(); }
 
@@ -67,11 +66,11 @@ namespace jit {
 
         void with_register(int lhs_register_number, int rhs_register_number,
             std::function<void(VirtualVariableCheckout&, VirtualVariableCheckout&)>& callback) {
-/*
+
             VirtualVariableCheckout lhs = register_queue_.borrow(lhs_register_number);
             VirtualVariableCheckout rhs = register_queue_.borrow(rhs_register_number);
 
-            callback(lhs, rhs);*/
+            callback(lhs, rhs);
         }
         
         
@@ -101,7 +100,7 @@ namespace jit {
         void bind(VirtualVariableSystemRegisterBinding&& binding) {
             register_queue_.bind(std::move(binding));
         }
-        
+     */
     };
 }
 

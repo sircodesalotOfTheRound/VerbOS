@@ -30,7 +30,7 @@
 		D33437CF9E162359A9D9A567 /* ProcessorMovConstToRegOpCode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343042A884F233C1B6FCD2 /* ProcessorMovConstToRegOpCode.cpp */; };
 		D3343822505119F3F859BC97 /* SystemRegisterPriority.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D33432081CC626CFA97F2016 /* SystemRegisterPriority.cpp */; };
 		D334385938B30961C025B998 /* ProcessorPopOpCode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343543161CEFE69B86174A /* ProcessorPopOpCode.cpp */; };
-		D334390C10ACDC9E39A5327E /* VirtualVariableSystemRegisterStage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D334371C3167856C47C7E328 /* VirtualVariableSystemRegisterStage.cpp */; };
+		D334390C10ACDC9E39A5327E /* OsxSystemRegisterPriorityQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D334371C3167856C47C7E328 /* OsxSystemRegisterPriorityQueue.cpp */; };
 		D334399B9BC1D7216BE79905 /* ObjectInstanceHeader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D33431BDAF7FA9DA504F3946 /* ObjectInstanceHeader.cpp */; };
 		D33439BBB2C3C38E89B423C4 /* SystemTypeFieldDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343FD8E78524CE7BF4FCDA /* SystemTypeFieldDefinition.cpp */; };
 		D3343A55CD0A555E98826F8A /* ProcessorAddRegToRegOpCode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D334343CE9E8D57650B5089A /* ProcessorAddRegToRegOpCode.cpp */; };
@@ -69,7 +69,7 @@
 /* Begin PBXFileReference section */
 		D3343042A884F233C1B6FCD2 /* ProcessorMovConstToRegOpCode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProcessorMovConstToRegOpCode.cpp; sourceTree = "<group>"; };
 		D33430592F594EF531BD0288 /* VirtualVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VirtualVariable.cpp; sourceTree = "<group>"; };
-		D3343096C425A9E54D6E0D38 /* VirtualVariableSystemRegisterStage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualVariableSystemRegisterStage.h; sourceTree = "<group>"; };
+		D3343096C425A9E54D6E0D38 /* OsxSystemRegisterPriorityQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OsxSystemRegisterPriorityQueue.h; sourceTree = "<group>"; };
 		D33430A918C425C28A95E4E6 /* CpuRegister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CpuRegister.h; sourceTree = "<group>"; };
 		D33430C05ABB81E9DC3D81C2 /* VirtualStackFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualStackFrame.h; sourceTree = "<group>"; };
 		D33430E31E04783877F7A386 /* ProcessorMovConstToRegOpCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessorMovConstToRegOpCode.h; sourceTree = "<group>"; };
@@ -104,7 +104,7 @@
 		D33436751FECB9B39CD7FAA1 /* ProcessorOpCodeSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessorOpCodeSet.h; sourceTree = "<group>"; };
 		D3343677B29168EC25291EAA /* ObjectInstance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObjectInstance.cpp; sourceTree = "<group>"; };
 		D3343682F1552F411AE6EDEA /* SystemType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemType.h; sourceTree = "<group>"; };
-		D334371C3167856C47C7E328 /* VirtualVariableSystemRegisterStage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VirtualVariableSystemRegisterStage.cpp; sourceTree = "<group>"; };
+		D334371C3167856C47C7E328 /* OsxSystemRegisterPriorityQueue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OsxSystemRegisterPriorityQueue.cpp; sourceTree = "<group>"; };
 		D334371EA842063A1432A8C5 /* JitRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JitRenderer.h; sourceTree = "<group>"; };
 		D3343732489554C95C19D692 /* ObjectInstanceHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectInstanceHeader.h; sourceTree = "<group>"; };
 		D334377DE6399E2A9E1E25C4 /* ProcessorOpCodeOperand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessorOpCodeOperand.h; sourceTree = "<group>"; };
@@ -363,8 +363,8 @@
 		D3343552A7C90FF32E522A8B /* VirtualVariableSystemRegisterStage */ = {
 			isa = PBXGroup;
 			children = (
-				D334371C3167856C47C7E328 /* VirtualVariableSystemRegisterStage.cpp */,
-				D3343096C425A9E54D6E0D38 /* VirtualVariableSystemRegisterStage.h */,
+				D334371C3167856C47C7E328 /* OsxSystemRegisterPriorityQueue.cpp */,
+				D3343096C425A9E54D6E0D38 /* OsxSystemRegisterPriorityQueue.h */,
 			);
 			path = VirtualVariableSystemRegisterStage;
 			sourceTree = "<group>";
@@ -816,7 +816,7 @@
 				D33432AF75F113CDDB3D5A67 /* ProcessorCallOpCode.cpp in Sources */,
 				D3343E80E929FF4761A7AF3E /* Functions.cpp in Sources */,
 				D3343F38D57FC23F81CF0256 /* VirtualVariableSystemRegisterBinding.cpp in Sources */,
-				D334390C10ACDC9E39A5327E /* VirtualVariableSystemRegisterStage.cpp in Sources */,
+				D334390C10ACDC9E39A5327E /* OsxSystemRegisterPriorityQueue.cpp in Sources */,
 				D3343822505119F3F859BC97 /* SystemRegisterPriority.cpp in Sources */,
 				D334321C18296C99AFE7038F /* SystemRegisterPriorityQueue.cpp in Sources */,
 				D334315582DE565E118FDD29 /* VirtualVariableCheckout.cpp in Sources */,
