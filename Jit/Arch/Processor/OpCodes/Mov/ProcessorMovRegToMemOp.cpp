@@ -7,7 +7,7 @@
 
 void op::ProcessorMovRegToMemOp::render(jit::JitRenderer &renderer) const {
     if (direction_ == DIRECTION::FROM_MEMORY) {
-        renderer.write_preamble64(register_, memory_location_.sys_register());
+        renderer.write_preamble64(memory_location_.sys_register(), register_);
         renderer.write_opcode(0x8b);
 
     } else {

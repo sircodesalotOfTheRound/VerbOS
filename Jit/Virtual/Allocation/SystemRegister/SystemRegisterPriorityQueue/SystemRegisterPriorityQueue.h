@@ -27,16 +27,9 @@ namespace jit {
     public:
         SystemRegisterPriorityQueue() :
             queue_invalidated_(true) {
-            bindings_.reserve(15);
         }
 
-        iterator begin() {
-            return bindings_.begin();
-        }
-
-        iterator end() {
-            return bindings_.end();
-        }
+        size_t size() { return bindings_.size(); }
 
         void insert_system_register_binding(VirtualVariableSystemRegisterBinding&& binding) {
             register_map_.insert({binding.sys_register(), binding.binding_number()});
@@ -67,6 +60,16 @@ namespace jit {
 
         VirtualVariableSystemRegisterBinding&& dequeue_binding(int variable_number) {
             VirtualVariableSystemRegisterBinding&& binding = std::move(dequeue(variable_number));
+            return std::move(binding);
+        }
+
+
+        // Release binding
+        VirtualVariableSystemRegisterBinding&& release(int binding_number) {
+            VirtualVariableSystemRegisterBinding&& binding = std::move(bindings_[binding_number]);
+
+            remove_metadata(binding);
+
             return std::move(binding);
         }
 

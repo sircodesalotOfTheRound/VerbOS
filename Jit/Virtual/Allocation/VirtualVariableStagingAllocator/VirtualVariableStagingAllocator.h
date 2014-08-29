@@ -33,11 +33,11 @@ namespace jit {
 
         // Debug
         void show() {
-            for (auto& item : register_queue_) {
+            /*for (int index)
                 if (item.contains_variable()) {
                     std::cout << item.variable_number() << ": " << item.sys_register() << std::endl;
                 }
-            }
+            }*/
         }
 
         // Create a new local
@@ -50,25 +50,18 @@ namespace jit {
         void persist_all() {
             argument_staging_factory_.reset();
 
-            for (auto& binding : register_queue_) {
+            for (int binding_index = 0; binding_index != register_queue_.size(); ++binding_index) {
+                VirtualVariableSystemRegisterBinding&& binding = register_queue_.release(binding_index);
+
                 // If the binding is locked, it's because it's being used
                 // as a parameter. No need to store parameters.
                 if (binding.contains_variable()) {
                     binding.unlock();
                     stack_persist(binding);
                 }
-            }
 
-            std::cout << "after persisting" << std::endl;
-
-            for (auto& binding : register_queue_) {
-                std::cout << "#" << binding.binding_number();
-
-                if (binding.contains_variable()) {
-                    std::cout << " : " << binding.variable_number() << std::endl;
-                }
-
-                std::cout << std::endl;
+                // Rebind
+                register_queue_.bind(std::move(binding));
             }
         }
 

@@ -9,8 +9,8 @@ void op::ProcessorSubConstToRegOpCode::render(jit::JitRenderer &renderer) const 
     renderer.write_preamble64lhs(lhs_);
 
     renderer.write_opcode(0x81);
-    renderer.write_opcode_masked(0xc0, lhs_);
+    renderer.write_opcode_masked(0xec, lhs_);
 
     // Add only comes in 32 bit variant
-    renderer.write_int32((uint32_t)-rhs_);
+    renderer.write_int32((uint32_t)rhs_);
 }

@@ -34,14 +34,19 @@ namespace jit {
                write_int8(0x4d);
 
            } else if (lhs.is_extended() || rhs.is_extended()) {
+
                // Otherwise, lhs-extended is 0x49, and rhs is 0x4c.
-               if (lhs.is_extended()) write_int8(0x49);
-               if (rhs.is_extended()) write_int8(0x4c);
+               if (lhs.is_extended()) {
+                   write_int8(0x49);
+               }
+               else if (rhs.is_extended()) {
+                   write_int8(0x4c);
+               }
 
            } else {
-
                 // If neither side is extended:
                 write_int8(0x48);
+
             }
         }
 
