@@ -14,7 +14,7 @@ void jit::SystemRegisterPriorityQueue::prioritize() {
         // a particular register, usually before a method call) then
         // we don't want to add that to the priority queue.
         if (!binding.is_locked()) {
-            SystemRegisterPriority priority(binding.sys_register(), binding.priority(), binding.binding_number());
+            SystemRegisterPriority priority(binding);
             queue_.push(priority);
         }
     }
@@ -55,7 +55,7 @@ jit::VirtualVariableSystemRegisterBinding&& jit::SystemRegisterPriorityQueue::de
     const SystemRegisterPriority& priority = queue_.top();
     queue_.pop();
 
-    VirtualVariableSystemRegisterBinding&& binding = std::move(bindings_[priority.register_index()]);
+    VirtualVariableSystemRegisterBinding&& binding = std::move(bindings_[priority.binding_number()]);
     remove_metadata(binding);
 
     return std::move(binding);

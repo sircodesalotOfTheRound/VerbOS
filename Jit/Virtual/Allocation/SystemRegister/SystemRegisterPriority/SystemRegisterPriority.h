@@ -13,20 +13,20 @@ namespace jit {
     class SystemRegisterPriority {
         arch::CpuRegister register_;
         int priority_;
-        int register_index_;
+        int binding_number_;
 
     public:
-        SystemRegisterPriority(arch::CpuRegister& sys_register, int priority, int register_index)
-            : register_(sys_register),
-              priority_(priority),
-              register_index_(register_index)
+        SystemRegisterPriority(VirtualVariableSystemRegisterBinding& binding)
+            : register_(binding.sys_register()),
+              priority_(binding.priority() + binding.usage_count()),
+              binding_number_(binding.binding_number())
         {
 
         }
 
         arch::CpuRegister& sys_register() { return register_; }
         int priority() const { return priority_; }
-        int register_index() const { return register_index_; }
+        int binding_number() const { return binding_number_; }
 
         bool operator<(const SystemRegisterPriority& rhs) const {
             return rhs.priority_ < priority_;

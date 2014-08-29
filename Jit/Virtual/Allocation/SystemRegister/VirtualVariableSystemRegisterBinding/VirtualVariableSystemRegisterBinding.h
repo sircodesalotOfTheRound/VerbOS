@@ -17,12 +17,14 @@ namespace jit {
         arch::CpuRegister sys_register_;
         int binding_number_;
         bool is_locked_;
+        int usage_count_;
         VirtualVariable variable_;
 
     public:
         VirtualVariableSystemRegisterBinding(int binding_number, const arch::CpuRegister &cpu_register) :
                 sys_register_(cpu_register),
                 is_locked_(false),
+                usage_count_(0),
                 binding_number_(binding_number) {
 
         }
@@ -33,11 +35,13 @@ namespace jit {
                 sys_register_(rhs.sys_register_),
                 binding_number_(rhs.binding_number_),
                 is_locked_(rhs.is_locked_),
+                usage_count_(rhs.usage_count_),
                 variable_(std::move(rhs.variable_))
         {
             rhs.variable_ = VirtualVariable();
             rhs.is_locked_ = false;
             rhs.binding_number_ = none;
+            rhs.usage_count_ = 0;
         }
 
         VirtualVariableSystemRegisterBinding& operator=(VirtualVariableSystemRegisterBinding &&rhs) {
@@ -45,16 +49,20 @@ namespace jit {
 
             sys_register_ = rhs.sys_register_;
             is_locked_ = rhs.is_locked_;
+            usage_count_ = rhs.usage_count_;
             binding_number_ = rhs.binding_number_;
             variable_ = std::move(rhs.variable_);
 
             rhs.binding_number_ = none;
+            rhs.usage_count_ = 0;
             rhs.is_locked_ = false;
             rhs.variable_ = VirtualVariable();
 
             return *this;
         }
 
+        int usage_count() const { return usage_count_; }
+        void increment_usage_count() { ++usage_count_; }
 
         arch::CpuRegister &sys_register() {
             return sys_register_;

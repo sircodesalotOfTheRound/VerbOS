@@ -34,10 +34,16 @@ int main() {
         frame.insert(new VLdui64(index, index));
     }
 
-    frame.insert(new VStageArg(2));
+    frame.insert(new VStageArg(7));
+    frame.insert(new VStageArg(12));
+    frame.insert(new VCall(&add_together));
+    frame.insert(new VStageArg(5));
+    frame.insert(new VStageArg(6));
+    frame.insert(new VCall(&add_together));
+    frame.insert(new VStageArg(12));
     frame.insert(new VStageArg(15));
     frame.insert(new VCall(&add_together));
-    frame.insert(new VRet(13));
+    frame.insert(new VRet(17));
 
     frame.apply(renderer);
 

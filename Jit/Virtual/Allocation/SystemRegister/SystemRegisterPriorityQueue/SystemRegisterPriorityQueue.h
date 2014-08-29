@@ -84,21 +84,20 @@ namespace jit {
         void bind(VirtualVariableSystemRegisterBinding&& binding) {
             if (binding.contains_variable()) {
                 validate_variable(binding.variable());
+                binding.increment_usage_count();
             }
 
             // Insert the binding into the lookup.
             bind_metadata(binding);
 
+            // Add to the priority queue
+            SystemRegisterPriority priority (binding);
+            queue_.push(priority);
+
             // Reinsert the binding
             bindings_[binding.binding_number()] = std::move(binding);
         }
 
-
-        void unlock_bindings() {
-            for (auto& binding : bindings_) {
-                binding.unlock();
-            }
-        }
 
     private:
         void validate_variable(const VirtualVariable& variable) {
