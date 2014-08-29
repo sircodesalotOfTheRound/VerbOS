@@ -99,8 +99,10 @@ namespace jit {
             if (does_register_hold_data(sys_register)) {
                 VirtualVariableSystemRegisterBinding&& binding = std::move(register_queue_.dequeue_binding(sys_register));
 
-                // If this variable is already bound. Then go ahead and return.
+                // If this variable is already bound. Then go ahead and lock it, then return.
                 if (binding.variable_number() == variable_index) {
+                    binding.lock();
+                    register_queue_.bind(std::move(binding));
                     return;
                 }
 
@@ -123,6 +125,8 @@ namespace jit {
 
                 // If we're already correctly bound. Return.
                 if (binding.sys_register() == sys_register) {
+                    register_queue_.bind(std::move(binding));
+                    binding.lock();
                     return;
                 }
 
@@ -155,7 +159,6 @@ namespace jit {
                 binding.bind_variable(std::move(variable));
                 register_queue_.bind(std::move(binding));
 
-                binding.lock();
             }
             else if (is_unstaged(variable_index)) {
                 // Finally check out the register we want, and bind.
@@ -167,7 +170,6 @@ namespace jit {
                 binding.bind_variable(std::move(variable));
                 register_queue_.bind(std::move(binding));
 
-                binding.lock();
             }
         }
 
