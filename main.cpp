@@ -4,6 +4,7 @@
 #include "VRet.h"
 #include "VStageArg.h"
 #include "Functions.h"
+#include "VCall.h"
 
 #include <unistd.h>
 #include <sys/mman.h>
@@ -22,19 +23,21 @@ void add_together(uint64_t lhs, uint64_t rhs) {
 }
 
 void leave(uint64_t arg, uint64_t rhs) {
-    exit(rhs);
+    exit(static_cast<int>(rhs));
 }
 
 int main() {
     JitRenderer renderer(memory());
     VirtualStackFrame frame(20);
 
-    for (int index = 1; index != 15; ++index) {
+    for (int index = 0; index != 5; ++index) {
         frame.insert(new VLdui64(index, index));
     }
 
+    frame.insert(new VStageArg(2));
+    frame.insert(new VStageArg(4));
     //frame.insert(new VCall(&add_together));
-    frame.insert(new VRet(13));
+    frame.insert(new VRet(4));
 
     frame.apply(renderer);
 

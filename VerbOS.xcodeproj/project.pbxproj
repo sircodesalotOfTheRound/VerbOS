@@ -39,6 +39,7 @@
 		D3343B5C8F30E7DF275BF5C8 /* ObjectInstance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343677B29168EC25291EAA /* ObjectInstance.cpp */; };
 		D3343BE99D813B8E55CD0D4E /* OsxRegisters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343A8524DDAF672FBC6189 /* OsxRegisters.cpp */; };
 		D3343C7D9338CF194C90CFE2 /* SystemString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343A67B829E902F26DB812 /* SystemString.cpp */; };
+		D3343D2886A1B4D741A7F9B9 /* ArgumentStagingRegisterAssignmentFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D33431DB5E7EA9EF5A895B95 /* ArgumentStagingRegisterAssignmentFactory.cpp */; };
 		D3343D66A5D62B10F64B54C1 /* VStageArg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343965702F38510D7ABD0E /* VStageArg.cpp */; };
 		D3343D83970A93E4A7EE7017 /* VLdui64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343D0844C240B23149C3F0 /* VLdui64.cpp */; };
 		D3343D92A79DD9AE07C00D01 /* VRet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343C5F84808BBF9404F3DA /* VRet.cpp */; };
@@ -78,8 +79,10 @@
 		D33431BD60DE6A158909902F /* SystemType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemType.cpp; sourceTree = "<group>"; };
 		D33431BDAF7FA9DA504F3946 /* ObjectInstanceHeader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObjectInstanceHeader.cpp; sourceTree = "<group>"; };
 		D33431D2D6DD53D5F9148247 /* ProcessorRegToRegMovOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessorRegToRegMovOp.h; sourceTree = "<group>"; };
+		D33431DB5E7EA9EF5A895B95 /* ArgumentStagingRegisterAssignmentFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArgumentStagingRegisterAssignmentFactory.cpp; sourceTree = "<group>"; };
 		D33432081CC626CFA97F2016 /* SystemRegisterPriority.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemRegisterPriority.cpp; sourceTree = "<group>"; };
 		D334322B32C5180E2FA77802 /* ProcessorAddRegToRegOpCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessorAddRegToRegOpCode.h; sourceTree = "<group>"; };
+		D334325C327BAE6926131626 /* ArgumentStagingRegisterAssignmentFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArgumentStagingRegisterAssignmentFactory.h; sourceTree = "<group>"; };
 		D3343273D26A08A56A861A51 /* ProcessorAddConstToRegOpCode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProcessorAddConstToRegOpCode.cpp; sourceTree = "<group>"; };
 		D33432DB4FBB09040EB0B8B4 /* SystemRegisterPriorityQueue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemRegisterPriorityQueue.cpp; sourceTree = "<group>"; };
 		D3343303110436091B68264D /* VirtualVariableCheckout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualVariableCheckout.h; sourceTree = "<group>"; };
@@ -315,6 +318,7 @@
 				D334326E8546B8D91905E35B /* StackFrame */,
 				D334358845CF0559E09686D2 /* Allocation */,
 				D334317882E4A4D0148D3EDC /* VirtualVariable */,
+				D3343DB28D2B8D03218A1770 /* ArgumentStagingRegisterAssignmentFactory */,
 			);
 			path = Virtual;
 			sourceTree = "<group>";
@@ -591,6 +595,15 @@
 			path = Primitives;
 			sourceTree = "<group>";
 		};
+		D3343DB28D2B8D03218A1770 /* ArgumentStagingRegisterAssignmentFactory */ = {
+			isa = PBXGroup;
+			children = (
+				D33431DB5E7EA9EF5A895B95 /* ArgumentStagingRegisterAssignmentFactory.cpp */,
+				D334325C327BAE6926131626 /* ArgumentStagingRegisterAssignmentFactory.h */,
+			);
+			path = ArgumentStagingRegisterAssignmentFactory;
+			sourceTree = "<group>";
+		};
 		D3343DD459D44FDEBB5B7858 /* ObjectInstance */ = {
 			isa = PBXGroup;
 			children = (
@@ -810,6 +823,7 @@
 				D3343E21574EC4D1A4572CA3 /* VirtualVariableStackPersistenceStage.cpp in Sources */,
 				D334369D1C2B8245E51BEA7F /* VirtualVariableStagingAllocator.cpp in Sources */,
 				D3343A75F5828B3310F2CC28 /* VirtualVariable.cpp in Sources */,
+				D3343D2886A1B4D741A7F9B9 /* ArgumentStagingRegisterAssignmentFactory.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

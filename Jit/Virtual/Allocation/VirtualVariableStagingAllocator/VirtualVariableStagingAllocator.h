@@ -7,6 +7,7 @@
 #include "VirtualVariableSystemRegisterStage.h"
 #include "VirtualVariableStackPersistenceStage.h"
 #include "ProcessorOpCodeSet.h"
+#import "ArgumentStagingRegisterAssignmentFactory.h"
 
 #ifndef __VirtualVariableStagingAllocator_H_
 #define __VirtualVariableStagingAllocator_H_
@@ -16,19 +17,17 @@ namespace jit {
         op::ProcessorOpCodeSet& jit_opcodes_;
         VirtualVariableStackPersistenceStage stack_persistence_stage_;
         VirtualVariableSystemRegisterStage sys_register_stage_;
+        ArgumentStagingRegisterAssignmentFactory argument_staging_factory_;
 
         // Variables that are neither on the stack nor register bound.
         std::vector<VirtualVariable> unstaged_variables_;
 
-        // Staged arguments are those register-bound variables that
-        // are locked to certain registers (because of ABI).
-        int staged_argument_count_;
 
     public:
         VirtualVariableStagingAllocator(op::ProcessorOpCodeSet& jit_opcodes, size_t size)
             : stack_persistence_stage_(size),
-              jit_opcodes_(jit_opcodes),
-              staged_argument_count_(0) {
+              jit_opcodes_(jit_opcodes)
+        {
             unstaged_variables_.resize(size);
         }
 
@@ -44,32 +43,24 @@ namespace jit {
             unstaged_variables_[variable.variable_number()] = std::move(variable);
         }
 
-        void unlock_argument_bindings() {
-            staged_argument_count_ = 0;
-            sys_register_stage_.unlock_bindings();
+        void persist_all() {
+            argument_staging_factory_.reset();
+
+            for (auto& binding : sys_register_stage_) {
+                // If the binding is locked, it's because it's being used
+                // as a parameter. No need to store parameters.
+                if (binding.contains_variable()) {
+                    binding.unlock();
+                    stack_persist(binding);
+                }
+            }
         }
 
         // Bind a variable to a specific register.
         void stage_argument(int variable_index) {
-            using namespace arch;
-            CpuRegister bind_to_register;
+            auto cpu_register = argument_staging_factory_.determine_register();
 
-            switch (staged_argument_count_) {
-                case 0:
-                    bind_to_register = OsxRegisters::rdi;
-                    break;
-
-                case 1:
-                    bind_to_register = OsxRegisters::rsi;
-                    break;
-
-                default:
-                    // TODO: Fix this eventually.
-                    throw std::logic_error("too many arguments");
-            }
-
-            lock_variable_to_register(bind_to_register, variable_index);
-            staged_argument_count_++;
+            lock_variable_to_register(cpu_register, variable_index);
         }
 
         // Callback for performing tasks with a single register.

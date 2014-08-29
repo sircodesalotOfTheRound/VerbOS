@@ -15,7 +15,10 @@
 
 namespace jit {
     class VirtualVariableSystemRegisterStage {
+        using iterator = std::vector<VirtualVariableSystemRegisterBinding>::iterator;
+
         SystemRegisterPriorityQueue register_queue_;
+
 
     public:
         VirtualVariableSystemRegisterStage()
@@ -38,6 +41,9 @@ namespace jit {
             register_queue_.insert_system_register_binding(VirtualVariableSystemRegisterBinding(12, OsxRegisters::r14));
             register_queue_.insert_system_register_binding(VirtualVariableSystemRegisterBinding(13, OsxRegisters::r15));
         }
+
+        iterator begin() { return register_queue_.begin(); }
+        iterator end() { return register_queue_.end(); }
 
         void with_register(op::ProcessorOpCodeSet& jit_opcodes, int virtual_register_number,
                 std::function<void(VirtualVariableCheckout&)>& callback)
@@ -96,10 +102,6 @@ namespace jit {
             register_queue_.bind(std::move(binding));
         }
         
-        void unlock_bindings() {
-            register_queue_.unlock_bindings();
-        }
-
     };
 }
 
