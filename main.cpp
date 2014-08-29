@@ -18,6 +18,10 @@ using namespace std;
 using namespace verbaj;
 using namespace arch;
 
+void tripple_add(uint64_t lhs, uint64_t rhs, uint64_t third) {
+    cout << lhs << " + " << rhs << " + " << third << " = " << (lhs + rhs + third) << endl;
+}
+
 void add_together(uint64_t lhs, uint64_t rhs) {
     cout << lhs << " + " << rhs << " = " << (lhs + rhs) << endl;
 }
@@ -42,7 +46,8 @@ int main() {
     frame.insert(new VCall(&add_together));
     frame.insert(new VStageArg(12));
     frame.insert(new VStageArg(15));
-    frame.insert(new VCall(&add_together));
+    frame.insert(new VStageArg(9));
+    frame.insert(new VCall(&tripple_add));
     frame.insert(new VRet(17));
 
     frame.apply(renderer);
