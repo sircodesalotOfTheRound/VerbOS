@@ -11,16 +11,20 @@
 #include "TypeDef.h"
 #import "SystemType.h"
 #import "ObjectInstanceHeader.h"
+#import "InstanceHeadPointer.h"
+#import "ClassBand.h"
 
 namespace types {
     class ObjectInstance {
         ObjectInstanceHeader header_;
+        ClassBand head_class_band_;
 
     public:
-        ObjectInstance() { };
+        ObjectInstance() : head_class_band_(*this) { };
 
         void* operator new (size_t size, const SystemType& type) {
-            ObjectInstance *instance = (ObjectInstance*) malloc(size);
+            // Todo: change size to instead use the size derived from the type.
+            ObjectInstance *instance = (ObjectInstance*)malloc(size);
 
             // Set the object type. Then zeroize the meta info.
             instance->header_.data_[0] = (uintptr_t)&type;
@@ -28,6 +32,8 @@ namespace types {
 
             return instance;
         }
+
+        ClassBand* head_pointer() { return &head_class_band_; }
 
         /*const SystemType &def() const {
             // Since we may be pointing at a base stripe, we need to

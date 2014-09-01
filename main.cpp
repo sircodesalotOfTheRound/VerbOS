@@ -5,6 +5,8 @@
 #include "VStageArg.h"
 #include "Functions.h"
 #include "VCall.h"
+#include "ObjectInstance.h"
+#include "VerbajPrimitives.h"
 
 #include <unistd.h>
 #include <sys/mman.h>
@@ -17,49 +19,15 @@ using namespace jit;
 using namespace std;
 using namespace verbaj;
 using namespace arch;
-
-void tripple_add(uint64_t lhs, uint64_t rhs, uint64_t third) {
-    cout << lhs << " + " << rhs << " + " << third << " = " << (lhs + rhs + third) << endl;
-}
-
-void add_together(uint64_t lhs, uint64_t rhs) {
-    cout << lhs << " + " << rhs << " = " << (lhs + rhs) << endl;
-}
-
-void leave(uint64_t arg, uint64_t rhs) {
-    exit(static_cast<int>(rhs));
-}
+using namespace types;
 
 int main() {
-    JitRenderer renderer(memory());
-    VirtualStackFrame frame(20);
+    ObjectInstance *instance = new (VerbajPrimitives::vm_uint64) ObjectInstance();
 
-    for (int index = 0; index != 20; ++index) {
-        frame.insert(new VLdui64(index, index));
-    }
+    cout << instance->type() << endl;
+    ClassBand* pBand = instance->head_pointer();
 
-    frame.insert(new VStageArg(7));
-    frame.insert(new VStageArg(12));
-    frame.insert(new VCall(&add_together));
-    frame.insert(new VStageArg(5));
-    frame.insert(new VStageArg(6));
-    frame.insert(new VCall(&add_together));
-    frame.insert(new VStageArg(12));
-    frame.insert(new VStageArg(15));
-    frame.insert(new VStageArg(9));
-    frame.insert(new VCall(&tripple_add));
-    frame.insert(new VRet(17));
+    cout << pBand->get_instance().type() << endl;
 
-    frame.apply(renderer);
-
-    uint64_t(*pfunc)() = (uint64_t(*)())renderer.memory();
-
-    frame.debug_print();
-    renderer.debug_print();
-
-    helpers::stack_aligned_call([&] {
-        cout << pfunc() << endl;
-    });
-
-    return 0;
 }
+
