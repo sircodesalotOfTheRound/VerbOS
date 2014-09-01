@@ -5,7 +5,7 @@
 #include "VStageArg.h"
 #include "Functions.h"
 #include "VCall.h"
-#include "ObjectInstance.h"
+#include "Instance.h"
 #include "VerbajPrimitives.h"
 
 #include <unistd.h>
@@ -22,10 +22,10 @@ using namespace arch;
 using namespace types;
 
 int main() {
-    ObjectInstance *instance = new (VerbajPrimitives::vm_uint64) ObjectInstance();
+    Instance*instance = new (VerbajPrimitives::vm_uint64) Instance();
 
     cout << instance->type() << endl;
-    ClassBand* pBand = instance->head_pointer();
+    Trait* pBand = instance->head_class_band();
 
     cout << pBand->get_instance().type() << endl;
 

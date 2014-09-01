@@ -10,7 +10,7 @@
 #include "SystemType.h"
 
 namespace types {
-    struct ObjectInstanceHeader {
+    struct InstanceHeader {
         // 0 - 8 : System Type
         // 9 - 16 : Garbage Collection Meta
         using raw_header_bytes = uintptr_t[2];
