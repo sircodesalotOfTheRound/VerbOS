@@ -50,7 +50,7 @@
 		D3343E80E929FF4761A7AF3E /* Functions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343D17742A2EE5A4D89399 /* Functions.cpp */; };
 		D3343EC65BCE7355B9E5E833 /* ProcessorOpCodeSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343CEF8568EF2D0527DDC6 /* ProcessorOpCodeSet.cpp */; };
 		D3343EE0A31E461A5F8C6EA4 /* ProcessorSubConstToRegOpCode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343BE464D764D069988450 /* ProcessorSubConstToRegOpCode.cpp */; };
-		D3343F191BE45A643BAC9FB5 /* InstanceSelfPointer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343366B62155FAD9C0FE53 /* InstanceSelfPointer.cpp */; };
+		D3343F191BE45A643BAC9FB5 /* InstanceClassPointer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343366B62155FAD9C0FE53 /* InstanceClassPointer.cpp */; };
 		D3343F38D57FC23F81CF0256 /* VirtualVariableSystemRegisterBinding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343A57135E1D7D727B7131 /* VirtualVariableSystemRegisterBinding.cpp */; };
 		D3343F72F10DC346938297F2 /* VerbajPrimitives.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D33435AE183A75A0F33BA7BB /* VerbajPrimitives.cpp */; };
 		D3343FD9B765CF99F6572274 /* ProcessorIncOpCode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D334395660C5F321208D3753 /* ProcessorIncOpCode.cpp */; };
@@ -89,7 +89,7 @@
 		D33432DB4FBB09040EB0B8B4 /* SystemRegisterPriorityQueue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemRegisterPriorityQueue.cpp; sourceTree = "<group>"; };
 		D3343303110436091B68264D /* VirtualVariableCheckout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualVariableCheckout.h; sourceTree = "<group>"; };
 		D334330A5D3BAD25EDD986C0 /* VerbajOpCodeSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VerbajOpCodeSet.h; sourceTree = "<group>"; };
-		D3343366B62155FAD9C0FE53 /* InstanceSelfPointer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InstanceSelfPointer.cpp; sourceTree = "<group>"; };
+		D3343366B62155FAD9C0FE53 /* InstanceClassPointer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InstanceClassPointer.cpp; sourceTree = "<group>"; };
 		D334336A9FB074B340C76D36 /* ProcessorSubRegToRegOpCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessorSubRegToRegOpCode.h; sourceTree = "<group>"; };
 		D33433C3FDAF56AFE6B613A7 /* VerbajOpCodeBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VerbajOpCodeBase.h; sourceTree = "<group>"; };
 		D33433D5EE5026A887E71B2A /* SystemString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemString.h; sourceTree = "<group>"; };
@@ -124,7 +124,7 @@
 		D3343977B8666077677071AC /* Instance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Instance.h; sourceTree = "<group>"; };
 		D33439819EA7337B63D77E66 /* ProcessorCallOpCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessorCallOpCode.h; sourceTree = "<group>"; };
 		D33439894E6AA612F9261F97 /* ProcessorIncOpCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessorIncOpCode.h; sourceTree = "<group>"; };
-		D3343989A2D7433E0EC7A13F /* InstanceSelfPointer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstanceSelfPointer.h; sourceTree = "<group>"; };
+		D3343989A2D7433E0EC7A13F /* InstanceClassPointer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstanceClassPointer.h; sourceTree = "<group>"; };
 		D33439B9DDF419A8895B1F60 /* VRet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VRet.h; sourceTree = "<group>"; };
 		D33439FFA36932E434081F04 /* VirtualVariableCheckout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VirtualVariableCheckout.cpp; sourceTree = "<group>"; };
 		D3343A57135E1D7D727B7131 /* VirtualVariableSystemRegisterBinding.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VirtualVariableSystemRegisterBinding.cpp; sourceTree = "<group>"; };
@@ -411,13 +411,13 @@
 			path = ProcessorOpCodeSet;
 			sourceTree = "<group>";
 		};
-		D3343694AE30A0AD47677A08 /* InstanceSelfPointer */ = {
+		D3343694AE30A0AD47677A08 /* InstanceClassPointer */ = {
 			isa = PBXGroup;
 			children = (
-				D3343366B62155FAD9C0FE53 /* InstanceSelfPointer.cpp */,
-				D3343989A2D7433E0EC7A13F /* InstanceSelfPointer.h */,
+				D3343366B62155FAD9C0FE53 /* InstanceClassPointer.cpp */,
+				D3343989A2D7433E0EC7A13F /* InstanceClassPointer.h */,
 			);
-			path = InstanceSelfPointer;
+			path = InstanceClassPointer;
 			sourceTree = "<group>";
 		};
 		D33436980B8E884E23A3A60B /* StackPersistence */ = {
@@ -503,7 +503,7 @@
 			children = (
 				D3343DD459D44FDEBB5B7858 /* Instance */,
 				D3343257ECFBAA56F9906390 /* InstanceHeader */,
-				D3343694AE30A0AD47677A08 /* InstanceSelfPointer */,
+				D3343694AE30A0AD47677A08 /* InstanceClassPointer */,
 				D33431A35C8B2EAA6C6D43E2 /* Trait */,
 			);
 			path = Instances;
@@ -850,7 +850,7 @@
 				D334369D1C2B8245E51BEA7F /* VirtualVariableStagingAllocator.cpp in Sources */,
 				D3343A75F5828B3310F2CC28 /* VirtualVariable.cpp in Sources */,
 				D3343D2886A1B4D741A7F9B9 /* ArgumentStagingRegisterAssignmentFactory.cpp in Sources */,
-				D3343F191BE45A643BAC9FB5 /* InstanceSelfPointer.cpp in Sources */,
+				D3343F191BE45A643BAC9FB5 /* InstanceClassPointer.cpp in Sources */,
 				D3343044AFFDF49AFC93FBAD /* Trait.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

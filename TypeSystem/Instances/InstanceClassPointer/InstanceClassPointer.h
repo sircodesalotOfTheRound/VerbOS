@@ -10,7 +10,7 @@
 
 namespace types {
     class Instance;
-    struct InstanceSelfPointer {
+    struct InstanceClassPointer {
         Instance* self_;
 
     public:

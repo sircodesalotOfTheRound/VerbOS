@@ -11,7 +11,7 @@
 #include "TypeDef.h"
 #import "SystemType.h"
 #import "InstanceHeader.h"
-#import "InstanceSelfPointer.h"
+#import "InstanceClassPointer.h"
 #import "Trait.h"
 
 namespace types {

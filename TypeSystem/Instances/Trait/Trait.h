@@ -4,14 +4,14 @@
 //
 
 
-#include "InstanceSelfPointer.h"
+#include "InstanceClassPointer.h"
 
 #ifndef __ClassBand_H_
 #define __ClassBand_H_
 
 namespace types {
     struct Trait {
-        InstanceSelfPointer instance_pointer_;
+        InstanceClassPointer instance_pointer_;
 
     public:
         Trait()

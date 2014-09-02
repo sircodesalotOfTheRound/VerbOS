@@ -4,5 +4,3 @@
 //
 
 #include "ArgumentStagingRegisterAssignmentFactory.h"
-
-static int staged_argument_count_ = 0;

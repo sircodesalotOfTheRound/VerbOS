@@ -153,7 +153,7 @@ namespace jit {
 
                 // Emit the opcode that moves from memory to the register.
                 const static auto& rbp = arch::OsxRegisters::rbp;
-                jit_opcodes_.mov(binding.sys_register(), rbp[calculate_persistence_offset(variable)]);
+                jit_opcodes_.mov(binding.sys_register(), rbp[(int)calculate_persistence_offset(variable)]);
 
                 // Bind the variable, and send the binding back to the register stage.
                 binding.bind_variable(std::move(variable));
@@ -203,7 +203,7 @@ namespace jit {
 
                     // Since we're moving from memory, we need to emit an opcode that represents that move.
                     const static auto& rbp = arch::OsxRegisters::rbp;
-                    jit_opcodes_.mov(binding.sys_register(), rbp[calculate_persistence_offset(variable)]);
+                    jit_opcodes_.mov(binding.sys_register(), rbp[(int)calculate_persistence_offset(variable)]);
 
                     binding.bind_variable(std::move(variable));
                     register_queue_.bind(std::move(binding));
@@ -234,7 +234,7 @@ namespace jit {
             VirtualVariable variable = std::move(binding.release_variable());
 
             // Emit an opcode stating the movement from system register (binding) to the stack.
-            jit_opcodes_.mov(rbp[calculate_persistence_offset(variable)], binding.sys_register());
+            jit_opcodes_.mov(rbp[(int)calculate_persistence_offset(variable)], binding.sys_register());
 
             // Release the variable and bind it to the stack
             stack_persistence_stage_.persist_variable(binding.sys_register(), std::move(variable));
