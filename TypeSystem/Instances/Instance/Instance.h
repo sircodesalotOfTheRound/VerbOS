@@ -40,6 +40,7 @@ namespace types {
         Instance(const SystemType& type) : header_(type), head_trait_(this) { }
 
         void* operator new (size_t size, size_t number_of_traits, size_t required_size) {
+            size_t total_required_size = (sizeof(InstanceHeader) + (sizeof(Trait) * number_of_traits)  + required_size);
             return malloc(total_required_size);
         }
 
