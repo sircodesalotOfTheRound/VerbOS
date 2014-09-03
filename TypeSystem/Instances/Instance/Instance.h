@@ -1,6 +1,6 @@
 //
-// Created by Reuben Kuhnert on 14/8/19.
-// Copyright (c) 2014 Reuben Kuhnert. All rights reserved.
+// NOTE: The layout of an instance is directly tied to system architecture!
+// This is done to simplify accessing the instance content from assembly.
 //
 
 
@@ -16,29 +16,30 @@
 
 namespace types {
     class Instance {
+        // 16 byte header. (System type, and GC meta info).
         InstanceHeader header_;
-        Trait head_trait;
+        Trait head_trait_;
 
     public:
-        Instance() { };
+        Instance() { }
 
         void* operator new (size_t size, const SystemType& type) {
-            // Todo: change size to instead use the size derived from the type.
-            Instance*instance = (Instance*)malloc(size);
-
-            // Set the object type. Then zeroize the meta info.
-            instance->header_.data_[0] = (uintptr_t)&type;
-            instance->header_.data_[1] = 0;
-
-            // Initialize the head class band. (Dangerous manual initialization).
-            instance->header_.data_[2] = (uintptr_t)&*instance;
-
-            return instance;
+            // Initialize the memory after creating it.
+            // Since we have everything we need to build the
+            // type right here. Then return and allow default (empty)
+            // constructor to run.
+            return new (type.required_size()) Instance(type);
         }
 
-        Trait* head_class_band() { return &head_trait; }
+        Trait& head_trait() { return head_trait_; }
+        const SystemType& type() const { return header_.type(); }
 
-        SystemType& type() { return header_.type(); }
+    private:
+        Instance(const SystemType& type) : header_(type), head_trait_(this) { }
+
+        void* operator new (size_t size, size_t required_size) {
+            return malloc(sizeof(InstanceHeader) + required_size);
+        }
 
         // Dissallow movement for now.
         Instance(const Instance&) = delete;

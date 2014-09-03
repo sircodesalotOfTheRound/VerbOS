@@ -22,12 +22,12 @@ using namespace arch;
 using namespace types;
 
 int main() {
-    Instance*instance = new (VerbajPrimitives::vm_uint64) Instance();
-
+    Instance* instance = new (VerbajPrimitives::vm_box_of_uint64) Instance;
     cout << instance->type() << endl;
-    Trait* pBand = instance->head_class_band();
 
-    cout << pBand->get_instance().type() << endl;
+    cout << &instance << endl;
+    //cout << &instance->head_trait() << endl;
 
+    cout << sizeof(*instance) << endl;
 }
 

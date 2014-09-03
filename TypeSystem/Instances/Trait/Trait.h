@@ -11,10 +11,13 @@
 
 namespace types {
     struct Trait {
-        InstanceClassPointer instance_pointer_;
+        Instance* instance_pointer_;
 
     public:
-        Trait()
+        // Should be initialized on 'new'. Empty constructor.
+        Trait() { }
+
+        Trait(Instance* instance)
         {
 
         }

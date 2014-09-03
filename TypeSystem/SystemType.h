@@ -22,10 +22,14 @@ class SystemType {
     std::unordered_map<std::string, SystemType*> trait_definitions_;
     byte field_offset_ { 0 };
     byte trait_offset_ { 0 };
+    size_t required_size_;
+    bool instantiable_;
 
 public:
-    SystemType(std::string name, byte field_count, byte trait_count)
-        : name_(name)
+    SystemType(std::string name, byte field_count, byte trait_count, uint32_t required_size, bool instantiable)
+        : name_(name),
+        required_size_(required_size),
+        instantiable_(instantiable)
     {
         field_definitions_.reserve(field_count);
         field_definitions_.reserve(trait_count);
@@ -56,15 +60,20 @@ public:
         return false;
     }
 
+    size_t required_size() const { return required_size_; }
+
     std::string name() const { return name_; }
     size_t field_count() const { return field_definitions_.size(); }
 
+    bool instantiable() const { return instantiable_; }
+
     const static SystemType& NONE;
 
-private:
     friend std::ostream& operator<<(std::ostream& stream, const SystemType& type) {
         return stream << type.name_;
     }
+
+private:
 };
 
 

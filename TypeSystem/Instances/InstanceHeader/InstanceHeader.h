@@ -8,15 +8,22 @@
 
 #include "TypeDef.h"
 #include "SystemType.h"
+#include "Instance.h"
+#import "GarbageCollectionHeader.h"
 
 namespace types {
     struct InstanceHeader {
         // 0 - 8 : System Type
         // 9 - 16 : Garbage Collection Meta
-        using raw_header_bytes = uintptr_t[2];
-        raw_header_bytes data_;
+        const SystemType* type_;
+        GarbageCollectionHeader gc_header_;
 
-        SystemType& type() { return *(SystemType*)(data_[0]); }
+        InstanceHeader() { }
+
+        InstanceHeader(const SystemType& type) : type_(&type) { }
+
+        const SystemType& type() const { return *type_; }
+        GarbageCollectionHeader& gc_header() { return gc_header_; }
     };
 }
 
