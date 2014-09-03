@@ -40,6 +40,11 @@ namespace jit {
             }*/
         }
 
+        bool contains_variable(int variable_number) {
+            return (is_unstaged(variable_number)
+                || is_stack_persisted(variable_number)
+                || is_bound_to_register(variable_number));
+        }
 
         VirtualVariable& operator[](int variable_number) {
             if (is_unstaged(variable_number)) {
