@@ -30,7 +30,7 @@ namespace types {
             // Since we have everything we need to build the
             // type right here. Then return and allow default (empty)
             // constructor to run.
-            return new (type.required_size()) Instance(type);
+            return new (1, type.required_size()) Instance(type);
         }
 
         Trait& head() { return head_trait_; }
@@ -39,8 +39,8 @@ namespace types {
     private:
         Instance(const SystemType& type) : header_(type), head_trait_(this) { }
 
-        void* operator new (size_t size, size_t required_size) {
-            return malloc(sizeof(InstanceHeader) + required_size);
+        void* operator new (size_t size, size_t number_of_traits, size_t required_size) {
+            return malloc(total_required_size);
         }
 
         // Dissallow movement for now.

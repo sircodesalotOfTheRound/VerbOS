@@ -28,20 +28,7 @@ int main() {
     Instance* instance = new (VerbajPrimitives::vm_box_of_uint64) Instance(constructor);
 
     cout << instance->type() << endl;
-    instance->head().data<uint64_t>()[0] = 22;
-    Trait* ptrait = &instance->head();
-
-    uint64_t storage = 0;
-
-    __asm {
-        mov rsi, [ptrait]
-        add rsi, 8
-
-        lea rdi, storage
-        mov rsi, [rsi]
-        mov [rdi], rsi
-    }
-
-    cout << storage << endl;
+    cout << &instance->head().data<uint64_t>()[0] << endl;
+    cout << &instance->head().data<uint64_t>(6)[0] << endl;
 }
 
