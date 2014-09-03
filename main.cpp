@@ -21,13 +21,27 @@ using namespace verbaj;
 using namespace arch;
 using namespace types;
 
+void constructor(Instance* instance) {
+}
+
 int main() {
-    Instance* instance = new (VerbajPrimitives::vm_box_of_uint64) Instance;
+    Instance* instance = new (VerbajPrimitives::vm_box_of_uint64) Instance(constructor);
+
     cout << instance->type() << endl;
+    instance->head().data<uint64_t>()[0] = 22;
+    Trait* ptrait = &instance->head();
 
-    cout << &instance << endl;
-    //cout << &instance->head_trait() << endl;
+    uint64_t storage = 0;
 
-    cout << sizeof(*instance) << endl;
+    __asm {
+        mov rsi, [ptrait]
+        add rsi, 8
+
+        lea rdi, storage
+        mov rsi, [rsi]
+        mov [rdi], rsi
+    }
+
+    cout << storage << endl;
 }
 

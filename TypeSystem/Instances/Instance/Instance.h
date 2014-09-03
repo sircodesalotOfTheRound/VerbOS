@@ -21,7 +21,9 @@ namespace types {
         Trait head_trait_;
 
     public:
-        Instance() { }
+        Instance(void(*constructor)(Instance*)) {
+            constructor(this);
+        }
 
         void* operator new (size_t size, const SystemType& type) {
             // Initialize the memory after creating it.
@@ -31,7 +33,7 @@ namespace types {
             return new (type.required_size()) Instance(type);
         }
 
-        Trait& head_trait() { return head_trait_; }
+        Trait& head() { return head_trait_; }
         const SystemType& type() const { return header_.type(); }
 
     private:

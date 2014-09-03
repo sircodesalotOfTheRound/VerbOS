@@ -4,6 +4,7 @@
 //
 
 
+#include <sys/_types/_uintptr_t.h>
 #include "InstanceClassPointer.h"
 
 #ifndef __ClassBand_H_
@@ -23,6 +24,9 @@ namespace types {
         }
 
         Instance& get_instance() { return *instance_pointer_; }
+
+        template<class T>
+        T* data() { return (T*)(((uintptr_t*)this) + 1); }
     };
 }
 

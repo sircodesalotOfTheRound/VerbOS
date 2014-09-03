@@ -8,11 +8,15 @@
 #define __GarbageCollectionHeader_H_
 
 #include "TypeDef.h"
+#import "GarbageCollectionFlags.h"
 
 namespace types {
     class GarbageCollectionHeader {
-    // Placeholder for now.
-        void* placeholder_;
+        uint32_t offset_;
+        uint16_t heap_number_;
+        GarbageCollectionFlags flags;
+
+
     };
 }
 

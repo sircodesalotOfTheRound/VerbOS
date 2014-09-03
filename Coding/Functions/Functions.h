@@ -12,6 +12,9 @@
 
 namespace helpers {
     void stack_aligned_call(std::function<void()> callback);
+    constexpr int base2_exp(size_t exp);
+
+
 }
 
 

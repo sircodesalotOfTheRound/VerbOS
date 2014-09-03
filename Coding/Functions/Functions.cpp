@@ -3,6 +3,7 @@
 // Copyright (c) 2014 Reuben Kuhnert. All rights reserved.
 //
 
+#include <math.h>
 #include "Functions.h"
 
 void ::helpers::stack_aligned_call(std::function<void()> callback) {
@@ -17,4 +18,8 @@ void ::helpers::stack_aligned_call(std::function<void()> callback) {
     } else {
         callback();
     }
+}
+
+constexpr int helpers::base2_exp(size_t exp) {
+    return (0x01 << exp);
 }
