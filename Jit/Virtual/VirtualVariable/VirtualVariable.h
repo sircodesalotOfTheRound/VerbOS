@@ -28,6 +28,12 @@ namespace jit {
         // that we can use either for reflection or dynamic programming?
         bool is_class_pointer_;
 
+        // A variable has a parent if it is a member of a class.
+        // In terms of our virtual register machine, one register has
+        // to contain the location of the parent, and then the variable
+        // would contain information about the member.
+        int parent_index_;
+
     public:
 
         VirtualVariable(int variable_number, const SystemType &type, int priority, bool is_member, bool is_class_pointer) :
@@ -36,7 +42,8 @@ namespace jit {
                 type_(&type),
                 is_empty_(false),
                 is_member_(is_member),
-                is_class_pointer_(is_class_pointer)
+                is_class_pointer_(is_class_pointer),
+                parent_index_(none)
         {
 
         }
@@ -49,7 +56,8 @@ namespace jit {
                 type_(&SystemType::NONE),
                 is_empty_(true),
                 is_member_(false),
-                is_class_pointer_(false)
+                is_class_pointer_(false),
+                parent_index_(none)
         {
 
         }
@@ -62,7 +70,8 @@ namespace jit {
                 type_(rhs.type_),
                 is_empty_(rhs.is_empty_),
                 is_member_(rhs.is_member_),
-                is_class_pointer_(rhs.is_class_pointer_)
+                is_class_pointer_(rhs.is_class_pointer_),
+                parent_index_(rhs.parent_index_)
         {
             empty_contents(rhs);
         }
@@ -77,6 +86,7 @@ namespace jit {
             variable_number_ = rhs.variable_number_;
             is_member_ = rhs.is_member_;
             is_class_pointer_ = rhs.is_class_pointer_;
+            parent_index_ = rhs.parent_index_;
 
             // Delete rhs.
             empty_contents(rhs);
@@ -91,6 +101,7 @@ namespace jit {
 
         bool is_member() const { return is_member_; }
         bool is_class_pointer() const { return is_class_pointer_; }
+        bool has_parent() const { return parent_index_ != none; }
 
     private:
 
@@ -101,6 +112,7 @@ namespace jit {
             variable.variable_number_ = none;
             variable.is_member_ = false;
             variable.is_class_pointer_ = false;
+            variable.parent_index_ = none;
         }
 
         // Disable public copying. Private copy only
