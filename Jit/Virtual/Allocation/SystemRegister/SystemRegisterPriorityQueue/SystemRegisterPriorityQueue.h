@@ -81,6 +81,18 @@ namespace jit {
             return std::move(binding);
         }
 
+        void with_register_binding(int variable_number, std::function<void(VirtualVariableSystemRegisterBinding& register_binding)> callback) {
+            // Release.
+            VirtualVariableSystemRegisterBinding&& binding = std::move(dequeue(variable_number));
+
+            // Perform task.
+            callback(binding);
+
+            // Then rebind.
+            bind(binding);
+        }
+
+
         void bind(VirtualVariableSystemRegisterBinding&& binding) {
             if (binding.contains_variable()) {
                 validate_variable(binding.variable());
