@@ -40,6 +40,21 @@ namespace jit {
             }*/
         }
 
+
+        VirtualVariable& operator[](int variable_number) {
+            if (is_unstaged(variable_number)) {
+                return unstaged_variables_[variable_number];
+
+            } else if (is_stack_persisted(variable_number)) {
+                return stack_persistence_stage_[variable_number];
+
+            } else if (is_bound_to_register(variable_number)) {
+                return register_queue_.borrow_variable(variable_number);
+            }
+
+            throw std::logic_error("variable at index is not in use");
+        }
+
         // Create a new local
         void new_local(VirtualVariable&& variable) {
             validate_variable(variable);

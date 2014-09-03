@@ -98,6 +98,15 @@ namespace jit {
             bindings_[binding.binding_number()] = std::move(binding);
         }
 
+        VirtualVariable& borrow_variable(int variable_number) {
+            if (is_bound(variable_number)) {
+                int binding_number = bound_variable_map_.at(variable_number);
+                return bindings_[binding_number].variable();
+            }
+
+            throw std::logic_error("variable is not staged to a register");
+        }
+
 
     private:
         void validate_variable(const VirtualVariable& variable) {

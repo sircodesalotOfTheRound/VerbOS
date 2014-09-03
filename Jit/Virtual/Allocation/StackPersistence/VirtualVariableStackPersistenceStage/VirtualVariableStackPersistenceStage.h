@@ -22,12 +22,16 @@ namespace jit {
             virtual_variables_.resize(size);
         }
 
-        bool contains_variable(int virtual_register_number) {
-            return !virtual_variables_[virtual_register_number].is_empty();
+        VirtualVariable& operator[](int variable_number) {
+            if (contains_variable(variable_number)) {
+                return virtual_variables_[variable_number];
+            }
+
+            throw std::logic_error("Variable is not stack persisted");
         }
 
-        bool contains_variable(const VirtualVariable &variable) {
-            return contains_variable(variable.variable_number());
+        bool contains_variable(int variable_number) {
+            return !virtual_variables_[variable_number].is_empty();
         }
 
         void persist_variable(arch::CpuRegister& from_register, VirtualVariable &&variable) {
