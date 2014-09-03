@@ -3,12 +3,11 @@
 // Copyright (c) 2014 Reuben Kuhnert. All rights reserved.
 //
 
-
-#include <sys/_types/_uintptr_t.h>
-#include "InstanceClassPointer.h"
-
 #ifndef __ClassBand_H_
 #define __ClassBand_H_
+
+#include "TypeDef.h"
+#include "InstanceClassPointer.h"
 
 namespace types {
     struct Trait {
@@ -27,6 +26,9 @@ namespace types {
 
         template<class T>
         T* data() { return (T*)(((uintptr_t*)this) + 1); }
+
+        template<class T>
+        T* data(off_t byte_offset) { return (T*)&((byte*)this)[byte_offset + 8]; }
     };
 }
 
