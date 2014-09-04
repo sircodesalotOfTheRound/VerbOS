@@ -15,34 +15,30 @@
 
 #include "TypeDef.h"
 #include "SystemTypeFieldDefinition.h"
+#import "TypeFamily.h"
 
 class SystemType {
     std::string name_;
     std::unordered_map<std::string, SystemTypeFieldDefinition> field_definitions_;
-    std::unordered_map<std::string, SystemType*> trait_definitions_;
+    std::unordered_map<std::string, const SystemType*> trait_definitions_;
 
     byte field_count_;
     byte trait_count_;
 
     size_t required_size_;
-    bool instantiable_;
+    types::TypeFamily family_;
     bool is_frozen_;
 
 public:
-    SystemType(std::string name, bool instantiable)
+    SystemType(std::string name, types::TypeFamily family)
         : name_(name),
-        instantiable_(instantiable),
+        family_(family),
         field_count_(0),
         trait_count_(0),
         is_frozen_(false)
     {
 
     }
-
-    SystemType(const SystemType&) = delete;
-    SystemType(SystemType&&) = delete;
-    SystemType& operator=(const SystemType&) = delete;
-    SystemType& operator=(SystemType&&) = delete;
 
     void freeze() {
         // Todo: should ensure all dependent types (traits, subclasses, field types) are also
@@ -67,7 +63,7 @@ public:
         ++field_count_;
     }
 
-    void add_trait(SystemType& definition) {
+    void add_trait(const SystemType& definition) {
         if (is_frozen_) {
             throw std::logic_error("type is already frozen");
         }
@@ -93,7 +89,7 @@ public:
     std::string name() const { return name_; }
     size_t field_count() const { return field_definitions_.size(); }
 
-    bool instantiable() const { return instantiable_; }
+    types::TypeFamily family() const { return family_; }
 
     const static SystemType& NONE;
 
@@ -102,6 +98,11 @@ public:
     }
 
 private:
+    // Disable movement
+    SystemType(const SystemType&) = delete;
+    SystemType(SystemType&&) = delete;
+    SystemType& operator=(const SystemType&) = delete;
+    SystemType& operator=(SystemType&&) = delete;
 };
 
 

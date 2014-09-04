@@ -33,6 +33,5 @@ int main() {
     frame.insert(new VBox(1));
     frame.apply(renderer);
 
-
 }
 

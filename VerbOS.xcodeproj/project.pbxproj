@@ -34,6 +34,7 @@
 		D334385938B30961C025B998 /* ProcessorPopOpCode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343543161CEFE69B86174A /* ProcessorPopOpCode.cpp */; };
 		D334390064CFAC94DD2B0916 /* GarbageCollectionHeader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343AF7E903B014AB4F7F1B /* GarbageCollectionHeader.cpp */; };
 		D334390C10ACDC9E39A5327E /* OsxSystemRegisterPriorityQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D334371C3167856C47C7E328 /* OsxSystemRegisterPriorityQueue.cpp */; };
+		D334392CC22EAEAFF4117234 /* TypeFamily.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D33438431BE5ED6EE394847B /* TypeFamily.cpp */; };
 		D334399B9BC1D7216BE79905 /* InstanceHeader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D33431BDAF7FA9DA504F3946 /* InstanceHeader.cpp */; };
 		D33439BBB2C3C38E89B423C4 /* SystemTypeFieldDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343FD8E78524CE7BF4FCDA /* SystemTypeFieldDefinition.cpp */; };
 		D3343A55CD0A555E98826F8A /* ProcessorAddRegToRegOpCode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D334343CE9E8D57650B5089A /* ProcessorAddRegToRegOpCode.cpp */; };
@@ -122,7 +123,9 @@
 		D33437B6B24B337AAB7AB8CA /* Trait.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Trait.cpp; sourceTree = "<group>"; };
 		D33437D95886E31E0EAF3011 /* OsxRegisters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OsxRegisters.h; sourceTree = "<group>"; };
 		D33437DDCBE3604E5CB47A01 /* SystemRegisterPriorityQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemRegisterPriorityQueue.h; sourceTree = "<group>"; };
+		D33438431BE5ED6EE394847B /* TypeFamily.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TypeFamily.cpp; sourceTree = "<group>"; };
 		D33438C903A9CC4CBD622B03 /* ProcessorMovRegToMemOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessorMovRegToMemOp.h; sourceTree = "<group>"; };
+		D33438C91795053C5A0D572C /* TypeFamily.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypeFamily.h; sourceTree = "<group>"; };
 		D33438D62A13BA4DA2D46409 /* VStageArg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VStageArg.h; sourceTree = "<group>"; };
 		D33439348D90E2620ADC5A7F /* DereferencedCpuRegister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DereferencedCpuRegister.h; sourceTree = "<group>"; };
 		D334394F8949BF2A30A572ED /* ProcessorDecOpCode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProcessorDecOpCode.cpp; sourceTree = "<group>"; };
@@ -319,6 +322,15 @@
 				D3343EE55C44C5772DE738D6 /* VirtualVariableSystemRegisterBinding.h */,
 			);
 			path = VirtualVariableSystemRegisterBinding;
+			sourceTree = "<group>";
+		};
+		D33432F6C1C2902C8D8F50C2 /* TypeFamily */ = {
+			isa = PBXGroup;
+			children = (
+				D33438431BE5ED6EE394847B /* TypeFamily.cpp */,
+				D33438C91795053C5A0D572C /* TypeFamily.h */,
+			);
+			path = TypeFamily;
 			sourceTree = "<group>";
 		};
 		D334330CECCCA5B665AABB01 /* GarbageCollectionFlags */ = {
@@ -774,6 +786,7 @@
 				D334328984267DF549FBFA8C /* TypePartDefinitions */,
 				D33432AC623817D39E705F6A /* Verbaj */,
 				D33439F9D48146D84310FAB4 /* Instances */,
+				D33432F6C1C2902C8D8F50C2 /* TypeFamily */,
 			);
 			path = TypeSystem;
 			sourceTree = "<group>";
@@ -916,6 +929,7 @@
 				D3343D28948B15FB02F84C5F /* GarbageCollectionFlags.cpp in Sources */,
 				D33431A51AE30E288F656323 /* VBox.cpp in Sources */,
 				D3343B658DFB466027C98637 /* VDeref.cpp in Sources */,
+				D334392CC22EAEAFF4117234 /* TypeFamily.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
