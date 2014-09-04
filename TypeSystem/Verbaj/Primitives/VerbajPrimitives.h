@@ -5,9 +5,9 @@
 
 namespace verbaj {
     struct VerbajPrimitives {
-        static const SystemType vm_object;
-        static const SystemType vm_uint64;
-        static const SystemType vm_box_of_uint64;
+        static const types::SystemType vm_object;
+        static const types::SystemType vm_uint64;
+        static const types::SystemType vm_box_of_uint64;
 
     };
 }

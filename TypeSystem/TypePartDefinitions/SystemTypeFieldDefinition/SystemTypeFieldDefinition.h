@@ -11,23 +11,25 @@
 #include "TypeDef.h"
 #include <string>
 
-class SystemType;
-class SystemTypeFieldDefinition {
-    std::string name_;
-    byte offset_;
-    const SystemType* type_;
+namespace types {
+    class SystemType;
+    class SystemTypeFieldDefinition {
+        std::string name_;
+        byte offset_;
+        const SystemType* type_;
 
-public:
-    SystemTypeFieldDefinition(std::string name, const SystemType& type, byte offset)
-        : name_(name), offset_(offset), type_(&type) {
+    public:
+        SystemTypeFieldDefinition(std::string name, const SystemType& type, byte offset)
+            : name_(name), offset_(offset), type_(&type) {
 
-    }
+        }
 
-    std::string name() const { return name_; }
-    byte offset() { return offset_; }
-    const SystemType& type() const { return *type_;}
+        std::string name() const { return name_; }
+        byte offset() { return offset_; }
+        const SystemType& type() const { return *type_;}
 
-};
+    };
+}
 
 
 #endif //SYSTEM_TYPE_FIELD_DEFINITION

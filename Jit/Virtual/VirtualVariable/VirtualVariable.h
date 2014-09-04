@@ -16,7 +16,7 @@ namespace jit {
 
         int priority_;
         int variable_number_;
-        mutable const SystemType *type_;
+        mutable const types::SystemType *type_;
         bool is_empty_;
 
         // Is this variable a member of some object?
@@ -38,7 +38,7 @@ namespace jit {
 
     public:
 
-        VirtualVariable(int variable_number, const SystemType &type, int priority, bool is_member, bool is_class_pointer) :
+        VirtualVariable(int variable_number, const types::SystemType &type, int priority, bool is_member, bool is_class_pointer) :
                 priority_(priority),
                 variable_number_(variable_number),
                 type_(&type),
@@ -55,7 +55,7 @@ namespace jit {
         VirtualVariable() :
                 priority_(none),
                 variable_number_(none),
-                type_(&SystemType::NONE),
+                type_(&types::SystemType::NONE),
                 is_empty_(true),
                 is_member_(false),
                 is_class_pointer_(false),
@@ -101,7 +101,7 @@ namespace jit {
         void add_child(const VirtualVariable& child) { children_.insert(child.variable_number()); }
 
         int priority() const { return priority_; }
-        const SystemType &type() const { return *type_; }
+        const types::SystemType &type() const { return *type_; }
         bool is_empty() const { return is_empty_; }
         int variable_number() const { return variable_number_; }
 
@@ -125,7 +125,7 @@ namespace jit {
 
         void empty_contents(VirtualVariable& variable) {
             variable.priority_ = 0;
-            variable.type_ = &SystemType::NONE;
+            variable.type_ = &types::SystemType::NONE;
             variable.is_empty_ = true;
             variable.variable_number_ = none;
             variable.is_member_ = false;

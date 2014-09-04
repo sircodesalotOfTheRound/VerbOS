@@ -5,4 +5,4 @@
 
 #include "SystemType.h"
 
-const SystemType& SystemType::NONE = SystemType("<NONE>", types::TypeFamily::PRIMITIVE);
+const types::SystemType& types::SystemType::NONE = SystemType("<NONE>", types::TypeFamily::PRIMITIVE);
