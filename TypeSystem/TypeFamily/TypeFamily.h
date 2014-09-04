@@ -11,6 +11,7 @@ namespace types {
     enum class TypeFamily {
         PRIMITIVE,
         CLASS,
+        ABSTRACT_CLASS,
         TRAIT,
         FUNCTION
     };

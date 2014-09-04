@@ -27,14 +27,22 @@ namespace types {
 
         size_t required_size_;
         TypeFamily family_;
+        bool is_generic_;
         bool is_frozen_;
 
     public:
-        SystemType(std::string name, types::TypeFamily family)
+        SystemType(std::string name, TypeFamily family)
+            : SystemType(name, family, false)
+        {
+
+        }
+
+        SystemType(std::string name, TypeFamily family, bool is_generic)
             : name_(name),
             family_(family),
             field_count_(0),
             trait_count_(0),
+            is_generic_(is_generic),
             is_frozen_(false)
         {
 
@@ -68,7 +76,10 @@ namespace types {
                 throw std::logic_error("type is already frozen");
             }
 
-            if (definition.family_ != TypeFamily::CLASS || definition.family_ == TypeFamily::TRAIT) {
+            if (definition.family_ != TypeFamily::CLASS
+                && definition.family_ != TypeFamily::ABSTRACT_CLASS
+                && definition.family_ != TypeFamily::TRAIT) {
+
                 throw std::logic_error("traits must be either 'traits' or classes'");
             }
 
@@ -99,6 +110,8 @@ namespace types {
         size_t field_count() const { return field_definitions_.size(); }
 
         TypeFamily family() const { return family_; }
+
+        std::unordered_map<std::string, const SystemType*>& traits() { return trait_definitions_; }
 
         const static SystemType& NONE;
 

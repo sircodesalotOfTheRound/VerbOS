@@ -22,16 +22,9 @@ using namespace verbaj;
 using namespace arch;
 using namespace types;
 
-void constructor(Instance* instance) {
-}
-
 int main() {
-    JitRenderer renderer(memory());
-    VirtualStackFrame frame(25);
+    VerbajPrimitives::initialize();
 
-    frame.insert(new VLdui64(1, 10));
-    frame.insert(new VBox(1));
-    frame.apply(renderer);
-
+    cout << VerbajPrimitives::vm_object.is_frozen() << endl;
 }
 
