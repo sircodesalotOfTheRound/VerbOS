@@ -68,6 +68,15 @@ namespace types {
                 throw std::logic_error("type is already frozen");
             }
 
+            if (definition.family_ != TypeFamily::CLASS || definition.family_ == TypeFamily::TRAIT) {
+                throw std::logic_error("traits must be either 'traits' or classes'");
+            }
+
+            // Base classes must be added first.
+            if (definition.family_ == TypeFamily::CLASS && trait_count_ > 0) {
+                throw std::logic_error("A type can have only one base class, and it must be added first");
+            }
+
             trait_definitions_.insert({ definition.name(), &definition });
 
             ++trait_count_;
