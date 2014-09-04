@@ -7,6 +7,7 @@
 #include "VCall.h"
 #include "Instance.h"
 #include "VerbajPrimitives.h"
+#import "VBox.h"
 
 #include <unistd.h>
 #include <sys/mman.h>
@@ -25,10 +26,13 @@ void constructor(Instance* instance) {
 }
 
 int main() {
-    Instance* instance = new (VerbajPrimitives::vm_box_of_uint64) Instance(constructor);
+    JitRenderer renderer(memory());
+    VirtualStackFrame frame(25);
 
-    cout << instance->type() << endl;
-    cout << &instance->head().data<uint64_t>()[0] << endl;
-    cout << &instance->head().data<uint64_t>(6)[0] << endl;
+    frame.insert(new VLdui64(1, 10));
+    frame.insert(new VBox(1));
+    frame.apply(renderer);
+
+
 }
 

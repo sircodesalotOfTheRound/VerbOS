@@ -20,19 +20,23 @@ class SystemType {
     std::string name_;
     std::unordered_map<std::string, SystemTypeFieldDefinition> field_definitions_;
     std::unordered_map<std::string, SystemType*> trait_definitions_;
-    byte field_offset_ { 0 };
-    byte trait_offset_ { 0 };
+
+    byte field_count_;
+    byte trait_count_;
+
     size_t required_size_;
     bool instantiable_;
+    bool is_frozen_;
 
 public:
-    SystemType(std::string name, byte field_count, byte trait_count, uint32_t required_size, bool instantiable)
+    SystemType(std::string name, bool instantiable)
         : name_(name),
-        required_size_(required_size),
-        instantiable_(instantiable)
+        instantiable_(instantiable),
+        field_count_(0),
+        trait_count_(0),
+        is_frozen_(false)
     {
-        field_definitions_.reserve(field_count);
-        field_definitions_.reserve(trait_count);
+
     }
 
     SystemType(const SystemType&) = delete;
@@ -40,13 +44,33 @@ public:
     SystemType& operator=(const SystemType&) = delete;
     SystemType& operator=(SystemType&&) = delete;
 
+    void freeze() {
+        // Todo: should ensure all dependent types (traits, subclasses, field types) are also
+        // frozen (since the size of this type is dependent on the size of the others.
+        is_frozen_ = true;
+    }
+
+    bool is_frozen() { return is_frozen_; }
+
     void add_field_definition(const std::string name, const SystemType& type) {
-        SystemTypeFieldDefinition definition { name, type, field_offset_++ };
+        if (is_frozen_) {
+            throw std::logic_error("type is already frozen");
+        }
+
+        SystemTypeFieldDefinition definition { name, type, field_count_ };
         field_definitions_.insert({ definition.name(), definition });
+
+        ++field_count_;
     }
 
     void add_trait(SystemType& definition) {
+        if (is_frozen_) {
+            throw std::logic_error("type is already frozen");
+        }
+
         trait_definitions_.insert({ definition.name(), &definition });
+
+        ++trait_count_;
     }
 
     bool isa(std::string name) const {

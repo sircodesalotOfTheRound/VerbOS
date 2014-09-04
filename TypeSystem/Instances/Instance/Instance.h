@@ -41,6 +41,10 @@ namespace types {
 
         void* operator new (size_t size, size_t number_of_traits, size_t required_size) {
             size_t total_required_size = (sizeof(InstanceHeader) + (sizeof(Trait) * number_of_traits)  + required_size);
+
+            // Todo: Instances should use their own allocator, since they are only created (never destroyed)
+            // except when all types in the environment are destroyed as well. Thus we can save memory
+            // by creating a 'write once' allocator.
             return malloc(total_required_size);
         }
 
