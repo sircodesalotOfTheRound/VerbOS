@@ -89,7 +89,7 @@ namespace jit {
             callback(binding);
 
             // Then rebind.
-            bind(binding);
+            bind(std::move(binding));
         }
 
 

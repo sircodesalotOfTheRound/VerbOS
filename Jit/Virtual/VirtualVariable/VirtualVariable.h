@@ -4,7 +4,7 @@
 //
 
 
-#include <iosfwd>
+#include <unordered_set>
 #include "SystemType.h"
 
 #ifndef __VirtualVariable_H_
@@ -33,6 +33,8 @@ namespace jit {
         // to contain the location of the parent, and then the variable
         // would contain information about the member.
         int parent_index_;
+
+        std::unordered_set<int> children_;
 
     public:
 
@@ -71,7 +73,8 @@ namespace jit {
                 is_empty_(rhs.is_empty_),
                 is_member_(rhs.is_member_),
                 is_class_pointer_(rhs.is_class_pointer_),
-                parent_index_(rhs.parent_index_)
+                parent_index_(rhs.parent_index_),
+                children_(rhs.children_)
         {
             empty_contents(rhs);
         }
@@ -87,12 +90,15 @@ namespace jit {
             is_member_ = rhs.is_member_;
             is_class_pointer_ = rhs.is_class_pointer_;
             parent_index_ = rhs.parent_index_;
+            children_ = std::move(rhs.children_);
 
             // Delete rhs.
             empty_contents(rhs);
 
             return *this;
         }
+
+        void add_child(const VirtualVariable& child) { children_.insert(child.variable_number()); }
 
         int priority() const { return priority_; }
         const SystemType &type() const { return *type_; }
@@ -102,6 +108,18 @@ namespace jit {
         bool is_member() const { return is_member_; }
         bool is_class_pointer() const { return is_class_pointer_; }
         bool has_parent() const { return parent_index_ != none; }
+        bool has_children() const { return !children_.empty(); }
+        bool has_child(int variable_number) {
+            return children_.find(variable_number) != children_.end();
+        }
+
+        void remove_child(const VirtualVariable& child) {
+            if (has_child(child.variable_number())) {
+                children_.insert(child.variable_number());
+            }
+        }
+
+        std::unordered_set<int>& children() { return children_; }
 
     private:
 
@@ -113,6 +131,7 @@ namespace jit {
             variable.is_member_ = false;
             variable.is_class_pointer_ = false;
             variable.parent_index_ = none;
+            variable.children_.empty();
         }
 
         // Disable public copying. Private copy only

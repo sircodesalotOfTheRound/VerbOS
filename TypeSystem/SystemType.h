@@ -50,6 +50,10 @@ public:
         is_frozen_ = true;
     }
 
+    const SystemTypeFieldDefinition& field(std::string& name) const {
+        return field_definitions_.at(name);
+    }
+
     bool is_frozen() { return is_frozen_; }
 
     void add_field_definition(const std::string name, const SystemType& type) {
