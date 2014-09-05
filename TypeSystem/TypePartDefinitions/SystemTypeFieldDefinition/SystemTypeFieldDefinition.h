@@ -9,24 +9,31 @@
 #define SYSTEM_TYPE_FIELD_DEFINITION
 
 #include "TypeDef.h"
+#include "TypeFamily.h"
+#include "TypeFlags.h"
 #include <string>
 
 namespace types {
     class SystemType;
     class SystemTypeFieldDefinition {
+        static const int default_size = sizeof(uintptr_t);
+
         std::string name_;
-        byte offset_;
         const SystemType* type_;
+        byte offset_;
+        TypeFlags flags_;
 
     public:
-        SystemTypeFieldDefinition(std::string name, const SystemType& type, byte offset)
-            : name_(name), offset_(offset), type_(&type) {
+        SystemTypeFieldDefinition(std::string name, const SystemType& type, byte offset, TypeFlags flags)
+            : name_(name), type_(&type), offset_(offset), flags_(flags)
+        {
 
         }
 
         std::string name() const { return name_; }
         byte offset() { return offset_; }
         const SystemType& type() const { return *type_;}
+        TypeFlags flags() { return flags_; }
 
     };
 }

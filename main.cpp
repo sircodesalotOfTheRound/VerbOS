@@ -8,6 +8,7 @@
 #include "Instance.h"
 #include "VerbajPrimitives.h"
 #import "VBox.h"
+#include "ContainerIterator.h"
 
 #include <unistd.h>
 #include <sys/mman.h>
@@ -25,6 +26,8 @@ using namespace types;
 int main() {
     VerbajPrimitives::initialize();
 
-    cout << VerbajPrimitives::vm_object.is_frozen() << endl;
+    for (auto field : VerbajPrimitives::vm_box_of_uint64.fields()) {
+       cout << field.second.name() << endl;
+    }
 }
 

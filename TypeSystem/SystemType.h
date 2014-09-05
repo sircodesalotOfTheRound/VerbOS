@@ -16,6 +16,9 @@
 #include "TypeDef.h"
 #include "SystemTypeFieldDefinition.h"
 #import "TypeFamily.h"
+#include "ContainerIterator.h"
+#import "TypeFlags.h"
+
 namespace types {
     class SystemType {
         std::string name_;
@@ -27,19 +30,21 @@ namespace types {
 
         size_t required_size_;
         TypeFamily family_;
+        TypeFlags flags_;
         bool is_generic_;
         bool is_frozen_;
 
     public:
-        SystemType(std::string name, TypeFamily family)
-            : SystemType(name, family, false)
+        SystemType(std::string name, TypeFamily family, TypeFlags flags)
+            : SystemType(name, family, flags, false)
         {
 
         }
 
-        SystemType(std::string name, TypeFamily family, bool is_generic)
+        SystemType(std::string name, TypeFamily family, TypeFlags flags, bool is_generic)
             : name_(name),
             family_(family),
+            flags_(flags),
             field_count_(0),
             trait_count_(0),
             is_generic_(is_generic),
@@ -60,12 +65,12 @@ namespace types {
 
         bool is_frozen() { return is_frozen_; }
 
-        void add_field_definition(const std::string name, const SystemType& type) {
+        void add_field_definition(const std::string name, const SystemType& type, TypeFlags flags) {
             if (is_frozen_) {
                 throw std::logic_error("type is already frozen");
             }
 
-            SystemTypeFieldDefinition definition { name, type, field_count_ };
+            SystemTypeFieldDefinition definition { name, type, field_count_, flags};
             field_definitions_.insert({ definition.name(), definition });
 
             ++field_count_;
@@ -110,8 +115,10 @@ namespace types {
         size_t field_count() const { return field_definitions_.size(); }
 
         TypeFamily family() const { return family_; }
+        TypeFlags flags() const { return flags_; }
 
-        std::unordered_map<std::string, const SystemType*>& traits() { return trait_definitions_; }
+        helpers::ContainerIterator<decltype(trait_definitions_)> traits() { return trait_definitions_; }
+        helpers::ContainerIterator<decltype(field_definitions_)> fields() { return field_definitions_; }
 
         const static SystemType& NONE;
 

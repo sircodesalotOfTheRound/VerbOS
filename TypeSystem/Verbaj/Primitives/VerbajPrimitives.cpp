@@ -1,11 +1,12 @@
 #include "VerbajPrimitives.h"
 
-types::SystemType verbaj::VerbajPrimitives::vm_object { "vm.object", types::TypeFamily::CLASS };
-types::SystemType verbaj::VerbajPrimitives::vm_primitive { "vm.primitive", types::TypeFamily::ABSTRACT_CLASS};
+using namespace types;
+SystemType verbaj::VerbajPrimitives::vm_object { "vm.object", TypeFamily::CLASS, TypeFlags::PUBLIC };
+SystemType verbaj::VerbajPrimitives::vm_primitive { "vm.primitive", TypeFamily::ABSTRACT_CLASS, TypeFlags::PUBLIC };
 
-types::SystemType verbaj::VerbajPrimitives::vm_uint64 { "vm.uint64", types::TypeFamily::PRIMITIVE };
+SystemType verbaj::VerbajPrimitives::vm_uint64 { "vm.uint64", types::TypeFamily::PRIMITIVE, TypeFlags::PUBLIC};
 
-types::SystemType verbaj::VerbajPrimitives::vm_box_of_uint64 { "vm.Box<uint64>", types::TypeFamily::CLASS };
+SystemType verbaj::VerbajPrimitives::vm_box_of_uint64 { "vm.Box<uint64>", types::TypeFamily::CLASS, TypeFlags::PUBLIC};
 
 void verbaj::VerbajPrimitives::initialize() {
     vm_primitive.add_trait(vm_object);
@@ -13,7 +14,7 @@ void verbaj::VerbajPrimitives::initialize() {
     vm_uint64.add_trait(vm_primitive);
 
     vm_box_of_uint64.add_trait(vm_primitive);
-    vm_box_of_uint64.add_field_definition("value", vm_uint64);
+    vm_box_of_uint64.add_field_definition("<*>value", vm_uint64, TypeFlags::PRIVATE);
 
     vm_object.freeze();
     vm_primitive.freeze();
