@@ -15,9 +15,9 @@
 
 #include "TypeDef.h"
 #include "SystemTypeFieldDefinition.h"
-#import "TypeFamily.h"
+#include "TypeFamily.h"
 #include "ContainerIterator.h"
-#import "TypeFlags.h"
+#include "TypeFlags.h"
 
 namespace types {
     class SystemType {
@@ -53,11 +53,7 @@ namespace types {
 
         }
 
-        void freeze() {
-            // Todo: should ensure all dependent types (traits, subclasses, field types) are also
-            // frozen (since the size of this type is dependent on the size of the others.
-            is_frozen_ = true;
-        }
+        void freeze();
 
         const SystemTypeFieldDefinition& field(std::string& name) const {
             return field_definitions_.at(name);
@@ -112,6 +108,8 @@ namespace types {
         size_t required_size() const { return required_size_; }
 
         std::string name() const { return name_; }
+
+        size_t trait_count() const { return trait_definitions_.size(); }
         size_t field_count() const { return field_definitions_.size(); }
 
         TypeFamily family() const { return family_; }

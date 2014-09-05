@@ -1,11 +1,15 @@
 //
 // Created by Reuben Kuhnert on 14/9/4.
 // Copyright (c) 2014 Reuben Kuhnert. All rights reserved.
+// Wrote this so that you don't have to publicly expose a
+// container when you really just want to iterate through the contents.
 //
 
 
 #ifndef __ContainerIterator_H_
 #define __ContainerIterator_H_
+
+#include "TypeDef.h"
 
 namespace helpers {
     template<class T>

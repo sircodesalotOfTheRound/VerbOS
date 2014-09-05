@@ -26,8 +26,6 @@ using namespace types;
 int main() {
     VerbajPrimitives::initialize();
 
-    for (auto field : VerbajPrimitives::vm_box_of_uint64.fields()) {
-       cout << field.second.name() << endl;
-    }
+    Instance* instance = new (VerbajPrimitives::vm_box_of_uint64) Instance;
 }
 

@@ -21,16 +21,16 @@ namespace types {
         Trait head_trait_;
 
     public:
-        Instance(void(*constructor)(Instance*)) {
-            constructor(this);
-        }
+        Instance() { }
 
         void* operator new (size_t size, const SystemType& type) {
             // Initialize the memory after creating it.
             // Since we have everything we need to build the
             // type right here. Then return and allow default (empty)
             // constructor to run.
-            return new (1, type.required_size()) Instance(type);
+            size_t total_required_size = type.required_size();
+            std::cout << "allocating:" << total_required_size << std::endl;
+            return new (total_required_size) Instance(type);
         }
 
         Trait& head() { return head_trait_; }
@@ -39,13 +39,11 @@ namespace types {
     private:
         Instance(const SystemType& type) : header_(type), head_trait_(this) { }
 
-        void* operator new (size_t size, size_t number_of_traits, size_t required_size) {
-            size_t total_required_size = (sizeof(InstanceHeader) + (sizeof(Trait) * number_of_traits)  + required_size);
-
+        void* operator new (size_t size, size_t required_size) {
             // Todo: Instances should use their own allocator, since they are only created (never destroyed)
             // except when all types in the environment are destroyed as well. Thus we can save memory
             // by creating a 'write once' allocator.
-            return malloc(total_required_size);
+            return malloc(required_size);
         }
 
         // Dissallow movement for now.

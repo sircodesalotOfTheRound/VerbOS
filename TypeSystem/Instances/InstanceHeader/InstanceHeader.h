@@ -8,7 +8,6 @@
 
 #include "TypeDef.h"
 #include "SystemType.h"
-#include "Instance.h"
 #import "GarbageCollectionHeader.h"
 
 namespace types {
