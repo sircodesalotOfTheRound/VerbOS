@@ -28,11 +28,11 @@ namespace types {
         byte field_count_;
         byte trait_count_;
 
-        size_t required_size_;
+        mutable size_t required_size_;
         TypeFamily family_;
         TypeFlags flags_;
         bool is_generic_;
-        bool is_frozen_;
+        mutable bool is_frozen_;
 
     public:
         SystemType(std::string name, TypeFamily family, TypeFlags flags)
@@ -53,13 +53,13 @@ namespace types {
 
         }
 
-        void freeze();
+        void freeze() const;
 
         const SystemTypeFieldDefinition& field(std::string& name) const {
             return field_definitions_.at(name);
         }
 
-        bool is_frozen() { return is_frozen_; }
+        bool is_frozen() const { return is_frozen_; }
 
         void add_field_definition(const std::string name, const SystemType& type, TypeFlags flags) {
             if (is_frozen_) {
@@ -105,6 +105,7 @@ namespace types {
             return false;
         }
 
+        bool has_fields() const { return field_count_ > 0; }
         size_t required_size() const { return required_size_; }
 
         std::string name() const { return name_; }

@@ -28,7 +28,7 @@ namespace types {
             // Since we have everything we need to build the
             // type right here. Then return and allow default (empty)
             // constructor to run.
-            size_t total_required_size = type.required_size();
+            size_t total_required_size = type.required_size() + sizeof(InstanceHeader);
             std::cout << "allocating:" << total_required_size << std::endl;
             return new (total_required_size) Instance(type);
         }
