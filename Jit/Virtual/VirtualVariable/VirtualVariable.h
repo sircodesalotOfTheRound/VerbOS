@@ -34,21 +34,22 @@ namespace jit {
         // would contain information about the member.
         int parent_index_;
 
+        // If this variable represents a member of a variable,
+        // store the offset from the root.
+        off_t offset_from_parent_;
+
         std::unordered_set<int> children_;
 
     public:
 
-        VirtualVariable(int variable_number, const types::SystemType &type, int priority, bool is_member, bool is_class_pointer) :
-                priority_(priority),
-                variable_number_(variable_number),
-                type_(&type),
-                is_empty_(false),
-                is_member_(is_member),
-                is_class_pointer_(is_class_pointer),
-                parent_index_(none)
+        VirtualVariable(int variable_number, const types::SystemType &type,
+            int priority, bool is_member, bool is_class_pointer)
+                : VirtualVariable(variable_number, type, priority, is_member, is_class_pointer, none, none)
         {
 
         }
+
+
 
 
         // Null-Object
@@ -59,7 +60,8 @@ namespace jit {
                 is_empty_(true),
                 is_member_(false),
                 is_class_pointer_(false),
-                parent_index_(none)
+                parent_index_(none),
+                offset_from_parent_(none)
         {
 
         }
@@ -74,7 +76,8 @@ namespace jit {
                 is_member_(rhs.is_member_),
                 is_class_pointer_(rhs.is_class_pointer_),
                 parent_index_(rhs.parent_index_),
-                children_(rhs.children_)
+                offset_from_parent_(rhs.offset_from_parent_),
+                children_(std::move(rhs.children_))
         {
             empty_contents(rhs);
         }
@@ -90,6 +93,7 @@ namespace jit {
             is_member_ = rhs.is_member_;
             is_class_pointer_ = rhs.is_class_pointer_;
             parent_index_ = rhs.parent_index_;
+            offset_from_parent_ = rhs.offset_from_parent_;
             children_ = std::move(rhs.children_);
 
             // Delete rhs.
@@ -98,12 +102,27 @@ namespace jit {
             return *this;
         }
 
-        void add_child(const VirtualVariable& child) { children_.insert(child.variable_number()); }
+        VirtualVariable&& create_child(int variable_number, const types::SystemType &type,
+            int priority, bool is_member, bool is_class_pointer, int parent_index, off_t offset_from_parent) {
+
+            children_.insert(variable_number);
+
+            // Return the variable
+            return std::move(
+                VirtualVariable(variable_number,
+                    type,
+                    priority,
+                    is_member,
+                    is_class_pointer,
+                    parent_index,
+                    offset_from_parent));
+        }
 
         int priority() const { return priority_; }
         const types::SystemType &type() const { return *type_; }
         bool is_empty() const { return is_empty_; }
         int variable_number() const { return variable_number_; }
+        int offset_from_parent() { return offset_from_parent_; }
 
         bool is_member() const { return is_member_; }
         bool is_class_pointer() const { return is_class_pointer_; }
@@ -122,6 +141,20 @@ namespace jit {
         std::unordered_set<int>& children() { return children_; }
 
     private:
+        // Constructor for children.
+        VirtualVariable(int variable_number, const types::SystemType &type,
+            int priority, bool is_member, bool is_class_pointer, int parent_index, off_t offset_from_parent) :
+                priority_(priority),
+                variable_number_(variable_number),
+                type_(&type),
+                is_empty_(false),
+                is_member_(is_member),
+                is_class_pointer_(is_class_pointer),
+                parent_index_(none),
+                offset_from_parent_(offset_from_parent)
+        {
+
+        }
 
         void empty_contents(VirtualVariable& variable) {
             variable.priority_ = 0;
@@ -131,6 +164,7 @@ namespace jit {
             variable.is_member_ = false;
             variable.is_class_pointer_ = false;
             variable.parent_index_ = none;
+            variable.offset_from_parent_ = none;
             variable.children_.empty();
         }
 
