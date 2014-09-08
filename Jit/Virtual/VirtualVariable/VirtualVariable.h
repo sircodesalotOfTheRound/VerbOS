@@ -49,9 +49,6 @@ namespace jit {
 
         }
 
-
-
-
         // Null-Object
         VirtualVariable() :
                 priority_(none),
@@ -65,7 +62,6 @@ namespace jit {
         {
 
         }
-
 
         // Only allow movement.
         VirtualVariable(VirtualVariable &&rhs) :
@@ -122,7 +118,7 @@ namespace jit {
         const types::SystemType &type() const { return *type_; }
         bool is_empty() const { return is_empty_; }
         int variable_number() const { return variable_number_; }
-        int offset_from_parent() { return offset_from_parent_; }
+        off_t offset_from_parent() { return offset_from_parent_; }
 
         bool is_member() const { return is_member_; }
         bool is_class_pointer() const { return is_class_pointer_; }

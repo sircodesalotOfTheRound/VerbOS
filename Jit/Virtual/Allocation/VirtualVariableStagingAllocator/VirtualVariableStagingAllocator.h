@@ -67,6 +67,12 @@ namespace jit {
             unstaged_variables_[variable.variable_number()] = std::move(variable);
         }
 
+        void new_local(int variable_number, const types::SystemType &type,
+            int priority, bool is_member, bool is_class_pointer) {
+
+            new_local(std::move(VirtualVariable(variable_number, type, priority, is_member, is_class_pointer)));
+        }
+
         void persist_all() {
             argument_staging_factory_.reset();
 

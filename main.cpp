@@ -24,8 +24,15 @@ using namespace arch;
 using namespace types;
 
 int main() {
-    VerbajPrimitives::initialize();
+    VirtualStackFrame frame(20);
+    JitRenderer renderer (memory());
 
-    Instance* instance = new (VerbajPrimitives::vm_box_of_uint64) Instance;
+    frame.insert(new VLdui64(1, 11));
+    frame.insert(new VRet(1));
+    frame.apply(renderer);
+
+    int (*pfunc)() = (int(*)())renderer.memory();
+    cout << pfunc() << endl;
+
 }
 

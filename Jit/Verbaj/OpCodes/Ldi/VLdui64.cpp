@@ -13,8 +13,8 @@ void verbaj::VLdui64::apply(jit::VirtualStackFrame & frame) const {
     auto& stage = frame.variable_stage();
 
     // Priority 1, non-member, non-classpointer.
-    VirtualVariable variable { register_index, VerbajPrimitives::vm_uint64, 1, false, false };
-    stage.new_local(std::move(variable));
+    //VirtualVariable variable { register_index, verbajprimitives::vm_uint64, 1, false, false };
+    stage.new_local(register_index, VerbajPrimitives::vm_uint64, 1, false, false);
 
     // Perform the load
     stage.with_register(register_index, [&](jit::VirtualVariableCheckout& checkout) {
