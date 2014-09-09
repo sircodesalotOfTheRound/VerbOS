@@ -27,7 +27,10 @@ int main() {
     VirtualStackFrame frame(20);
     JitRenderer renderer (memory());
 
-    frame.insert(new VLdui64(1, 11));
+    for (int index = 0; index != 20; ++index) {
+        frame.insert(new VLdui64(index, index));
+    }
+
     frame.insert(new VRet(1));
     frame.apply(renderer);
 

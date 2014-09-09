@@ -69,7 +69,6 @@ namespace jit {
             VirtualVariableSystemRegisterBinding&& binding = std::move(bindings_[binding_number]);
 
             remove_metadata(binding);
-
             return std::move(binding);
         }
 

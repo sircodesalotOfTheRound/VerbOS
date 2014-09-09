@@ -9,7 +9,7 @@
 void verbaj::VCall::apply(jit::VirtualStackFrame &frame) const {
     // Since we need to lock arguments to certain registers, (arg1=rdi, arg2=rsi, etc..)
     // We need to free those registers so they can be used generally.
-    frame.variable_stage().persist_all();
+    frame.variable_stage().persist_variables();
 
     // Make the call
     frame.sys_ops().call(location_);

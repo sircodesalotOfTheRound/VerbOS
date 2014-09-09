@@ -73,7 +73,7 @@ namespace jit {
             new_local(std::move(VirtualVariable(variable_number, type, priority, is_member, is_class_pointer)));
         }
 
-        void persist_all() {
+        void persist_variables() {
             argument_staging_factory_.reset();
 
             for (int binding_index = 0; binding_index != register_queue_.size(); ++binding_index) {
@@ -103,21 +103,29 @@ namespace jit {
         void with_register(int variable_number, std::function<void(VirtualVariableCheckout&)> callback) {
             bind_to_system_register(variable_number);
 
-            VirtualVariableSystemRegisterBinding&& binding
+            register_queue_.with_register_binding(variable_number,
+                [&](VirtualVariableSystemRegisterBinding& binding)
+                {
+                    VirtualVariableCheckout checkout (jit_opcodes_, binding.sys_register(), binding.variable());
+                    callback(checkout);
+                });
+
+            // SHOULD BE ABLE TO DELETE THIS NOW.
+            /*VirtualVariableSystemRegisterBinding&& binding
                 = std::move(register_queue_.dequeue_binding(variable_number));
 
             VirtualVariableCheckout checkout (jit_opcodes_, binding.sys_register(), binding.variable());
             callback(checkout);
 
-            register_queue_.bind(std::move(binding));
+            register_queue_.bind(std::move(binding));*/
         }
 
         // Callback for performing tasks with two registers.
-        void with_register(int lhs_register_number, int rhs_register_number,
+        /*void with_register(int lhs_register_number, int rhs_register_number,
             std::function<void(VirtualVariableCheckout&, VirtualVariableCheckout&)> callback) {
 
             //register_queue_.with_register(lhs_register_number, rhs_register_number, callback);
-        }
+        }*/
 
     private:
         void release_registers_for_locking(const arch::CpuRegister& sys_register, int variable_index) {
