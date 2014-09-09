@@ -52,20 +52,6 @@ namespace jit {
             return bindings_[register_index].contains_variable();
         }
 
-        VirtualVariableSystemRegisterBinding&& dequeue_binding() {
-            VirtualVariableSystemRegisterBinding&& binding = std::move(dequeue());
-
-            return std::move(binding);
-        }
-
-        // Release binding
-        VirtualVariableSystemRegisterBinding&& release(int binding_number) {
-            VirtualVariableSystemRegisterBinding&& binding = std::move(bindings_[binding_number]);
-
-            remove_metadata(binding);
-            return std::move(binding);
-        }
-
         void with_binding_by_register(arch::CpuRegister sys_register,
             std::function<void(VirtualVariableSystemRegisterBinding& register_binding)> callback) {
 
@@ -83,7 +69,8 @@ namespace jit {
             std::function<void(VirtualVariableSystemRegisterBinding& register_binding)> callback) {
 
             // Release.
-            VirtualVariableSystemRegisterBinding&& binding = std::move(release(binding_number));
+            VirtualVariableSystemRegisterBinding&& binding = std::move(bindings_[binding_number]);
+            remove_metadata(binding);
 
             // Perform task.
             callback(binding);

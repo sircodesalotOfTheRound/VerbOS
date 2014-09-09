@@ -36,7 +36,7 @@ int main() {
     }
 
     frame.insert(new VStageArg(2));
-    frame.insert(new VStageArg(11));
+    frame.insert(new VStageArg(9));
     frame.insert(new VCall(&print_value));
     frame.insert(new VRet(1));
     frame.apply(renderer);
