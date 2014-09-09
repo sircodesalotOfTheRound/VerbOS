@@ -55,14 +55,9 @@ namespace jit {
         void with_binding_by_register(arch::CpuRegister sys_register,
             std::function<void(VirtualVariableSystemRegisterBinding& register_binding)> callback) {
 
-            // Release.
             VirtualVariableSystemRegisterBinding&& binding = std::move(dequeue(sys_register));
-
-            // Perform task.
             callback(binding);
-
-            // Then rebind.
-            bind(std::move(binding));
+            update_binding(std::move(binding));
         }
 
         void with_binding_by_bindnum(int binding_number,
@@ -71,40 +66,27 @@ namespace jit {
             // Release.
             VirtualVariableSystemRegisterBinding&& binding = std::move(bindings_[binding_number]);
             remove_metadata(binding);
-
-            // Perform task.
             callback(binding);
-
-            // Then rebind.
-            bind(std::move(binding));
+            update_binding(std::move(binding));
         }
 
         void with_binding_by_varnum(int variable_number,
             std::function<void(VirtualVariableSystemRegisterBinding& register_binding)> callback) {
 
-            // Release.
             VirtualVariableSystemRegisterBinding&& binding = std::move(dequeue(variable_number));
-
-            // Perform task.
             callback(binding);
-
-            // Then rebind.
-            bind(std::move(binding));
+            update_binding(std::move(binding));
         }
 
         void with_binding_by_availability(std::function<void(VirtualVariableSystemRegisterBinding& register_binding)> callback) {
             // Release.
             VirtualVariableSystemRegisterBinding&& binding = std::move(dequeue());
-
-            // Perform task.
             callback(binding);
-
-            // Then rebind.
-            bind(std::move(binding));
+            update_binding(std::move(binding));
         }
 
 
-        void bind(VirtualVariableSystemRegisterBinding&& binding) {
+        void update_binding(VirtualVariableSystemRegisterBinding&& binding) {
             if (binding.contains_variable()) {
                 validate_variable(binding.variable());
                 binding.increment_usage_count();
@@ -151,13 +133,10 @@ namespace jit {
         }
 
         void bind_metadata(VirtualVariableSystemRegisterBinding& binding);
-
         int register_index_from_cpu_register(const arch::CpuRegister& sys_register);
 
         VirtualVariableSystemRegisterBinding&& dequeue();
-
         VirtualVariableSystemRegisterBinding&& dequeue(int variable_number);
-
         VirtualVariableSystemRegisterBinding&& dequeue(const arch::CpuRegister& sys_register);
 
         void prioritize();

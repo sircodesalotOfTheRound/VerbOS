@@ -125,7 +125,7 @@ namespace jit {
                         // If this variable is already bound. Then go ahead and lock it, then return.
                         if (binding.variable_number() == variable_number) {
                             binding.lock();
-                            register_queue_.bind(std::move(binding));
+                            register_queue_.update_binding(std::move(binding));
                             return;
                         }
 
@@ -147,7 +147,7 @@ namespace jit {
 
                         // If we're already correctly bound. Return.
                         if (binding.sys_register() == sys_register) {
-                            register_queue_.bind(std::move(binding));
+                            register_queue_.update_binding(std::move(binding));
                             binding.lock();
                             return;
                         }
@@ -207,8 +207,6 @@ namespace jit {
 
                         // If something is already there, then persist it first.
                         persist_if_contains_variable(binding);
-
-
                         binding.bind_variable(std::move(variable));
                     });
                 }
@@ -266,18 +264,6 @@ namespace jit {
             stack_persistence_stage_.persist_variable(binding.sys_register(), std::move(variable));
         }
 
-        void apply_binding(VirtualVariable&& variable, VirtualVariableSystemRegisterBinding&& binding) {
-            validate_variable(variable);
-
-            // If something is already there, then persist it first.
-            if (binding.contains_variable()) {
-                stack_persist(binding);
-            }
-
-            binding.bind_variable(std::move(variable));
-            register_queue_.bind(std::move(binding));
-        }
-
         void validate_variable(const VirtualVariable& variable) {
             if (variable.is_empty()) {
                 throw std::logic_error("variable is invalid");
@@ -287,13 +273,6 @@ namespace jit {
                 throw std::logic_error("variable number is larger than allocated stack space");
             }
         }
-
-        /* SHOULD BE REMOVABLE
-        void bind_to_system_register(VirtualVariable&& variable) {
-            VirtualVariableSystemRegisterBinding&& binding = std::move(register_queue_.dequeue_binding());
-            apply_binding(std::move(variable), std::move(binding));
-        }
-        */
 
         off_t calculate_persistence_offset(const VirtualVariable& variable) {
             const static off_t stack_variable_size = sizeof(uint64_t);
