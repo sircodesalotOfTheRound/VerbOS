@@ -35,8 +35,8 @@ int main() {
         frame.insert(new VLdui64(index, index));
     }
 
-    frame.insert(new VStageArg(12));
-    frame.insert(new VStageArg(10));
+    frame.insert(new VStageArg(17));
+    frame.insert(new VStageArg(19));
     frame.insert(new VCall(&print_value));
     frame.insert(new VRet(1));
     frame.apply(renderer);
