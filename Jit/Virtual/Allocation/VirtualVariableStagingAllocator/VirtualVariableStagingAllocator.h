@@ -127,13 +127,30 @@ namespace jit {
         }*/
 
     private:
-        void release_registers_for_locking(const arch::CpuRegister& sys_register, int variable_index) {
+        void release_registers_for_locking(const arch::CpuRegister& sys_register, int variable_number) {
             // First make sure the register is empty. Or if we're already bound to it.
             if (does_register_hold_data(sys_register)) {
+
+                register_queue_.with_binding_by_register(sys_register,
+                    [&](VirtualVariableSystemRegisterBinding& binding) {
+
+                        // If this variable is already bound. Then go ahead and lock it, then return.
+                        if (binding.variable_number() == variable_number) {
+                            binding.lock();
+                            register_queue_.bind(std::move(binding));
+                            return;
+                        }
+
+                        // Otherwise, persist this variable to memory.
+                        // TODO: Move to a different register (instead of persisting to memory by defuault).
+                        stack_persist(binding);
+                    });
+
+                /* OLD CODE, SHOULD BE REMOVABLE
                 VirtualVariableSystemRegisterBinding&& binding = std::move(register_queue_.dequeue_binding(sys_register));
 
                 // If this variable is already bound. Then go ahead and lock it, then return.
-                if (binding.variable_number() == variable_index) {
+                if (binding.variable_number() == variable_number) {
                     binding.lock();
                     register_queue_.bind(std::move(binding));
                     return;
@@ -144,17 +161,36 @@ namespace jit {
                 stack_persist(binding);
 
                 // Send the binding back up (but empty).
-                register_queue_.bind(std::move(binding));
+                register_queue_.bind(std::move(binding));*/
             }
 
 
             // If the variable is already bound to another register,
             // Emit an opcode that moves the value between registers.
-            if (is_bound_to_register(variable_index)) {
+            if (is_bound_to_register(variable_number)) {
 
-                // THIS SHOULDn'T BE TRUE FOR 3.
+                // THIS SHOULDN'T BE TRUE FOR 3.
+                register_queue_.with_binding_by_varnum(variable_number,
+                    [&](VirtualVariableSystemRegisterBinding& binding) {
+
+                        // If we're already correctly bound. Return.
+                        if (binding.sys_register() == sys_register) {
+                            register_queue_.bind(std::move(binding));
+                            binding.lock();
+                            return;
+                        }
+                        // Move the binding to the unstaged area.
+                        VirtualVariable&& variable = std::move(binding.release_variable());
+                        unstaged_variables_[variable.variable_number()] = std::move(variable);
+
+                        // Emit the opcode saying that the register has moved.
+                        jit_opcodes_.mov(sys_register, binding.sys_register());
+                    });
+
+
+                /* OLD CODE SHOULD BE REMOVABLE.
                 VirtualVariableSystemRegisterBinding&& binding
-                    = std::move(register_queue_.dequeue_binding(variable_index));
+                    = std::move(register_queue_.dequeue_binding(variable_number));
 
                 // If we're already correctly bound. Return.
                 if (binding.sys_register() == sys_register) {
@@ -172,6 +208,7 @@ namespace jit {
 
                 // Re-submit the binding.
                 register_queue_.bind(std::move(binding));
+                */
             }
         }
 
@@ -225,11 +262,17 @@ namespace jit {
                 // Finally check out the register we want, and bind.
                 // Assuming for the moment the variable is unstaged.
                 VirtualVariable&& variable = std::move(unstaged_variables_[variable_index]);
+                register_queue_.with_binding_by_register(sys_register,
+                    [&](VirtualVariableSystemRegisterBinding& binding) {
+                        binding.bind_variable(std::move(variable));
+                    });
+
+                /* OLD CODE, SHOULD BE REMOVABLE
                 VirtualVariableSystemRegisterBinding&& binding
                     = std::move(register_queue_.dequeue_binding(sys_register));
 
-                binding.bind_variable(std::move(variable));
                 register_queue_.bind(std::move(binding));
+                */
 
             }
         }
