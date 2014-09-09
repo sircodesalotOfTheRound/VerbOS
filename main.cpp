@@ -23,6 +23,10 @@ using namespace verbaj;
 using namespace arch;
 using namespace types;
 
+void print_value(uint64_t lhs, uint64_t rhs) {
+    cout << lhs << " + " << rhs << " = " << (lhs + rhs) << endl;
+}
+
 int main() {
     VirtualStackFrame frame(20);
     JitRenderer renderer (memory());
@@ -31,6 +35,9 @@ int main() {
         frame.insert(new VLdui64(index, index));
     }
 
+    frame.insert(new VStageArg(12));
+    frame.insert(new VStageArg(15));
+    frame.insert(new VCall(&print_value));
     frame.insert(new VRet(1));
     frame.apply(renderer);
 
