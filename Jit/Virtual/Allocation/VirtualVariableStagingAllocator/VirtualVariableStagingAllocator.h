@@ -77,6 +77,18 @@ namespace jit {
             argument_staging_factory_.reset();
 
             for (int binding_index = 0; binding_index != register_queue_.size(); ++binding_index) {
+                register_queue_.with_binding_by_bindnum(binding_index,
+                    [&](VirtualVariableSystemRegisterBinding& binding) {
+
+                    // If the binding is locked, it's because it's being used
+                    // as a parameter. No need to store parameters.
+                    if (binding.contains_variable()) {
+                        binding.unlock();
+                        stack_persist(binding);
+                    }
+                });
+
+                /* OLD CODE, SHOULD BE REMOVABLE
                 VirtualVariableSystemRegisterBinding&& binding = register_queue_.release(binding_index);
 
                 // If the binding is locked, it's because it's being used
@@ -88,6 +100,7 @@ namespace jit {
 
                 // Rebind
                 register_queue_.bind(std::move(binding));
+                */
             }
         }
 

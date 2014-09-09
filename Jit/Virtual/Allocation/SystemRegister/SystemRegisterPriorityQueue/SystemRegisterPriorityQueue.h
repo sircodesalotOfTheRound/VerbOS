@@ -93,6 +93,18 @@ namespace jit {
             bind(std::move(binding));
         }
 
+        void with_binding_by_bindnum(int binding_number,
+            std::function<void(VirtualVariableSystemRegisterBinding& register_binding)> callback) {
+
+            // Release.
+            VirtualVariableSystemRegisterBinding&& binding = std::move(release(binding_number));
+
+            // Perform task.
+            callback(binding);
+
+            // Then rebind.
+            bind(std::move(binding));
+        }
 
         void with_binding_by_varnum(int variable_number,
             std::function<void(VirtualVariableSystemRegisterBinding& register_binding)> callback) {
@@ -117,8 +129,6 @@ namespace jit {
             // Then rebind.
             bind(std::move(binding));
         }
-
-
 
 
         void bind(VirtualVariableSystemRegisterBinding&& binding) {
