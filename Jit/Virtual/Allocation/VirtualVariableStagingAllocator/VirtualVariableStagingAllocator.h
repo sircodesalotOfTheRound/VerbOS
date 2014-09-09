@@ -26,8 +26,7 @@ namespace jit {
     public:
         VirtualVariableStagingAllocator(op::ProcessorOpCodeSet& jit_opcodes, size_t size)
             : stack_persistence_stage_(size),
-              jit_opcodes_(jit_opcodes)
-        {
+              jit_opcodes_(jit_opcodes) {
             unstaged_variables_.resize(size);
         }
 
@@ -63,11 +62,10 @@ namespace jit {
         // Create a new local
         void new_local(VirtualVariable&& variable) {
             validate_variable(variable);
-
             unstaged_variables_[variable.variable_number()] = std::move(variable);
         }
 
-        void new_local(int variable_number, const types::SystemType &type,
+        void new_local(int variable_number, const types::SystemType& type,
             int priority, bool is_member, bool is_class_pointer) {
 
             new_local(std::move(VirtualVariable(variable_number, type, priority, is_member, is_class_pointer)));
@@ -80,13 +78,13 @@ namespace jit {
                 register_queue_.with_binding_by_bindnum(binding_index,
                     [&](VirtualVariableSystemRegisterBinding& binding) {
 
-                    // If the binding is locked, it's because it's being used
-                    // as a parameter. No need to store parameters.
-                    if (binding.contains_variable()) {
-                        binding.unlock();
-                        stack_persist(binding);
-                    }
-                });
+                        // If the binding is locked, it's because it's being used
+                        // as a parameter. No need to store parameters.
+                        if (binding.contains_variable()) {
+                            binding.unlock();
+                            stack_persist(binding);
+                        }
+                    });
             }
         }
 
@@ -168,7 +166,7 @@ namespace jit {
             // Now that the variable has been freed (and is now unstaged)
             // Rebind it to the corect destination register.
             if (is_stack_persisted(variable_index)) {
-                VirtualVariable&& variable= std::move(stack_persistence_stage_.release(variable_index));
+                VirtualVariable&& variable = std::move(stack_persistence_stage_.release(variable_index));
 
                 register_queue_.with_binding_by_register(sys_register,
                     [&](VirtualVariableSystemRegisterBinding& binding) {
@@ -204,13 +202,29 @@ namespace jit {
 
                 if (is_unstaged(variable_number)) {
                     VirtualVariable&& variable = std::move(unstaged_variables_[variable_number]);
-                    VirtualVariableSystemRegisterBinding && binding = std::move(register_queue_.dequeue_binding());
+                    VirtualVariableSystemRegisterBinding&& binding = std::move(register_queue_.dequeue_binding());
 
                     apply_binding(std::move(variable), std::move(binding));
                 }
 
                 if (is_stack_persisted(variable_number)) {
                     // Grab the variable from the stack, and then capture a register to bind to.
+                    register_queue_.with_binding_by_availability([&](VirtualVariableSystemRegisterBinding& binding) {
+                            VirtualVariable&& variable = std::move(stack_persistence_stage_.release(variable_number));
+
+                            // If there is already something in the biding, persist it.
+                            if (binding.contains_variable()) {
+                                stack_persist(binding);
+                            }
+
+                            // Since we're moving from memory, we need to emit an opcode that represents that move.
+                            const static auto& rbp = arch::OsxRegisters::rbp;
+                            jit_opcodes_.mov(binding.sys_register(), rbp[(int) calculate_persistence_offset(variable)]);
+
+                            binding.bind_variable(std::move(variable));
+                        });
+
+                    /* OLD CODE, SHOULD BE REMOVABLE
                     VirtualVariable&& variable = std::move(stack_persistence_stage_.release(variable_number));
                     VirtualVariableSystemRegisterBinding && binding = std::move(register_queue_.dequeue_binding());
 
@@ -225,6 +239,7 @@ namespace jit {
 
                     binding.bind_variable(std::move(variable));
                     register_queue_.bind(std::move(binding));
+                    */
 
                 }
             }
@@ -252,7 +267,7 @@ namespace jit {
             VirtualVariable variable = std::move(binding.release_variable());
 
             // Emit an opcode stating the movement from system register (binding) to the stack.
-            jit_opcodes_.mov(rbp[(int)calculate_persistence_offset(variable)], binding.sys_register());
+            jit_opcodes_.mov(rbp[(int) calculate_persistence_offset(variable)], binding.sys_register());
 
             // Release the variable and bind it to the stack
             stack_persistence_stage_.persist_variable(binding.sys_register(), std::move(variable));

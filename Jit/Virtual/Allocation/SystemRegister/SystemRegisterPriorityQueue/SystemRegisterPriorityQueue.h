@@ -58,25 +58,11 @@ namespace jit {
             return std::move(binding);
         }
 
-        VirtualVariableSystemRegisterBinding&& dequeue_binding(int variable_number) {
-            VirtualVariableSystemRegisterBinding&& binding = std::move(dequeue(variable_number));
-            return std::move(binding);
-        }
-
-
         // Release binding
         VirtualVariableSystemRegisterBinding&& release(int binding_number) {
             VirtualVariableSystemRegisterBinding&& binding = std::move(bindings_[binding_number]);
 
             remove_metadata(binding);
-            return std::move(binding);
-        }
-
-        VirtualVariableSystemRegisterBinding&& dequeue_binding(const arch::CpuRegister& sys_register) {
-            VirtualVariableSystemRegisterBinding&& binding = std::move(dequeue(sys_register));
-
-            // Since we're not using the priority queue, we need to invalidate it.
-            queue_invalidated_ = true;
             return std::move(binding);
         }
 
