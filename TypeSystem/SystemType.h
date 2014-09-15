@@ -18,6 +18,7 @@
 #include "TypeFamily.h"
 #include "ContainerIterator.h"
 #include "TypeFlags.h"
+#include "InstanceClassPointer.h"
 
 namespace types {
     class SystemType {
@@ -25,7 +26,7 @@ namespace types {
         std::unordered_map<std::string, SystemTypeFieldDefinition> field_definitions_;
         std::unordered_map<std::string, const SystemType*> trait_definitions_;
 
-        byte field_count_;
+        off_t offset_;
         byte trait_count_;
 
         mutable size_t required_size_;
@@ -45,7 +46,7 @@ namespace types {
             : name_(name),
             family_(family),
             flags_(flags),
-            field_count_(0),
+            offset_(sizeof(Instance*)),
             trait_count_(0),
             is_generic_(is_generic),
             is_frozen_(false)
@@ -66,10 +67,10 @@ namespace types {
                 throw std::logic_error("type is already frozen");
             }
 
-            SystemTypeFieldDefinition definition { name, type, field_count_, flags};
+            SystemTypeFieldDefinition definition { name, type, offset_, flags};
             field_definitions_.insert({ definition.name(), definition });
 
-            ++field_count_;
+            offset_ += 8;
         }
 
         void add_trait(const SystemType& definition) {
@@ -105,7 +106,11 @@ namespace types {
             return false;
         }
 
-        bool has_fields() const { return field_count_ > 0; }
+        off_t offset_by_name(std::string name) {
+            return field_definitions_.at(name).offset();
+        }
+
+        bool has_fields() const { return offset_ > 0; }
         size_t required_size() const { return required_size_; }
 
         std::string name() const { return name_; }

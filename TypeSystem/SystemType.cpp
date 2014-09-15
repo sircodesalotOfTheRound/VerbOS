@@ -33,7 +33,7 @@ void types::SystemType::freeze() const {
         }
     }
 
-    size_t size_required_for_fields = (sizeof(uintptr_t) * field_count_);
+    size_t size_required_for_fields = (sizeof(uintptr_t) * offset_);
 
     required_size_ = size_required_for_fields + size_required_for_traits;
 }

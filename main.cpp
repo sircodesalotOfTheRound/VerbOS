@@ -14,7 +14,7 @@
 #include <sys/mman.h>
 
 void* memory() {
-    return mmap(nullptr, (size_t)getpagesize(), PROT_WRITE | PROT_EXEC, MAP_ANON | MAP_PRIVATE, -1 , 0);
+    return mmap(nullptr, (size_t) getpagesize(), PROT_WRITE | PROT_EXEC, MAP_ANON | MAP_PRIVATE, -1, 0);
 }
 
 using namespace jit;
@@ -27,9 +27,10 @@ void print_value(uint64_t lhs, uint64_t rhs) {
     cout << lhs << " + " << rhs << " = " << (lhs + rhs) << endl;
 }
 
-int main() {
+void stuff() {
+
     VirtualStackFrame frame(20);
-    JitRenderer renderer (memory());
+    JitRenderer renderer(memory());
 
     for (int index = 0; index != 20; ++index) {
         frame.insert(new VLdui64(index, index));
@@ -41,8 +42,15 @@ int main() {
     frame.insert(new VRet(1));
     frame.apply(renderer);
 
-    int (*pfunc)() = (int(*)())renderer.memory();
+    int (* pfunc)() = (int (*)()) renderer.memory();
     cout << pfunc() << endl;
+
+}
+
+int main() {
+    VerbajPrimitives::initialize();
+    cout << VerbajPrimitives::vm_box_of_uint64.offset_by_name("<*>value") << endl;
+
 
 }
 
