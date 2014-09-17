@@ -24,12 +24,21 @@ void verbaj::VBox::apply(jit::VirtualStackFrame& frame) const {
     stage.persist_variables();
     frame.sys_ops().call(&instantiate);
 
+    stage.with_register(variable_number_, [&](jit::VirtualVariableCheckout& checkout){
+        op::ProcessorOpCodeSet& opcodes = checkout.jit_opcodes();
+
+        // TODO: Make it so I can move directly to memory.
+        opcodes.mov(checkout.sys_register(), arch::OsxRegisters::rax);
+    });
+
 }
 
-void verbaj::VBox::instantiate(uint64_t value) {
+types::Instance* verbaj::VBox::instantiate(uint64_t value) {
     std::cout << "boxing: " << value << std::endl;
     types::Instance* instance = new (VerbajPrimitives::vm_uint64) types::Instance;
     instance->head().data<uint64_t>()[0] = value;
 
     std::cout << "@" << instance << std::endl;
+    // Return the address of the boxed value.
+    return instance;
 }

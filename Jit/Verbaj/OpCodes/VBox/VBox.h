@@ -5,6 +5,7 @@
 
 
 #include "VerbajOpCodeBase.h"
+#include "Instance.h"
 
 #ifndef __VBox_H_
 #define __VBox_H_
@@ -19,7 +20,7 @@ namespace verbaj {
         void apply(jit::VirtualStackFrame&) const;
 
     private:
-        static void instantiate(uint64_t value);
+        static types::Instance* instantiate(uint64_t value);
     };
 }
 
