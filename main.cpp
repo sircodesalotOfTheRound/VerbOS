@@ -38,11 +38,11 @@ void stuff() {
     frame.apply(renderer);
     frame.debug_print();
 
-    Instance* (* pfunc)() = (Instance*(*)()) renderer.memory();
-    Instance* box = pfunc();
+    Trait* (* pfunc)() = (Trait*(*)()) renderer.memory();
+    Trait* box = pfunc();
 
     cout << box << endl;
-    cout << "boxed value: " << box->head().data<uint64_t>()[0] << endl;
+    cout << "boxed value: " << box->data<uint64_t>()[0] << endl;
 
 }
 

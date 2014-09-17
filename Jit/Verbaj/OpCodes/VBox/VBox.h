@@ -20,7 +20,7 @@ namespace verbaj {
         void apply(jit::VirtualStackFrame&) const;
 
     private:
-        static types::Instance* instantiate(uint64_t value);
+        static types::Trait* instantiate(uint64_t value);
     };
 }
 

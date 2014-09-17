@@ -33,12 +33,12 @@ void verbaj::VBox::apply(jit::VirtualStackFrame& frame) const {
 
 }
 
-types::Instance* verbaj::VBox::instantiate(uint64_t value) {
+types::Trait* verbaj::VBox::instantiate(uint64_t value) {
     std::cout << "boxing: " << value << std::endl;
     types::Instance* instance = new (VerbajPrimitives::vm_uint64) types::Instance;
     instance->head().data<uint64_t>()[0] = value;
 
     std::cout << "@" << instance << std::endl;
     // Return the address of the boxed value.
-    return instance;
+    return &instance->head();
 }
