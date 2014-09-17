@@ -32,15 +32,11 @@ void stuff() {
     VirtualStackFrame frame(20);
     JitRenderer renderer(memory());
 
-    for (int index = 0; index != 20; ++index) {
-        frame.insert(new VLdui64(index, index));
-    }
-
-    frame.insert(new VStageArg(12));
-    frame.insert(new VStageArg(15));
-    frame.insert(new VCall(&print_value));
+    frame.insert(new VLdui64(1, 5));
+    frame.insert(new VBox(1));
     frame.insert(new VRet(1));
     frame.apply(renderer);
+    frame.debug_print();
 
     int (* pfunc)() = (int (*)()) renderer.memory();
     cout << pfunc() << endl;
@@ -49,8 +45,7 @@ void stuff() {
 
 int main() {
     VerbajPrimitives::initialize();
-    cout << VerbajPrimitives::vm_box_of_uint64.offset_by_name("<*>value") << endl;
-
+    stuff();
 
 }
 

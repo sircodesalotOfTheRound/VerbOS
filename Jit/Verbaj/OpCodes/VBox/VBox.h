@@ -11,12 +11,15 @@
 
 namespace verbaj {
     class VBox : public VerbajOpCodeBase {
-        int virtual_variable_index_;
+        int variable_number_;
 
     public:
-        VBox(int virtual_variable_index) : virtual_variable_index_(virtual_variable_index) { }
+        VBox(int virtual_variable_index) : variable_number_(virtual_variable_index) { }
 
         void apply(jit::VirtualStackFrame&) const;
+
+    private:
+        static void instantiate(uint64_t value);
     };
 }
 

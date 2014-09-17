@@ -20,4 +20,6 @@ void verbaj::VerbajPrimitives::initialize() {
     vm_primitive.freeze();
     vm_uint64.freeze();
     vm_box_of_uint64.freeze();
+
+    std::cout << vm_object.required_size() << std::endl;
 }
