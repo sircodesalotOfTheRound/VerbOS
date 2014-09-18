@@ -24,12 +24,15 @@ void verbaj::VBox::apply(jit::VirtualStackFrame& frame) const {
     stage.persist_variables();
     frame.sys_ops().call(&instantiate);
 
+    // TODO: Make the move directly to memory (easier said than done because of the variable type change).
     stage.with_register(variable_number_, [&](jit::VirtualVariableCheckout& checkout){
         op::ProcessorOpCodeSet& opcodes = checkout.jit_opcodes();
-
-        // TODO: Make it so I can move directly to memory.
         opcodes.mov(checkout.sys_register(), arch::OsxRegisters::rax);
     });
+
+    stage.new_local(variable_number_, VerbajPrimitives::vm_box_of_uint64, 1, false, true);
+
+    std::cout << stage[variable_number_].type() << std::endl;
 
 }
 
@@ -38,7 +41,7 @@ types::Trait* verbaj::VBox::instantiate(uint64_t value) {
     types::Instance* instance = new (VerbajPrimitives::vm_uint64) types::Instance;
     instance->head().data<uint64_t>()[0] = value;
 
-    std::cout << "@" << instance << std::endl;
+    std::cout << "@" << &instance->head() << std::endl;
     // Return the address of the boxed value.
     return &instance->head();
 }
