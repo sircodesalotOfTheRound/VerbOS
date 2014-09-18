@@ -49,8 +49,5 @@ void stuff() {
 int main() {
   VerbajPrimitives::initialize();
   stuff();
-
-  system("pwd");
-
 }
 
