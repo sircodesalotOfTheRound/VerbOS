@@ -10,24 +10,28 @@
 #define __ProcessorPopOpCode_H_
 
 namespace op {
-    class ProcessorPopOpCode : public ProcessorOpCodeBase {
-        const arch::CpuRegister& register_;
+  class ProcessorPopOpCode : public ProcessorOpCodeBase {
+    const arch::CpuRegister& register_;
 
-    public:
-        ProcessorPopOpCode(const arch::CpuRegister& reg) : register_(reg) { }
+  public:
+    ProcessorPopOpCode(const arch::CpuRegister& reg) : register_(reg) {
+    }
 
-        std::string rep() const override {
-            std::stringstream stream;
-            stream << "pop " << register_;
-            return stream.str();
-        };
-
-        size_t size() const override { return 1; }
-        void render(jit::JitRenderer& renderer) const override {
-            renderer.write_opcode_masked(0x58, register_);
-        };
-
+    std::string rep() const override {
+      std::stringstream stream;
+      stream << "pop " << register_;
+      return stream.str();
     };
+
+    size_t size() const override {
+      return 1;
+    }
+
+    void render(jit::JitRenderer& renderer) const override {
+      renderer.write_opcode_masked(0x58, register_);
+    };
+
+  };
 }
 
 

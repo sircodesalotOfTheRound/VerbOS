@@ -8,14 +8,14 @@
 #define __TypeFlags_H_
 
 namespace types {
-    enum class TypeFlags {
-        PUBLIC = 1,
-        PRIVATE = 2,
-        PROTECTED = 4,
-        INTERNAL = 8,
+  enum class TypeFlags {
+    PUBLIC = 1,
+    PRIVATE = 2,
+    PROTECTED = 4,
+    INTERNAL = 8,
 
-        STATIC = 16,
-    };
+    STATIC = 16,
+  };
 }
 
 

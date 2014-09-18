@@ -12,18 +12,19 @@
 #include "VirtualStackFrame.h"
 
 namespace verbaj {
-    class VLdui64 : public VerbajOpCodeBase {
-        int register_index;
-        uint64_t value_;
+  class VLdui64 : public VerbajOpCodeBase {
+    int register_index;
+    uint64_t value_;
 
-    public:
-        VLdui64(int to_register, uint64_t value) : register_index(to_register), value_(value) { }
+  public:
+    VLdui64(int to_register, uint64_t value) : register_index(to_register), value_(value) {
+    }
 
-        void apply(jit::VirtualStackFrame & frame) const override;
+    void apply(jit::VirtualStackFrame& frame) const override;
 
-    private:
-        void perform_load(jit::VirtualVariableCheckout&) const;
-    };
+  private:
+    void perform_load(jit::VirtualVariableCheckout&) const;
+  };
 }
 
 

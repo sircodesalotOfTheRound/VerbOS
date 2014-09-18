@@ -5,11 +5,11 @@
 
 #include "ProcessorRegToRegMovOp.h"
 
-void op::ProcessorRegToRegMovOp::render(jit::JitRenderer &renderer) const {
-    renderer.write_preamble64(lhs_, rhs_);
+void op::ProcessorRegToRegMovOp::render(jit::JitRenderer& renderer) const {
+  renderer.write_preamble64(lhs_, rhs_);
 
-    renderer.write_opcode(0x89);
+  renderer.write_opcode(0x89);
 
-    // Note op-code is backwards
-    renderer.write_opcode_masked(0xc0, rhs_, lhs_);
+  // Note op-code is backwards
+  renderer.write_opcode_masked(0xc0, rhs_, lhs_);
 }

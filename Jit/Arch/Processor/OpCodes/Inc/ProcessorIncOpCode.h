@@ -10,26 +10,30 @@
 #include <iostream>
 
 namespace op {
-    class ProcessorIncOpCode : public ProcessorOpCodeBase {
-        const arch::CpuRegister sys_register_;
+  class ProcessorIncOpCode : public ProcessorOpCodeBase {
+    const arch::CpuRegister sys_register_;
 
-    public:
-        ProcessorIncOpCode(const arch::CpuRegister& sys_register) :
-            sys_register_(sys_register)
-        {
+  public:
+    ProcessorIncOpCode(const arch::CpuRegister& sys_register) :
+      sys_register_(sys_register) {
 
-        }
+    }
 
-        size_t size() const override { return 3; }
-        std::string rep() const override { return "inc"; }
+    size_t size() const override {
+      return 3;
+    }
 
-        void render(jit::JitRenderer& renderer) const override {
-            renderer.write_preamble64lhs(sys_register_);
-            renderer.write_opcode(0xFF);
-            renderer.write_opcode_masked(0xc0, sys_register_);
-        }
+    std::string rep() const override {
+      return "inc";
+    }
 
-    };
+    void render(jit::JitRenderer& renderer) const override {
+      renderer.write_preamble64lhs(sys_register_);
+      renderer.write_opcode(0xFF);
+      renderer.write_opcode_masked(0xc0, sys_register_);
+    }
+
+  };
 }
 
 

@@ -10,16 +10,23 @@
 #include "ProcessorOpCodeBase.h"
 
 namespace op {
-    class ProcessorCallOpCode : public ProcessorOpCodeBase {
-        uintptr_t location_;
+  class ProcessorCallOpCode : public ProcessorOpCodeBase {
+    uintptr_t location_;
 
-    public:
-        ProcessorCallOpCode(void* location) : location_((uintptr_t)&*location) { }
+  public:
+    ProcessorCallOpCode(void* location) : location_((uintptr_t) &*location) {
+    }
 
-        std::string rep() const { return "call"; }
-        size_t size() const { return 5; }
-        void render(jit::JitRenderer&) const;
-    };
+    std::string rep() const {
+      return "call";
+    }
+
+    size_t size() const {
+      return 5;
+    }
+
+    void render(jit::JitRenderer&) const;
+  };
 }
 
 

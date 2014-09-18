@@ -5,10 +5,10 @@
 
 #include "ProcessorMovConstToRegOpCode.h"
 
-void op::ProcessorMovConstToRegOpCode::render(jit::JitRenderer &renderer) const {
-    renderer.write_preamble64lhs(lhs_);
+void op::ProcessorMovConstToRegOpCode::render(jit::JitRenderer& renderer) const {
+  renderer.write_preamble64lhs(lhs_);
 
-    renderer.write_opcode_masked(0xb8, lhs_);
-    renderer.write_int64(rhs_);
+  renderer.write_opcode_masked(0xb8, lhs_);
+  renderer.write_int64(rhs_);
 
 }

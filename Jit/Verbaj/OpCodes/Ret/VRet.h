@@ -11,14 +11,15 @@
 
 
 namespace verbaj {
-    class VRet : public VerbajOpCodeBase {
-        int register_index_;
+  class VRet : public VerbajOpCodeBase {
+    int register_index_;
 
-    public:
-        VRet(int register_index) : register_index_(register_index) { }
+  public:
+    VRet(int register_index) : register_index_(register_index) {
+    }
 
-        void apply(jit::VirtualStackFrame &) const;
-    };
+    void apply(jit::VirtualStackFrame&) const;
+  };
 }
 
 

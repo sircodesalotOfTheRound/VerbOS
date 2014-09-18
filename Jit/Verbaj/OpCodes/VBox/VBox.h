@@ -11,17 +11,18 @@
 #define __VBox_H_
 
 namespace verbaj {
-    class VBox : public VerbajOpCodeBase {
-        int variable_number_;
+  class VBox : public VerbajOpCodeBase {
+    int variable_number_;
 
-    public:
-        VBox(int virtual_variable_index) : variable_number_(virtual_variable_index) { }
+  public:
+    VBox(int virtual_variable_index) : variable_number_(virtual_variable_index) {
+    }
 
-        void apply(jit::VirtualStackFrame&) const;
+    void apply(jit::VirtualStackFrame&) const;
 
-    private:
-        static types::Trait* instantiate(uint64_t value);
-    };
+  private:
+    static types::Trait* instantiate(uint64_t value);
+  };
 }
 
 

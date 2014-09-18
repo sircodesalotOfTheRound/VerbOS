@@ -16,11 +16,10 @@ enum class OperandType {
 };
 
 union ProcessorOpCodeOperand {
-    uint64_t value;
-    arch::CpuRegister* reg;
-    arch::DereferencedCpuRegister *deref_reg;
+  uint64_t value;
+  arch::CpuRegister* reg;
+  arch::DereferencedCpuRegister* deref_reg;
 };
-
 
 
 #endif //__Operand_H_

@@ -5,7 +5,18 @@
 
 #include "CpuRegister.h"
 
-bool arch::CpuRegister::is_extended() const { return is_extended_; }
-byte arch::CpuRegister::size() const { return size_; }
-byte arch::CpuRegister::register_code() const { return register_code_; }
-const std::string &arch::CpuRegister::name() const { return name_; }
+bool arch::CpuRegister::is_extended() const {
+  return is_extended_;
+}
+
+byte arch::CpuRegister::size() const {
+  return size_;
+}
+
+byte arch::CpuRegister::register_code() const {
+  return register_code_;
+}
+
+const std::string& arch::CpuRegister::name() const {
+  return name_;
+}

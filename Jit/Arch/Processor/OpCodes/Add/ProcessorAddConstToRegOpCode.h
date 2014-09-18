@@ -11,23 +11,27 @@
 #include "ProcessorOpCodeBase.h"
 
 namespace op {
-    class ProcessorAddConstToRegOpCode : public ProcessorOpCodeBase {
-        arch::CpuRegister lhs_;
-        uint64_t rhs_;
+  class ProcessorAddConstToRegOpCode : public ProcessorOpCodeBase {
+    arch::CpuRegister lhs_;
+    uint64_t rhs_;
 
-    public:
-        ProcessorAddConstToRegOpCode(const arch::CpuRegister& lhs, uint64_t value) : lhs_(lhs), rhs_(value) { }
+  public:
+    ProcessorAddConstToRegOpCode(const arch::CpuRegister& lhs, uint64_t value) : lhs_(lhs), rhs_(value) {
+    }
 
-        std::string rep() const override {
-            std::stringstream rep;
-            rep << "add " << lhs_ << ", " << rhs_;
+    std::string rep() const override {
+      std::stringstream rep;
+      rep << "add " << lhs_ << ", " << rhs_;
 
-            return rep.str();
-        };
-
-        size_t size() const override { return 5; }
-        void render(jit::JitRenderer&) const override;
+      return rep.str();
     };
+
+    size_t size() const override {
+      return 5;
+    }
+
+    void render(jit::JitRenderer&) const override;
+  };
 }
 
 

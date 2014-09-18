@@ -10,10 +10,10 @@
 #include "Functions.h"
 
 namespace types {
-    enum class GarbageCollectionFlags : uint16_t {
-        VISITED = 0x01,
-        SENSITIVE = 0x02
-    };
+  enum class GarbageCollectionFlags : uint16_t {
+    VISITED = 0x01,
+    SENSITIVE = 0x02
+  };
 }
 
 #endif //__GarbageCollectionFlags_H_

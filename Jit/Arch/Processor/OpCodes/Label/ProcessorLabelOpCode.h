@@ -12,25 +12,28 @@
 #include "ProcessorOpCodeBase.h"
 
 namespace op {
-    class ProcessorLabelOpCode : public ProcessorOpCodeBase {
-        std::string name_;
+  class ProcessorLabelOpCode : public ProcessorOpCodeBase {
+    std::string name_;
 
-    public:
-        ProcessorLabelOpCode(std::string name) : name_(name) { }
+  public:
+    ProcessorLabelOpCode(std::string name) : name_(name) {
+    }
 
-        void render(jit::JitRenderer&) const override {
-           /* NOP */
-        }
+    void render(jit::JitRenderer&) const override {
+      /* NOP */
+    }
 
-        std::string rep() const override {
-            std::stringstream representation;
-            representation << "label: " << name_;
+    std::string rep() const override {
+      std::stringstream representation;
+      representation << "label: " << name_;
 
-            return representation.str();
-        }
+      return representation.str();
+    }
 
-        size_t size() const override { return 0; }
-    };
+    size_t size() const override {
+      return 0;
+    }
+  };
 }
 
 

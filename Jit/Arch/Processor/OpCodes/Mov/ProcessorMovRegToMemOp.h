@@ -12,42 +12,44 @@
 #define __ProcessorMovRegToMemOp_H_
 
 namespace op {
-    class ProcessorMovRegToMemOp : public ProcessorOpCodeBase {
-    public:
-        enum class DIRECTION {
-            FROM_MEMORY,
-            TO_MEMORY
-        };
-
-        ProcessorMovRegToMemOp(arch::ConstCpuRegisterRef reg,
-                arch::DereferencedCpuRegister memory_location, DIRECTION direction)
-            : register_(reg),
-            memory_location_(memory_location),
-            direction_(direction)
-        {
-
-        }
-
-        size_t size() const override { return 3; }
-        std::string rep() const override {
-            std::stringstream stream;
-
-            if (direction_ == DIRECTION::TO_MEMORY) {
-                stream << "mov " << memory_location_ << ", " << register_;
-            } else {
-                stream << "mov " << register_ << ", " << memory_location_;
-            }
-
-            return stream.str();
-        }
-
-        void render(jit::JitRenderer&) const override;
-
-    private:
-        DIRECTION direction_; // are we saving or reading from memory
-        arch::CpuRegister register_;
-        arch::DereferencedCpuRegister memory_location_;
+  class ProcessorMovRegToMemOp : public ProcessorOpCodeBase {
+  public:
+    enum class DIRECTION {
+      FROM_MEMORY,
+      TO_MEMORY
     };
+
+    ProcessorMovRegToMemOp(arch::ConstCpuRegisterRef reg,
+      arch::DereferencedCpuRegister memory_location, DIRECTION direction)
+      : register_(reg),
+        memory_location_(memory_location),
+        direction_(direction) {
+
+    }
+
+    size_t size() const override {
+      return 3;
+    }
+
+    std::string rep() const override {
+      std::stringstream stream;
+
+      if (direction_ == DIRECTION::TO_MEMORY) {
+        stream << "mov " << memory_location_ << ", " << register_;
+      } else {
+        stream << "mov " << register_ << ", " << memory_location_;
+      }
+
+      return stream.str();
+    }
+
+    void render(jit::JitRenderer&) const override;
+
+  private:
+    DIRECTION direction_; // are we saving or reading from memory
+    arch::CpuRegister register_;
+    arch::DereferencedCpuRegister memory_location_;
+  };
 }
 
 

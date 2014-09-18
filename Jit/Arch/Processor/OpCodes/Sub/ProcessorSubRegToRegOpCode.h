@@ -12,25 +12,28 @@
 #include "ProcessorOpCodeBase.h"
 
 namespace op {
-    class ProcessorSubRegToRegOpCode : public ProcessorOpCodeBase {
-        arch::CpuRegister lhs_;
-        arch::CpuRegister rhs_;
+  class ProcessorSubRegToRegOpCode : public ProcessorOpCodeBase {
+    arch::CpuRegister lhs_;
+    arch::CpuRegister rhs_;
 
-    public:
-        ProcessorSubRegToRegOpCode(const arch::CpuRegister lhs, const arch::CpuRegister rhs) : lhs_(lhs), rhs_(rhs) { }
+  public:
+    ProcessorSubRegToRegOpCode(const arch::CpuRegister lhs, const arch::CpuRegister rhs) : lhs_(lhs), rhs_(rhs) {
+    }
 
-        std::string rep() const override {
-            std::stringstream rep;
-            rep << "add " << lhs_ << ", " << rhs_;
+    std::string rep() const override {
+      std::stringstream rep;
+      rep << "add " << lhs_ << ", " << rhs_;
 
-            return rep.str();
-        };
-
-        size_t size() const override { return 5; }
-        void render(jit::JitRenderer&) const;
+      return rep.str();
     };
-}
 
+    size_t size() const override {
+      return 5;
+    }
+
+    void render(jit::JitRenderer&) const;
+  };
+}
 
 
 #endif //__ProcessorSubRegToRegOpCode_H_

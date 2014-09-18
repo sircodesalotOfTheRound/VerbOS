@@ -12,36 +12,44 @@
 #include "VirtualVariableStagingAllocator.h"
 
 namespace verbaj {
-    class VerbajOpCodeBase;
+  class VerbajOpCodeBase;
 }
 
 namespace jit {
-    class VirtualStackFrame {
-        verbaj::VerbajOpCodeSet verbaj_ops;
-        op::ProcessorOpCodeSet jit_opcodes;
-        jit::VirtualVariableStagingAllocator variable_stage_;
+  class VirtualStackFrame {
+    verbaj::VerbajOpCodeSet verbaj_ops;
+    op::ProcessorOpCodeSet jit_opcodes;
+    jit::VirtualVariableStagingAllocator variable_stage_;
 
-    public:
-        VirtualStackFrame(size_t max_variable_count)
-            : variable_stage_(jit_opcodes, max_variable_count)
-        {
+  public:
+    VirtualStackFrame(size_t max_variable_count)
+      : variable_stage_(jit_opcodes, max_variable_count) {
 
-        }
+    }
 
-        void insert(verbaj::VerbajOpCodeBase *opcode) {
-            verbaj_ops.add(opcode);
-        }
+    void insert(verbaj::VerbajOpCodeBase* opcode) {
+      verbaj_ops.add(opcode);
+    }
 
-        void apply(jit::JitRenderer& renderer);
+    void apply(jit::JitRenderer& renderer);
 
-        verbaj::VerbajOpCodeSet& opcodes() { return verbaj_ops; }
-        op::ProcessorOpCodeSet& sys_ops() { return jit_opcodes; }
-        VirtualVariableStagingAllocator& variable_stage() { return variable_stage_; }
+    verbaj::VerbajOpCodeSet& opcodes() {
+      return verbaj_ops;
+    }
 
-        void debug_print();
-    private:
+    op::ProcessorOpCodeSet& sys_ops() {
+      return jit_opcodes;
+    }
 
-    };
+    VirtualVariableStagingAllocator& variable_stage() {
+      return variable_stage_;
+    }
+
+    void debug_print();
+
+  private:
+
+  };
 }
 
 

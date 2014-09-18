@@ -5,12 +5,12 @@
 
 #include "ProcessorAddConstToRegOpCode.h"
 
-void op::ProcessorAddConstToRegOpCode::render(jit::JitRenderer &renderer) const {
-    renderer.write_preamble64lhs(lhs_);
+void op::ProcessorAddConstToRegOpCode::render(jit::JitRenderer& renderer) const {
+  renderer.write_preamble64lhs(lhs_);
 
-    renderer.write_opcode(0x81);
-    renderer.write_opcode_masked(0xc0, lhs_);
+  renderer.write_opcode(0x81);
+  renderer.write_opcode_masked(0xc0, lhs_);
 
-    // Add only comes in 32 bit variant
-    renderer.write_int32((uint32_t)rhs_);
+  // Add only comes in 32 bit variant
+  renderer.write_int32((uint32_t) rhs_);
 }

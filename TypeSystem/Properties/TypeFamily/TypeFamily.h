@@ -8,13 +8,13 @@
 #define __TypeFamily_H_
 
 namespace types {
-    enum class TypeFamily {
-        PRIMITIVE,
-        CLASS,
-        ABSTRACT_CLASS,
-        TRAIT,
-        FUNCTION
-    };
+  enum class TypeFamily {
+    PRIMITIVE,
+    CLASS,
+    ABSTRACT_CLASS,
+    TRAIT,
+    FUNCTION
+  };
 }
 
 

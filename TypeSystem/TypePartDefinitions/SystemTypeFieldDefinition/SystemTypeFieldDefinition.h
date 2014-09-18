@@ -14,28 +14,39 @@
 #include <string>
 
 namespace types {
-    class SystemType;
-    class SystemTypeFieldDefinition {
-        static const int default_size = sizeof(uintptr_t);
+  class SystemType;
 
-        std::string name_;
-        const SystemType* type_;
-        off_t offset_;
-        TypeFlags flags_;
+  class SystemTypeFieldDefinition {
+    static const int default_size = sizeof(uintptr_t);
 
-    public:
-        SystemTypeFieldDefinition(std::string name, const SystemType& type, off_t offset, TypeFlags flags)
-            : name_(name), type_(&type), offset_(offset), flags_(flags)
-        {
+    std::string name_;
+    const SystemType* type_;
+    off_t offset_;
+    TypeFlags flags_;
 
-        }
+  public:
+    SystemTypeFieldDefinition(std::string name, const SystemType& type, off_t offset, TypeFlags flags)
+      : name_(name), type_(&type), offset_(offset), flags_(flags) {
 
-        std::string name() const { return name_; }
-        off_t offset() { return offset_; }
-        const SystemType& type() const { return *type_;}
-        TypeFlags flags() { return flags_; }
+    }
 
-    };
+    std::string name() const {
+      return name_;
+    }
+
+    off_t offset() {
+      return offset_;
+    }
+
+    const SystemType& type() const {
+      return *type_;
+    }
+
+    TypeFlags flags() {
+      return flags_;
+    }
+
+  };
 }
 
 

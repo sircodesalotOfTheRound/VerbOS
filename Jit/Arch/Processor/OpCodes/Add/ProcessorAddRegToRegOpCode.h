@@ -10,23 +10,27 @@
 #include "ProcessorOpCodeBase.h"
 
 namespace op {
-    class ProcessorAddRegToRegOpCode : public ProcessorOpCodeBase {
-        arch::CpuRegister lhs_;
-        arch::CpuRegister rhs_;
+  class ProcessorAddRegToRegOpCode : public ProcessorOpCodeBase {
+    arch::CpuRegister lhs_;
+    arch::CpuRegister rhs_;
 
-    public:
-        ProcessorAddRegToRegOpCode(const arch::CpuRegister& lhs, const arch::CpuRegister& rhs) : lhs_(lhs), rhs_(rhs) { }
+  public:
+    ProcessorAddRegToRegOpCode(const arch::CpuRegister& lhs, const arch::CpuRegister& rhs) : lhs_(lhs), rhs_(rhs) {
+    }
 
-        std::string rep() const override {
-            std::stringstream rep;
-            rep << "add " << lhs_ << ", " << rhs_;
+    std::string rep() const override {
+      std::stringstream rep;
+      rep << "add " << lhs_ << ", " << rhs_;
 
-            return rep.str();
-        };
-
-        size_t size() const override { return 5; }
-        void render(jit::JitRenderer&) const;
+      return rep.str();
     };
+
+    size_t size() const override {
+      return 5;
+    }
+
+    void render(jit::JitRenderer&) const;
+  };
 }
 
 

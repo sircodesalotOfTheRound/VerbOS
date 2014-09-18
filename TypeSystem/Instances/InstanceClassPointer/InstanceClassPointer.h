@@ -9,14 +9,20 @@
 #define __SelfPointer_H_
 
 namespace types {
-    class Instance;
-    struct InstanceClassPointer {
-        Instance* self_;
+  class Instance;
 
-    public:
-        Instance& operator*() const { return *self_; }
-        Instance* operator->() const { return self_; }
-    };
+  struct InstanceClassPointer {
+    Instance* self_;
+
+  public:
+    Instance& operator*() const {
+      return *self_;
+    }
+
+    Instance* operator->() const {
+      return self_;
+    }
+  };
 }
 
 

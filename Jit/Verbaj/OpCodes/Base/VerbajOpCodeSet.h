@@ -13,21 +13,26 @@
 #include "VerbajOpCodeBase.h"
 
 namespace verbaj {
-    class VerbajOpCodeSet {
-        using iterator = std::vector<std::unique_ptr<VerbajOpCodeBase>>::iterator;
+  class VerbajOpCodeSet {
+    using iterator = std::vector<std::unique_ptr<VerbajOpCodeBase>>::iterator;
 
-        std::vector<std::unique_ptr<VerbajOpCodeBase>> opcodes_;
+    std::vector<std::unique_ptr<VerbajOpCodeBase>> opcodes_;
 
-    public:
-        void add(VerbajOpCodeBase *op) {
-            std::unique_ptr<VerbajOpCodeBase> opcode (op);
-            opcodes_.push_back(std::move(opcode));
-        }
+  public:
+    void add(VerbajOpCodeBase* op) {
+      std::unique_ptr<VerbajOpCodeBase> opcode(op);
+      opcodes_.push_back(std::move(opcode));
+    }
 
-        iterator begin() { return opcodes_.begin(); }
-        iterator end() { return opcodes_.end(); }
+    iterator begin() {
+      return opcodes_.begin();
+    }
 
-    };
+    iterator end() {
+      return opcodes_.end();
+    }
+
+  };
 }
 
 

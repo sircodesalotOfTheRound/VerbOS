@@ -7,10 +7,10 @@
 #include "VirtualStackFrame.h"
 
 void verbaj::VDeref::apply(jit::VirtualStackFrame& frame) const {
-    auto& stage = frame.variable_stage();
-    jit::VirtualVariable& variable = stage[variable_number_];
+  auto& stage = frame.variable_stage();
+  jit::VirtualVariable& variable = stage[variable_number_];
 
-    //jit::VirtualVariable(child_number_,  const SystemType &type, int priority, bool is_member, bool is_class_pointer) :
+  //jit::VirtualVariable(child_number_,  const SystemType &type, int priority, bool is_member, bool is_class_pointer) :
 
-    //variable.add_child();
+  //variable.add_child();
 }

@@ -10,23 +10,27 @@
 #define __ProcessorPushOpCode_H_
 
 namespace op {
-    class ProcessorPushOpCode : public ProcessorOpCodeBase {
-        const arch::CpuRegister& register_;
+  class ProcessorPushOpCode : public ProcessorOpCodeBase {
+    const arch::CpuRegister& register_;
 
-    public:
-        ProcessorPushOpCode(const arch::CpuRegister& reg) : register_(reg) { }
+  public:
+    ProcessorPushOpCode(const arch::CpuRegister& reg) : register_(reg) {
+    }
 
-        virtual std::string rep() const override {
-            std::stringstream stream;
-            stream << "push " << register_;
-            return stream.str();
-        }
+    virtual std::string rep() const override {
+      std::stringstream stream;
+      stream << "push " << register_;
+      return stream.str();
+    }
 
-        virtual size_t size() const override { return 1; }
-        virtual void render(jit::JitRenderer& renderer) const override {
-            renderer.write_opcode_masked(0x50, register_);
-        };
+    virtual size_t size() const override {
+      return 1;
+    }
+
+    virtual void render(jit::JitRenderer& renderer) const override {
+      renderer.write_opcode_masked(0x50, register_);
     };
+  };
 }
 
 

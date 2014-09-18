@@ -21,122 +21,147 @@
 #include "InstanceClassPointer.h"
 
 namespace types {
-    class SystemType {
-        std::string name_;
-        std::unordered_map<std::string, SystemTypeFieldDefinition> field_definitions_;
-        std::unordered_map<std::string, const SystemType*> trait_definitions_;
+  class SystemType {
+    std::string name_;
+    std::unordered_map<std::string, SystemTypeFieldDefinition> field_definitions_;
+    std::unordered_map<std::string, const SystemType*> trait_definitions_;
 
-        off_t offset_;
-        byte trait_count_;
+    off_t offset_;
+    byte trait_count_;
 
-        mutable size_t required_size_;
-        TypeFamily family_;
-        TypeFlags flags_;
-        bool is_generic_;
-        mutable bool is_frozen_;
+    mutable size_t required_size_;
+    TypeFamily family_;
+    TypeFlags flags_;
+    bool is_generic_;
+    mutable bool is_frozen_;
 
-    public:
-        SystemType(std::string name, TypeFamily family, TypeFlags flags)
-            : SystemType(name, family, flags, false)
-        {
+  public:
+    SystemType(std::string name, TypeFamily family, TypeFlags flags)
+      : SystemType(name, family, flags, false) {
 
-        }
+    }
 
-        SystemType(std::string name, TypeFamily family, TypeFlags flags, bool is_generic)
-            : name_(name),
-            family_(family),
-            flags_(flags),
-            offset_(sizeof(Instance*)),
-            trait_count_(0),
-            is_generic_(is_generic),
-            is_frozen_(false)
-        {
+    SystemType(std::string name, TypeFamily family, TypeFlags flags, bool is_generic)
+      : name_(name),
+        family_(family),
+        flags_(flags),
+        offset_(sizeof(Instance*)),
+        trait_count_(0),
+        is_generic_(is_generic),
+        is_frozen_(false) {
 
-        }
+    }
 
-        void freeze() const;
+    void freeze() const;
 
-        const SystemTypeFieldDefinition& field(std::string& name) const {
-            return field_definitions_.at(name);
-        }
+    const SystemTypeFieldDefinition& field(std::string& name) const {
+      return field_definitions_.at(name);
+    }
 
-        bool is_frozen() const { return is_frozen_; }
+    bool is_frozen() const {
+      return is_frozen_;
+    }
 
-        void add_field_definition(const std::string name, const SystemType& type, TypeFlags flags) {
-            if (is_frozen_) {
-                throw std::logic_error("type is already frozen");
-            }
+    void add_field_definition(const std::string name, const SystemType& type, TypeFlags flags) {
+      if (is_frozen_) {
+        throw std::logic_error("type is already frozen");
+      }
 
-            SystemTypeFieldDefinition definition { name, type, offset_, flags};
-            field_definitions_.insert({ definition.name(), definition });
+      SystemTypeFieldDefinition definition{name, type, offset_, flags};
+      field_definitions_.insert({definition.name(), definition});
 
-            offset_ += 8;
-        }
+      offset_ += 8;
+    }
 
-        void add_trait(const SystemType& definition) {
-            if (is_frozen_) {
-                throw std::logic_error("type is already frozen");
-            }
+    void add_trait(const SystemType& definition) {
+      if (is_frozen_) {
+        throw std::logic_error("type is already frozen");
+      }
 
-            if (definition.family_ != TypeFamily::CLASS
-                && definition.family_ != TypeFamily::ABSTRACT_CLASS
-                && definition.family_ != TypeFamily::TRAIT) {
+      if (definition.family_ != TypeFamily::CLASS
+        && definition.family_ != TypeFamily::ABSTRACT_CLASS
+        && definition.family_ != TypeFamily::TRAIT) {
 
-                throw std::logic_error("traits must be either 'traits' or classes'");
-            }
+        throw std::logic_error("traits must be either 'traits' or classes'");
+      }
 
-            // Base classes must be added first.
-            if (definition.family_ == TypeFamily::CLASS && trait_count_ > 0) {
-                throw std::logic_error("A type can have only one base class, and it must be added first");
-            }
+      // Base classes must be added first.
+      if (definition.family_ == TypeFamily::CLASS && trait_count_ > 0) {
+        throw std::logic_error("A type can have only one base class, and it must be added first");
+      }
 
-            trait_definitions_.insert({ definition.name(), &definition });
+      trait_definitions_.insert({definition.name(), &definition});
 
-            ++trait_count_;
-        }
+      ++trait_count_;
+    }
 
-        bool isa(std::string name) const {
-            if (name_ == name) return true;
-            if (trait_definitions_.find(name) != trait_definitions_.end()) return true;
+    bool isa(std::string name) const {
+      if (name_ == name) return true;
+      if (trait_definitions_.find(name) != trait_definitions_.end()) return true;
 
-            for (auto entry : trait_definitions_) {
-                if (entry.second->isa(name)) return true;
-            }
+      for (auto entry : trait_definitions_) {
+        if (entry.second->isa(name)) return true;
+      }
 
-            return false;
-        }
+      return false;
+    }
 
-        off_t offset_by_name(std::string name) {
-            return field_definitions_.at(name).offset();
-        }
+    off_t offset_by_name(std::string name) {
+      return field_definitions_.at(name).offset();
+    }
 
-        bool has_fields() const { return offset_ > 0; }
-        size_t required_size() const { return required_size_; }
+    bool has_fields() const {
+      return offset_ > 0;
+    }
 
-        std::string name() const { return name_; }
+    size_t required_size() const {
+      return required_size_;
+    }
 
-        size_t trait_count() const { return trait_definitions_.size(); }
-        size_t field_count() const { return field_definitions_.size(); }
+    std::string name() const {
+      return name_;
+    }
 
-        TypeFamily family() const { return family_; }
-        TypeFlags flags() const { return flags_; }
+    size_t trait_count() const {
+      return trait_definitions_.size();
+    }
 
-        helpers::ContainerIterator<decltype(trait_definitions_)> traits() { return trait_definitions_; }
-        helpers::ContainerIterator<decltype(field_definitions_)> fields() { return field_definitions_; }
+    size_t field_count() const {
+      return field_definitions_.size();
+    }
 
-        const static SystemType& NONE;
+    TypeFamily family() const {
+      return family_;
+    }
 
-        friend std::ostream& operator<<(std::ostream& stream, const SystemType& type) {
-            return stream << type.name_;
-        }
+    TypeFlags flags() const {
+      return flags_;
+    }
 
-    private:
-        // Disable movement
-        SystemType(const SystemType&) = delete;
-        SystemType(SystemType&&) = delete;
-        SystemType& operator=(const SystemType&) = delete;
-        SystemType& operator=(SystemType&&) = delete;
-    };
+    helpers::ContainerIterator<decltype(trait_definitions_)> traits() {
+      return trait_definitions_;
+    }
+
+    helpers::ContainerIterator<decltype(field_definitions_)> fields() {
+      return field_definitions_;
+    }
+
+    const static SystemType& NONE;
+
+    friend std::ostream& operator<<(std::ostream& stream, const SystemType& type) {
+      return stream << type.name_;
+    }
+
+  private:
+    // Disable movement
+    SystemType(const SystemType&) = delete;
+
+    SystemType(SystemType&&) = delete;
+
+    SystemType& operator=(const SystemType&) = delete;
+
+    SystemType& operator=(SystemType&&) = delete;
+  };
 }
 
 

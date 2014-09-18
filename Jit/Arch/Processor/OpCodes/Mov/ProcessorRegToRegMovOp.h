@@ -10,25 +10,28 @@
 #define __ProcessorRegToRegMovOp_H_
 
 namespace op {
-    class ProcessorRegToRegMovOp : public ProcessorOpCodeBase {
-        arch::CpuRegister lhs_;
-        arch::CpuRegister rhs_;
+  class ProcessorRegToRegMovOp : public ProcessorOpCodeBase {
+    arch::CpuRegister lhs_;
+    arch::CpuRegister rhs_;
 
-    public:
-        ProcessorRegToRegMovOp(arch::ConstCpuRegisterRef lhs, arch::ConstCpuRegisterRef rhs) : lhs_(lhs), rhs_(rhs)
-        {
+  public:
+    ProcessorRegToRegMovOp(arch::ConstCpuRegisterRef lhs, arch::ConstCpuRegisterRef rhs) : lhs_(lhs), rhs_(rhs) {
 
-        }
+    }
 
-        size_t size() const override { return 5; }
-        std::string rep() const override {
-            std::stringstream stream;
-            stream << "mov " << lhs_ << ", " << rhs_;
+    size_t size() const override {
+      return 5;
+    }
 
-            return stream.str();
-        }
-        void render(jit::JitRenderer&) const override;
-    };
+    std::string rep() const override {
+      std::stringstream stream;
+      stream << "mov " << lhs_ << ", " << rhs_;
+
+      return stream.str();
+    }
+
+    void render(jit::JitRenderer&) const override;
+  };
 }
 
 

@@ -9,17 +9,17 @@
 #include "VerbajOpCodeBase.h"
 
 namespace verbaj {
-    class VCall : public VerbajOpCodeBase {
-        void* location_;
+  class VCall : public VerbajOpCodeBase {
+    void* location_;
 
-    public:
-        template<class T>
-        VCall(T location): location_((void*)location) {
+  public:
+    template<class T>
+    VCall(T location) : location_((void*) location) {
 
-        }
+    }
 
-        void apply(jit::VirtualStackFrame &) const;
-    };
+    void apply(jit::VirtualStackFrame&) const;
+  };
 }
 
 

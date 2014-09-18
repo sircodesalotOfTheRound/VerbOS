@@ -12,15 +12,20 @@
 #include "ProcessorOpCodeBase.h"
 
 namespace op {
-    class ProcessorReturnOpCode : public ProcessorOpCodeBase {
-    public:
-        void render(jit::JitRenderer& renderer) const override {
-            renderer.write_opcode(0xc3);
-        }
+  class ProcessorReturnOpCode : public ProcessorOpCodeBase {
+  public:
+    void render(jit::JitRenderer& renderer) const override {
+      renderer.write_opcode(0xc3);
+    }
 
-        size_t size() const override { return 1; }
-        std::string rep() const override { return "ret"; }
-    };
+    size_t size() const override {
+      return 1;
+    }
+
+    std::string rep() const override {
+      return "ret";
+    }
+  };
 }
 
 

@@ -11,116 +11,129 @@
 #define __VirtualVariableSystemRegisterBinding_H_
 
 namespace jit {
-    class VirtualVariableSystemRegisterBinding {
-        static const int none = -1;
+  class VirtualVariableSystemRegisterBinding {
+    static const int none = -1;
 
-        arch::CpuRegister sys_register_;
-        int binding_number_;
-        bool is_locked_;
-        int usage_count_;
-        VirtualVariable variable_;
+    arch::CpuRegister sys_register_;
+    int binding_number_;
+    bool is_locked_;
+    int usage_count_;
+    VirtualVariable variable_;
 
-    public:
-        VirtualVariableSystemRegisterBinding(int binding_number, const arch::CpuRegister &cpu_register) :
-                sys_register_(cpu_register),
-                is_locked_(false),
-                usage_count_(0),
-                binding_number_(binding_number) {
+  public:
+    VirtualVariableSystemRegisterBinding(int binding_number, const arch::CpuRegister& cpu_register) :
+      sys_register_(cpu_register),
+      is_locked_(false),
+      usage_count_(0),
+      binding_number_(binding_number) {
 
-        }
+    }
 
 
-        // Move constructor
-        VirtualVariableSystemRegisterBinding(VirtualVariableSystemRegisterBinding &&rhs) :
-                sys_register_(rhs.sys_register_),
-                binding_number_(rhs.binding_number_),
-                is_locked_(rhs.is_locked_),
-                usage_count_(rhs.usage_count_),
-                variable_(std::move(rhs.variable_))
-        {
-            rhs.variable_ = VirtualVariable();
-            rhs.is_locked_ = false;
-            rhs.binding_number_ = none;
-            rhs.usage_count_ = 0;
-        }
+    // Move constructor
+    VirtualVariableSystemRegisterBinding(VirtualVariableSystemRegisterBinding&& rhs) :
+      sys_register_(rhs.sys_register_),
+      binding_number_(rhs.binding_number_),
+      is_locked_(rhs.is_locked_),
+      usage_count_(rhs.usage_count_),
+      variable_(std::move(rhs.variable_)) {
+      rhs.variable_ = VirtualVariable();
+      rhs.is_locked_ = false;
+      rhs.binding_number_ = none;
+      rhs.usage_count_ = 0;
+    }
 
-        VirtualVariableSystemRegisterBinding& operator=(VirtualVariableSystemRegisterBinding &&rhs) {
-            if (this == &rhs) return *this;
+    VirtualVariableSystemRegisterBinding& operator=(VirtualVariableSystemRegisterBinding&& rhs) {
+      if (this == &rhs) return *this;
 
-            sys_register_ = rhs.sys_register_;
-            is_locked_ = rhs.is_locked_;
-            usage_count_ = rhs.usage_count_;
-            binding_number_ = rhs.binding_number_;
-            variable_ = std::move(rhs.variable_);
+      sys_register_ = rhs.sys_register_;
+      is_locked_ = rhs.is_locked_;
+      usage_count_ = rhs.usage_count_;
+      binding_number_ = rhs.binding_number_;
+      variable_ = std::move(rhs.variable_);
 
-            rhs.binding_number_ = none;
-            rhs.usage_count_ = 0;
-            rhs.is_locked_ = false;
-            rhs.variable_ = VirtualVariable();
+      rhs.binding_number_ = none;
+      rhs.usage_count_ = 0;
+      rhs.is_locked_ = false;
+      rhs.variable_ = VirtualVariable();
 
-            return *this;
-        }
+      return *this;
+    }
 
-        int usage_count() const { return usage_count_; }
-        void increment_usage_count() { ++usage_count_; }
+    int usage_count() const {
+      return usage_count_;
+    }
 
-        arch::CpuRegister &sys_register() {
-            return sys_register_;
-        }
+    void increment_usage_count() {
+      ++usage_count_;
+    }
 
-        bool contains_variable() const {
-            return !variable_.is_empty();
-        }
+    arch::CpuRegister& sys_register() {
+      return sys_register_;
+    }
 
-        VirtualVariable &variable() {
-            return variable_;
-        }
+    bool contains_variable() const {
+      return !variable_.is_empty();
+    }
 
-        VirtualVariable&& release_variable() {
-            if (is_locked_) {
-                throw std::logic_error("binding is locked, cannot release variable");
-            }
+    VirtualVariable& variable() {
+      return variable_;
+    }
 
-            return std::move(variable_);
-        }
+    VirtualVariable&& release_variable() {
+      if (is_locked_) {
+        throw std::logic_error("binding is locked, cannot release variable");
+      }
 
-        int variable_number() const {
-            if (!contains_variable()) {
-                throw std::logic_error("register does not contain variable");
-            }
+      return std::move(variable_);
+    }
 
-            return variable_.variable_number();
-        }
+    int variable_number() const {
+      if (!contains_variable()) {
+        throw std::logic_error("register does not contain variable");
+      }
 
-        void bind_variable(VirtualVariable &&variable) {
-            if (contains_variable()) {
-                throw std::logic_error("binding already contains a variable");
-            }
+      return variable_.variable_number();
+    }
 
-            variable_ = std::move(variable);
-        }
+    void bind_variable(VirtualVariable&& variable) {
+      if (contains_variable()) {
+        throw std::logic_error("binding already contains a variable");
+      }
 
-        int binding_number() const {
-            return binding_number_;
-        }
+      variable_ = std::move(variable);
+    }
 
-        bool is_locked() { return is_locked_; }
-        void lock() { is_locked_ = true; }
-        void unlock() { is_locked_ = false; }
+    int binding_number() const {
+      return binding_number_;
+    }
 
-        int priority() const {
-            if (!contains_variable()) {
-                return none;
-            }
+    bool is_locked() {
+      return is_locked_;
+    }
 
-            return variable_.priority();
-        }
+    void lock() {
+      is_locked_ = true;
+    }
 
-    private:
-        VirtualVariableSystemRegisterBinding(const VirtualVariableSystemRegisterBinding &) = delete;
-        VirtualVariableSystemRegisterBinding operator=(const VirtualVariableSystemRegisterBinding &) = delete;
+    void unlock() {
+      is_locked_ = false;
+    }
 
-    };
+    int priority() const {
+      if (!contains_variable()) {
+        return none;
+      }
+
+      return variable_.priority();
+    }
+
+  private:
+    VirtualVariableSystemRegisterBinding(const VirtualVariableSystemRegisterBinding&) = delete;
+
+    VirtualVariableSystemRegisterBinding operator=(const VirtualVariableSystemRegisterBinding&) = delete;
+
+  };
 }
 
 

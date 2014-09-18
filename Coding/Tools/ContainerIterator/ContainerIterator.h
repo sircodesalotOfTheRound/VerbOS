@@ -12,17 +12,23 @@
 #include "TypeDef.h"
 
 namespace helpers {
-    template<class T>
-    class ContainerIterator {
-        using iterator = typename T::iterator;
-        const T& container_;
+  template<class T>
+  class ContainerIterator {
+    using iterator = typename T::iterator;
+    const T& container_;
 
-    public:
-        ContainerIterator(T& container) : container_(container) { }
+  public:
+    ContainerIterator(T& container) : container_(container) {
+    }
 
-        decltype(container_.begin()) begin() { return container_.begin(); }
-        decltype(container_.end()) end() { return container_.end(); }
-    };
+    decltype(container_.begin()) begin() {
+      return container_.begin();
+    }
+
+    decltype(container_.end()) end() {
+      return container_.end();
+    }
+  };
 }
 
 

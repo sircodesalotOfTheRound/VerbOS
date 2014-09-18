@@ -10,15 +10,15 @@
 #define __VDeref_H_
 
 namespace verbaj {
-    class VDeref : public VerbajOpCodeBase {
-        int variable_number_;
-        int child_number_;
-        int offset_;
+  class VDeref : public VerbajOpCodeBase {
+    int variable_number_;
+    int child_number_;
+    int offset_;
 
-    public:
+  public:
 
-        void apply(jit::VirtualStackFrame &) const;
-    };
+    void apply(jit::VirtualStackFrame&) const;
+  };
 }
 
 

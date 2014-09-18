@@ -10,16 +10,17 @@
 #include "VirtualVariableStagingAllocator.h"
 
 namespace jit {
-    class VirtualStackFrame;
+  class VirtualStackFrame;
 }
 
 namespace verbaj {
-    class VerbajOpCodeBase {
-    public:
-        virtual ~VerbajOpCodeBase() { }
+  class VerbajOpCodeBase {
+  public:
+    virtual ~VerbajOpCodeBase() {
+    }
 
-        virtual void apply(jit::VirtualStackFrame &) const = 0;
-    };
+    virtual void apply(jit::VirtualStackFrame&) const = 0;
+  };
 }
 
 
