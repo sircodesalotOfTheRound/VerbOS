@@ -17,19 +17,11 @@ namespace op {
     arch::CpuRegister rhs_;
 
   public:
-    ProcessorSubRegToRegOpCode(const arch::CpuRegister lhs, const arch::CpuRegister rhs) : lhs_(lhs), rhs_(rhs) {
-    }
+    ProcessorSubRegToRegOpCode(const arch::CpuRegister lhs, const arch::CpuRegister rhs) : lhs_(lhs), rhs_(rhs) { }
 
-    std::string rep() const override {
-      std::stringstream rep;
-      rep << "add " << lhs_ << ", " << rhs_;
+    std::string rep() const;;
 
-      return rep.str();
-    };
-
-    size_t size() const override {
-      return 5;
-    }
+    size_t size() const;
 
     void render(jit::JitRenderer&) const;
   };

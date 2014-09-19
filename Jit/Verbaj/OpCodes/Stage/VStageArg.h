@@ -14,8 +14,7 @@ namespace verbaj {
     int variable_number;
 
   public:
-    VStageArg(int virtual_register) : variable_number(virtual_register) {
-    }
+    VStageArg(int virtual_register) : variable_number(virtual_register) { }
 
     void apply(jit::VirtualStackFrame&) const;
   };

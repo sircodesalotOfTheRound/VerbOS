@@ -17,19 +17,9 @@ namespace op {
     ProcessorPopOpCode(const arch::CpuRegister& reg) : register_(reg) {
     }
 
-    std::string rep() const override {
-      std::stringstream stream;
-      stream << "pop " << register_;
-      return stream.str();
-    };
-
-    size_t size() const override {
-      return 1;
-    }
-
-    void render(jit::JitRenderer& renderer) const override {
-      renderer.write_opcode_masked(0x58, register_);
-    };
+    std::string rep() const;;
+    size_t size() const;
+    void render(jit::JitRenderer& renderer) const;;
 
   };
 }

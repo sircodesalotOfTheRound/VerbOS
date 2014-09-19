@@ -16,20 +16,10 @@ namespace op {
     uint64_t rhs_;
 
   public:
-    ProcessorSubConstToRegOpCode(const arch::CpuRegister& lhs, uint64_t value) : lhs_(lhs), rhs_(value) {
-    }
+    ProcessorSubConstToRegOpCode(const arch::CpuRegister& lhs, uint64_t value) : lhs_(lhs), rhs_(value) { }
 
-    std::string rep() const override {
-      std::stringstream rep;
-      rep << "sub " << lhs_ << ", " << rhs_;
-
-      return rep.str();
-    };
-
-    size_t size() const override {
-      return 5;
-    }
-
+    std::string rep() const;;
+    size_t size() const;
     void render(jit::JitRenderer&) const override;
   };
 }

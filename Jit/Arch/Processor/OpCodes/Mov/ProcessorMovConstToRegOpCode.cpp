@@ -12,3 +12,14 @@ void op::ProcessorMovConstToRegOpCode::render(jit::JitRenderer& renderer) const 
   renderer.write_int64(rhs_);
 
 }
+
+size_t op::ProcessorMovConstToRegOpCode::size() const {
+  return 5;
+}
+
+std::string op::ProcessorMovConstToRegOpCode::rep() const {
+  std::stringstream stream;
+  stream << "mov " << lhs_ << ", " << rhs_;
+
+  return stream.str();
+}

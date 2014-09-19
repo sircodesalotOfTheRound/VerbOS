@@ -19,20 +19,11 @@ namespace op {
     ProcessorLabelOpCode(std::string name) : name_(name) {
     }
 
-    void render(jit::JitRenderer&) const override {
-      /* NOP */
-    }
+    void render(jit::JitRenderer&) const;
 
-    std::string rep() const override {
-      std::stringstream representation;
-      representation << "label: " << name_;
+    std::string rep() const;
 
-      return representation.str();
-    }
-
-    size_t size() const override {
-      return 0;
-    }
+    size_t size() const;
   };
 }
 

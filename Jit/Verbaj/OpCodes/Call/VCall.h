@@ -14,9 +14,7 @@ namespace verbaj {
 
   public:
     template<class T>
-    VCall(T location) : location_((void*) location) {
-
-    }
+    VCall(T location) : location_((void*) location) { }
 
     void apply(jit::VirtualStackFrame&) const;
   };

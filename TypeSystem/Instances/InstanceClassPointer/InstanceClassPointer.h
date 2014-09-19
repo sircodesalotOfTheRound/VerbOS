@@ -15,13 +15,8 @@ namespace types {
     Instance* self_;
 
   public:
-    Instance& operator*() const {
-      return *self_;
-    }
-
-    Instance* operator->() const {
-      return self_;
-    }
+    Instance& operator*() const;
+    Instance* operator->() const;
   };
 }
 

@@ -24,3 +24,19 @@ void op::ProcessorMovRegToMemOp::render(jit::JitRenderer& renderer) const {
     renderer.write_int8((uint8_t) memory_location_.offset());
   }
 }
+
+size_t op::ProcessorMovRegToMemOp::size() const {
+  return 3;
+}
+
+std::string op::ProcessorMovRegToMemOp::rep() const {
+  std::stringstream stream;
+
+  if (direction_ == DIRECTION::TO_MEMORY) {
+    stream << "mov " << memory_location_ << ", " << register_;
+  } else {
+    stream << "mov " << register_ << ", " << memory_location_;
+  }
+
+  return stream.str();
+}

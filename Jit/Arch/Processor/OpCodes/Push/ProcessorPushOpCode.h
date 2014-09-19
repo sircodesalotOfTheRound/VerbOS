@@ -17,19 +17,9 @@ namespace op {
     ProcessorPushOpCode(const arch::CpuRegister& reg) : register_(reg) {
     }
 
-    virtual std::string rep() const override {
-      std::stringstream stream;
-      stream << "push " << register_;
-      return stream.str();
-    }
-
-    virtual size_t size() const override {
-      return 1;
-    }
-
-    virtual void render(jit::JitRenderer& renderer) const override {
-      renderer.write_opcode_masked(0x50, register_);
-    };
+    virtual std::string rep() const;
+    virtual size_t size() const;
+    virtual void render(jit::JitRenderer& renderer) const;;
   };
 }
 

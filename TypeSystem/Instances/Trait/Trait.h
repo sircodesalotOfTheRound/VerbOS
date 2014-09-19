@@ -21,10 +21,7 @@ namespace types {
 
     Trait(Instance* instance) : instance_pointer_(instance) { }
 
-    Instance& get_instance() const {
-      return *instance_pointer_;
-    }
-
+    Instance& get_instance() const;
     const SystemType& def() const;
 
     template<class T>

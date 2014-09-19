@@ -14,3 +14,11 @@ void op::ProcessorCallOpCode::render(jit::JitRenderer& renderer) const {
   renderer.write_opcode(0xe8);
   renderer.write_int32((uint32_t) (location_ - (current_memory_location + opcode_size)));
 }
+
+std::string op::ProcessorCallOpCode::rep() const {
+  return "call";
+}
+
+size_t op::ProcessorCallOpCode::size() const {
+  return 5;
+}

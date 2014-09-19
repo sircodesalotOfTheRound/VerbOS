@@ -20,3 +20,22 @@ byte arch::CpuRegister::register_code() const {
 const std::string& arch::CpuRegister::name() const {
   return name_;
 }
+
+bool arch::CpuRegister::operator==(const CpuRegister& rhs) const {
+  return name_ == rhs.name_
+    && register_code_ == rhs.register_code_
+    && size_ == rhs.size_
+    && is_extended_ == rhs.is_extended_;
+}
+
+bool arch::CpuRegister::operator!=(const CpuRegister& rhs) const {
+  return !(*this == rhs);
+}
+
+arch::DereferencedCpuRegister arch::CpuRegister::operator*() const {
+  return DereferencedCpuRegister(this);
+}
+
+arch::DereferencedCpuRegister arch::CpuRegister::operator[](int offset) const {
+  return DereferencedCpuRegister(this, offset);
+}

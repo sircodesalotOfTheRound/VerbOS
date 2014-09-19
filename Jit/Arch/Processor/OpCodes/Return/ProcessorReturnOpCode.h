@@ -14,17 +14,9 @@
 namespace op {
   class ProcessorReturnOpCode : public ProcessorOpCodeBase {
   public:
-    void render(jit::JitRenderer& renderer) const override {
-      renderer.write_opcode(0xc3);
-    }
-
-    size_t size() const override {
-      return 1;
-    }
-
-    std::string rep() const override {
-      return "ret";
-    }
+    void render(jit::JitRenderer& renderer) const;
+    size_t size() const;
+    std::string rep() const;
   };
 }
 

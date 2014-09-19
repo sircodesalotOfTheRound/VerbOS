@@ -11,3 +11,14 @@ void op::ProcessorSubRegToRegOpCode::render(jit::JitRenderer& renderer) const {
   renderer.write_opcode(0x29);
   renderer.write_opcode_masked(0xc0, rhs_, lhs_);
 }
+
+size_t op::ProcessorSubRegToRegOpCode::size() const {
+  return 5;
+}
+
+std::string op::ProcessorSubRegToRegOpCode::rep() const {
+  std::stringstream rep;
+  rep << "add " << lhs_ << ", " << rhs_;
+
+  return rep.str();
+}

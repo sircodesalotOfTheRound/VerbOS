@@ -13,3 +13,14 @@ void op::ProcessorRegToRegMovOp::render(jit::JitRenderer& renderer) const {
   // Note op-code is backwards
   renderer.write_opcode_masked(0xc0, rhs_, lhs_);
 }
+
+std::string op::ProcessorRegToRegMovOp::rep() const {
+  std::stringstream stream;
+  stream << "mov " << lhs_ << ", " << rhs_;
+
+  return stream.str();
+}
+
+size_t op::ProcessorRegToRegMovOp::size() const {
+  return 5;
+}

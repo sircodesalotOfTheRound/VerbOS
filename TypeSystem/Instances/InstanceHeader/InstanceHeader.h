@@ -17,19 +17,12 @@ namespace types {
     const SystemType* type_;
     GarbageCollectionHeader gc_header_;
 
-    InstanceHeader() {
-    }
+    InstanceHeader() { }
 
-    InstanceHeader(const SystemType& type) : type_(&type) {
-    }
+    InstanceHeader(const SystemType& type) : type_(&type) { }
 
-    const SystemType& type() const {
-      return *type_;
-    }
-
-    GarbageCollectionHeader& gc_header() {
-      return gc_header_;
-    }
+    const SystemType& type() const;
+    GarbageCollectionHeader& gc_header();
   };
 }
 

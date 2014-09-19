@@ -24,25 +24,12 @@ namespace arch {
       offset_(offset) {
     }
 
-    DereferencedCpuRegister(const CpuRegister* reg) : DereferencedCpuRegister(reg, 0) {
+    DereferencedCpuRegister(const CpuRegister* reg) : DereferencedCpuRegister(reg, 0) { }
 
-    }
-
-    DereferencedCpuRegister operator+(const int offset) {
-      return DereferencedCpuRegister(sys_register_, this->offset_ + offset);
-    }
-
-    DereferencedCpuRegister operator-(const int offset) {
-      return DereferencedCpuRegister(sys_register_, this->offset_ - offset);
-    }
-
-    const CpuRegister& sys_register() const {
-      return *sys_register_;
-    };
-
-    off_t offset() const {
-      return offset_;
-    }
+    DereferencedCpuRegister operator+(const int offset);
+    DereferencedCpuRegister operator-(const int offset);
+    const CpuRegister& sys_register() const;;
+    off_t offset() const;
   };
 
   std::ostream& operator<<(std::ostream& stream, const arch::DereferencedCpuRegister& sys_register);

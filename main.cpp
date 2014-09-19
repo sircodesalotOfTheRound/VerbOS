@@ -28,7 +28,8 @@ void print(Trait* object) {
   if (type.isa("vm.Box<uint64>")) {
     cout << "the boxed value: " << object->data<uint64_t>()[0] << endl;
 
-  } else if (type.isa("vm.utf8")) {
+  }
+  else if (type.isa("vm.utf8")) {
     uint64_t length = object->data<uint64_t>()[0];
 
     for (int index = 0; index != length; ++index) {
@@ -53,10 +54,8 @@ void stuff() {
   frame.apply(renderer);
   frame.debug_print();
 
-  Trait* (*jit_function)() = (Trait* (*)()) renderer.memory();
-  Trait* pTrait = jit_function();
-
-  cout << "ptrait" << pTrait << endl;
+  void (*jit_function)() = (void (*)()) renderer.memory();
+  jit_function();
 }
 
 int main() {

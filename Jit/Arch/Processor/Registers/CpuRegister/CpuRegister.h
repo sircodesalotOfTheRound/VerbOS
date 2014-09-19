@@ -27,31 +27,13 @@ namespace arch {
     }
 
     const std::string& name() const;
-
     byte register_code() const;
-
     byte size() const;
-
     bool is_extended() const;
-
-    bool operator==(const CpuRegister& rhs) const {
-      return name_ == rhs.name_
-        && register_code_ == rhs.register_code_
-        && size_ == rhs.size_
-        && is_extended_ == rhs.is_extended_;
-    }
-
-    bool operator!=(const CpuRegister& rhs) const {
-      return !(*this == rhs);
-    }
-
-    DereferencedCpuRegister operator*() const {
-      return DereferencedCpuRegister(this);
-    }
-
-    DereferencedCpuRegister operator[](int offset) const {
-      return DereferencedCpuRegister(this, offset);
-    }
+    bool operator==(const CpuRegister& rhs) const;
+    bool operator!=(const CpuRegister& rhs) const;
+    DereferencedCpuRegister operator*() const;
+    DereferencedCpuRegister operator[](int offset) const;
 
     friend std::ostream& operator<<(std::ostream& stream, const CpuRegister& cpu_register) {
       return stream << cpu_register.name_;

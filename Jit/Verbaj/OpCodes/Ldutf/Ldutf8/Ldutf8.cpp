@@ -19,16 +19,11 @@ void verbaj::VLdutf8::apply(jit::VirtualStackFrame& frame) const {
 
   head_trait->data<uint64_t>()[0] = string_.size();
 
-  for (int index = 0; index != string_.size(); ++index) {
-    head_trait->data<char>(8)[index] = string_[index];
-  }
+  memcpy(&head_trait->data<char>(8)[0], &string_[0], string_.size());
 
   stage.with_register(variable_number_, [&](jit::VirtualVariableCheckout& checkout) {
     op::ProcessorOpCodeSet& opcodes = checkout.jit_opcodes();
     opcodes.lea(checkout.sys_register(), head_trait);
   });
-
-
-  std::cout << "@" << head_trait << std::endl;
 }
 

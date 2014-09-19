@@ -14,3 +14,14 @@ void op::ProcessorAddConstToRegOpCode::render(jit::JitRenderer& renderer) const 
   // Add only comes in 32 bit variant
   renderer.write_int32((uint32_t) rhs_);
 }
+
+std::string op::ProcessorAddConstToRegOpCode::rep() const {
+  std::stringstream rep;
+  rep << "add " << lhs_ << ", " << rhs_;
+
+  return rep.str();
+}
+
+size_t op::ProcessorAddConstToRegOpCode::size() const {
+  return 5;
+}

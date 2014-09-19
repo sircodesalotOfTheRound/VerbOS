@@ -19,18 +19,11 @@ namespace verbaj {
     std::vector<std::unique_ptr<VerbajOpCodeBase>> opcodes_;
 
   public:
-    void add(VerbajOpCodeBase* op) {
-      std::unique_ptr<VerbajOpCodeBase> opcode(op);
-      opcodes_.push_back(std::move(opcode));
-    }
+    void add(VerbajOpCodeBase* op);
 
-    iterator begin() {
-      return opcodes_.begin();
-    }
+    iterator begin();
 
-    iterator end() {
-      return opcodes_.end();
-    }
+    iterator end();
 
   };
 }

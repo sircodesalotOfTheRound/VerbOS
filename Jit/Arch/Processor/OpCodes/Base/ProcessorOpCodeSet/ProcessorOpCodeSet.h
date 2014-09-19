@@ -33,92 +33,36 @@ namespace op {
 
   public:
 
-    void render(jit::JitRenderer& renderer) {
-      for (auto& opcode : opcodes_) {
-        opcode->render(renderer);
-      }
-    }
-
-    void clear() {
-      opcodes_.clear();
-    }
-
-    iterator begin() {
-      return opcodes_.begin();
-    }
-
-    iterator end() {
-      return opcodes_.end();
-    }
+    void render(jit::JitRenderer& renderer);
+    void clear();
+    iterator begin();
+    iterator end();
 
     void debug_print();
 
   public:
-    // OpCodes
-    void ret() {
-      add(new ProcessorReturnOpCode());
-    }
+    void ret();
 
-    void label(std::string label) {
-      add(new ProcessorLabelOpCode(label));
-    }
+    void label(std::string label);
 
     template<class T>
     void call(T location) {
       add(new op::ProcessorCallOpCode((void*) location));
     }
 
-    void add(arch::ConstCpuRegisterRef lhs, uint64_t rhs) {
-      add(new op::ProcessorAddConstToRegOpCode(lhs, rhs));
-    }
-
-    void add(arch::ConstCpuRegisterRef lhs, arch::ConstCpuRegisterRef rhs) {
-      add(new op::ProcessorAddRegToRegOpCode(lhs, rhs));
-    }
-
-    void sub(arch::ConstCpuRegisterRef lhs, uint64_t rhs) {
-      add(new op::ProcessorSubConstToRegOpCode(lhs, rhs));
-    }
-
-    void sub(arch::ConstCpuRegisterRef lhs, arch::ConstCpuRegisterRef rhs) {
-      add(new op::ProcessorSubRegToRegOpCode(lhs, rhs));
-    }
-
-    void mov(arch::ConstCpuRegisterRef sys_register, uint64_t value) {
-      add(new op::ProcessorMovConstToRegOpCode(sys_register, value));
-    }
-
-    void mov(arch::ConstCpuRegisterRef lhs, arch::ConstCpuRegisterRef rhs) {
-      add(new op::ProcessorRegToRegMovOp(lhs, rhs));
-    }
-
-    void mov(arch::ConstCpuRegisterRef lhs, arch::DereferencedCpuRegister rhs) {
-      add(new op::ProcessorMovRegToMemOp(lhs, rhs, ProcessorMovRegToMemOp::DIRECTION::FROM_MEMORY));
-    }
-
-    void mov(arch::DereferencedCpuRegister lhs, arch::ConstCpuRegisterRef rhs) {
-      add(new op::ProcessorMovRegToMemOp(rhs, lhs, ProcessorMovRegToMemOp::DIRECTION::TO_MEMORY));
-    }
-
-    void inc(arch::ConstCpuRegisterRef sys_register) {
-      add(new op::ProcessorIncOpCode(sys_register));
-    }
-
-    void dec(arch::ConstCpuRegisterRef sys_register) {
-      add(new op::ProcessorDecOpCode(sys_register));
-    }
-
-    void push(arch::ConstCpuRegisterRef sys_register) {
-      add(new op::ProcessorPushOpCode(sys_register));
-    }
-
-    void pop(arch::ConstCpuRegisterRef sys_register) {
-      add(new op::ProcessorPopOpCode(sys_register));
-    }
-
-    void lea(arch::ConstCpuRegisterRef sys_register, const void* object) {
-      add(new op::ProcessorMovConstToRegOpCode(sys_register, (uintptr_t) object));
-    }
+    void add(arch::ConstCpuRegisterRef lhs, uint64_t rhs);
+    void add(arch::ConstCpuRegisterRef lhs, arch::ConstCpuRegisterRef rhs);
+    void sub(arch::ConstCpuRegisterRef lhs, uint64_t rhs);
+    void sub(arch::ConstCpuRegisterRef lhs, arch::ConstCpuRegisterRef rhs);
+    void mov(arch::ConstCpuRegisterRef sys_register, uint64_t value);
+    void mov(arch::ConstCpuRegisterRef lhs, arch::ConstCpuRegisterRef rhs);
+    void mov(arch::ConstCpuRegisterRef lhs, arch::DereferencedCpuRegister rhs);
+    void mov(arch::DereferencedCpuRegister lhs, arch::ConstCpuRegisterRef rhs);
+    void inc(arch::ConstCpuRegisterRef sys_register);
+    void dec(arch::ConstCpuRegisterRef sys_register);
+    void push(arch::ConstCpuRegisterRef sys_register);
+    void pop(arch::ConstCpuRegisterRef sys_register);
+    void lea(arch::ConstCpuRegisterRef sys_register, const void* object);
 
   private:
     void add(ProcessorOpCodeBase* op_code) {

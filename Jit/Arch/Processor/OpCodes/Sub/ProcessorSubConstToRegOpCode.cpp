@@ -14,3 +14,14 @@ void op::ProcessorSubConstToRegOpCode::render(jit::JitRenderer& renderer) const 
   // Add only comes in 32 bit variant
   renderer.write_int32((uint32_t) rhs_);
 }
+
+std::string op::ProcessorSubConstToRegOpCode::rep() const {
+  std::stringstream rep;
+  rep << "sub " << lhs_ << ", " << rhs_;
+
+  return rep.str();
+}
+
+size_t op::ProcessorSubConstToRegOpCode::size() const {
+  return 5;
+}

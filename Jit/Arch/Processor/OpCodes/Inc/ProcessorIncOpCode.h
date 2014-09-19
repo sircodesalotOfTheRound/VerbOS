@@ -19,19 +19,9 @@ namespace op {
 
     }
 
-    size_t size() const override {
-      return 3;
-    }
-
-    std::string rep() const override {
-      return "inc";
-    }
-
-    void render(jit::JitRenderer& renderer) const override {
-      renderer.write_preamble64lhs(sys_register_);
-      renderer.write_opcode(0xFF);
-      renderer.write_opcode_masked(0xc0, sys_register_);
-    }
+    size_t size() const;
+    std::string rep() const;
+    void render(jit::JitRenderer& renderer) const;
 
   };
 }

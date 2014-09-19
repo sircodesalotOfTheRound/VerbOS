@@ -23,17 +23,8 @@ namespace op {
     }
 
   public:
-    size_t size() const override {
-      return 5;
-    }
-
-    std::string rep() const override {
-      std::stringstream stream;
-      stream << "mov " << lhs_ << ", " << rhs_;
-
-      return stream.str();
-    }
-
+    size_t size() const;
+    std::string rep() const;
     void render(jit::JitRenderer&) const override;
   };
 }

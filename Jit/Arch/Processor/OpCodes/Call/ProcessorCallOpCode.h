@@ -14,17 +14,10 @@ namespace op {
     uintptr_t location_;
 
   public:
-    ProcessorCallOpCode(void* location) : location_((uintptr_t) &*location) {
-    }
+    ProcessorCallOpCode(void* location) : location_((uintptr_t) &*location) { }
 
-    std::string rep() const {
-      return "call";
-    }
-
-    size_t size() const {
-      return 5;
-    }
-
+    std::string rep() const;
+    size_t size() const;
     void render(jit::JitRenderer&) const;
   };
 }

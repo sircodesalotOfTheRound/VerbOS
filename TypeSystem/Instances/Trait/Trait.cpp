@@ -7,3 +7,7 @@
 #include "Instance.h"
 
 const types::SystemType& types::Trait::def() const { return get_instance().type(); }
+
+types::Instance& types::Trait::get_instance() const {
+  return *instance_pointer_;
+}
