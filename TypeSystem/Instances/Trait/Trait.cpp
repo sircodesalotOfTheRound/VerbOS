@@ -3,3 +3,7 @@
 // Copyright (c) 2014 Reuben Kuhnert. All rights reserved.
 //
 
+#include "Trait.h"
+#include "Instance.h"
+
+const types::SystemType& types::Trait::def() const { return get_instance().type(); }

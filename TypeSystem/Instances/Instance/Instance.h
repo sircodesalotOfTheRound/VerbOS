@@ -29,14 +29,13 @@ namespace types {
       // Since we have everything we need to build the
       // type right here. Then return and allow default (empty)
       // constructor to run.
-      size_t total_required_size = type.required_size() + sizeof(InstanceHeader);
+      // TODO: Fix this.
+      size_t total_required_size = 256;//type.required_size() + sizeof(InstanceHeader);
       std::cout << "allocating:" << total_required_size << std::endl;
       return new(total_required_size) Instance(type);
     }
 
-    Trait& head() {
-      return head_trait_;
-    }
+    Trait* head() { return &head_trait_; }
 
     const SystemType& type() const {
       return header_.type();

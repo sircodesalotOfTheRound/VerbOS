@@ -12,6 +12,7 @@ namespace verbaj {
 
     static types::SystemType vm_uint64;
     static types::SystemType vm_box_of_uint64;
+    static types::SystemType vm_utf8;
   };
 }
 

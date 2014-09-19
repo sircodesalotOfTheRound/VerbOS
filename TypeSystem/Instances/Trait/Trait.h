@@ -10,21 +10,22 @@
 #include "InstanceClassPointer.h"
 
 namespace types {
+  class SystemType;
+  class Instance;
   struct Trait {
     Instance* instance_pointer_;
 
   public:
     // Should be initialized on 'new'. Empty constructor.
-    Trait() {
-    }
+    Trait() { }
 
-    Trait(Instance* instance) : instance_pointer_(instance) {
+    Trait(Instance* instance) : instance_pointer_(instance) { }
 
-    }
-
-    Instance& get_instance() {
+    Instance& get_instance() const {
       return *instance_pointer_;
     }
+
+    const SystemType& def() const;
 
     template<class T>
     T* data() {
@@ -35,6 +36,8 @@ namespace types {
     T* data(off_t byte_offset) {
       return (T*) &((byte*) this)[byte_offset + 8];
     }
+
+    // TODO: Access memory by named offset rather than by magic number.
   };
 }
 

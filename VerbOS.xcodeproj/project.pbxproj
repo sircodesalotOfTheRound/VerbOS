@@ -16,6 +16,7 @@
 		D334315582DE565E118FDD29 /* VirtualVariableCheckout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D33439FFA36932E434081F04 /* VirtualVariableCheckout.cpp */; };
 		D334316E4711F81779136FC1 /* ProcessorDecOpCode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D334394F8949BF2A30A572ED /* ProcessorDecOpCode.cpp */; };
 		D33431A51AE30E288F656323 /* VBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343AFA3BDE7E6C603A7A99 /* VBox.cpp */; };
+		D33431FA1289B23783553044 /* Ldutf8.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D33431D5BACD848C1A215188 /* Ldutf8.cpp */; };
 		D33431FE16FDF9EC1EEA2C9E /* VerbajOpCodeBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343135C8E678F0EE60284D /* VerbajOpCodeBase.cpp */; };
 		D334321C18296C99AFE7038F /* SystemRegisterPriorityQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D33432DB4FBB09040EB0B8B4 /* SystemRegisterPriorityQueue.cpp */; };
 		D33432726FA3D5E9EB9999F5 /* ProcessorSubRegToRegOpCode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343CA74F8CDC84746CFF11 /* ProcessorSubRegToRegOpCode.cpp */; };
@@ -87,9 +88,11 @@
 		D334311A848C5D406B7E110F /* ProcessorLabelOpCode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProcessorLabelOpCode.cpp; sourceTree = "<group>"; };
 		D3343135C8E678F0EE60284D /* VerbajOpCodeBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VerbajOpCodeBase.cpp; sourceTree = "<group>"; };
 		D334315994D7E8F6CF6FEB7E /* JitRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JitRenderer.cpp; sourceTree = "<group>"; };
+		D334317AE4A06E3B38885582 /* Ldutf8.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ldutf8.h; sourceTree = "<group>"; };
 		D33431BD60DE6A158909902F /* SystemType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemType.cpp; sourceTree = "<group>"; };
 		D33431BDAF7FA9DA504F3946 /* InstanceHeader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InstanceHeader.cpp; sourceTree = "<group>"; };
 		D33431D2D6DD53D5F9148247 /* ProcessorRegToRegMovOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessorRegToRegMovOp.h; sourceTree = "<group>"; };
+		D33431D5BACD848C1A215188 /* Ldutf8.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Ldutf8.cpp; sourceTree = "<group>"; };
 		D33431DB5E7EA9EF5A895B95 /* ArgumentStagingRegisterAssignmentFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArgumentStagingRegisterAssignmentFactory.cpp; sourceTree = "<group>"; };
 		D33432081CC626CFA97F2016 /* SystemRegisterPriority.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemRegisterPriority.cpp; sourceTree = "<group>"; };
 		D334322B32C5180E2FA77802 /* ProcessorAddRegToRegOpCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessorAddRegToRegOpCode.h; sourceTree = "<group>"; };
@@ -536,8 +539,17 @@
 				D334348CDFE19CE4D3B4DD66 /* Call */,
 				D334349A88CC72D5DD6876BE /* VBox */,
 				D3343E18DBE0C0FD6599D705 /* VDeref */,
+				D3343864C91A45DBD2BAED47 /* Ldutf */,
 			);
 			path = OpCodes;
+			sourceTree = "<group>";
+		};
+		D3343864C91A45DBD2BAED47 /* Ldutf */ = {
+			isa = PBXGroup;
+			children = (
+				D334392EA392FD0D59487AAC /* Ldutf8 */,
+			);
+			path = Ldutf;
 			sourceTree = "<group>";
 		};
 		D334388DF581F2944C86F696 /* ProcessorOpCodeBase */ = {
@@ -556,6 +568,15 @@
 				D3343C5F84808BBF9404F3DA /* VRet.cpp */,
 			);
 			path = Ret;
+			sourceTree = "<group>";
+		};
+		D334392EA392FD0D59487AAC /* Ldutf8 */ = {
+			isa = PBXGroup;
+			children = (
+				D33431D5BACD848C1A215188 /* Ldutf8.cpp */,
+				D334317AE4A06E3B38885582 /* Ldutf8.h */,
+			);
+			path = Ldutf8;
 			sourceTree = "<group>";
 		};
 		D334393C6B4EC8C5EFE037DF /* VirtualVariableCheckout */ = {
@@ -984,6 +1005,7 @@
 				D3343F71F458304FFDD98D9B /* ContainerIterator.cpp in Sources */,
 				D3343749593084735FFF6FEC /* TypeFlags.cpp in Sources */,
 				D3343A777F59DB288AE68057 /* CallStub.cpp in Sources */,
+				D33431FA1289B23783553044 /* Ldutf8.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
