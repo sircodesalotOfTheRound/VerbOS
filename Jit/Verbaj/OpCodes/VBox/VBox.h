@@ -19,6 +19,8 @@ namespace verbaj {
 
     void apply(jit::VirtualStackFrame&) const;
 
+    static VerbajOpCodeBase* load_op(std::istream& stream);
+
   private:
     static types::Trait* instantiate(uint64_t value);
   };

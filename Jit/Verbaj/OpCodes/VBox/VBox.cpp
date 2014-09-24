@@ -6,6 +6,7 @@
 #include "VBox.h"
 #include "VirtualStackFrame.h"
 #include "VerbajPrimitives.h"
+#include "FileInt8.h"
 
 void verbaj::VBox::apply(jit::VirtualStackFrame& frame) const {
   auto& stage = frame.variable_stage();
@@ -33,4 +34,11 @@ types::Trait* verbaj::VBox::instantiate(uint64_t value) {
 
   // Return the address of the boxed value.
   return instance->head();
+}
+
+verbaj::VerbajOpCodeBase* verbaj::VBox::load_op(std::istream& stream) {
+  FileInt8 source(stream);
+  FileInt8 destination(stream);
+
+  return new VBox(source);
 }

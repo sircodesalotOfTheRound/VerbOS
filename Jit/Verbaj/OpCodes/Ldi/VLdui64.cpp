@@ -5,6 +5,8 @@
 
 #include "VLdui64.h"
 #include "VerbajPrimitives.h"
+#import "FileInt64.h"
+#include "FileInt8.h"
 
 void verbaj::VLdui64::apply(jit::VirtualStackFrame& frame) const {
   using namespace jit;
@@ -27,4 +29,11 @@ void verbaj::VLdui64::perform_load(jit::VirtualVariableCheckout& checkout) const
 
   // Move the value to the register. Done.
   opcodes.mov(sys_register, value_);
+}
+
+verbaj::VerbajOpCodeBase* verbaj::VLdui64::load_op(std::istream& stream) {
+  FileInt8 variable_number(stream);
+  FileInt64 value(stream);
+
+  return new VLdui64(variable_number, value);
 }

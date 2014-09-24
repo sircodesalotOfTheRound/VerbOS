@@ -19,13 +19,19 @@
 #include "VCall.h"
 #include "VRet.h"
 #include "Trait.h"
+#include "VBox.h"
 
 class FunctionImageLoader {
+  std::string name_;
   jit::JitRenderer renderer_;
   jit::VirtualStackFrame frame_;
 
 public:
-  FunctionImageLoader(std::istream& stream) : renderer_(memory()), frame_(20) {
+  FunctionImageLoader(std::istream& stream)
+    : name_(FileString(stream)),
+    renderer_(memory()), frame_(20) {
+
+    std::cout << name_ << std::endl;
     read_ops(stream);
   }
 
@@ -54,6 +60,12 @@ private:
 
       case 0xc7:
         return VRet::load_op(stream);
+
+      case 0xd3:
+        return VLdui64::load_op(stream);
+
+      case 0x31:
+        return VBox::load_op(stream);
 
       default:
         throw std::logic_error("this is not going to work");

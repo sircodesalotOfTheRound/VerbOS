@@ -21,6 +21,8 @@ namespace verbaj {
 
     void apply(jit::VirtualStackFrame& frame) const override;
 
+    static VerbajOpCodeBase* load_op(std::istream& stream);
+
   private:
     void perform_load(jit::VirtualVariableCheckout&) const;
   };

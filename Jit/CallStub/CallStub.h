@@ -47,6 +47,5 @@ private:
     static std::unordered_map<uintptr_t, std::pair<vm::ExecutionEnvironment, std::string>> items_;
     std::pair<vm::ExecutionEnvironment, std::string>function_call_;
 };
-*/
 
 #endif
