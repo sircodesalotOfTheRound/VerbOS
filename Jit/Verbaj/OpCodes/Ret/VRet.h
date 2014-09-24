@@ -18,6 +18,8 @@ namespace verbaj {
     VRet(int register_index) : register_index_(register_index) { }
 
     void apply(jit::VirtualStackFrame&) const;
+
+    static VRet* load_op(std::istream& stream);
   };
 }
 

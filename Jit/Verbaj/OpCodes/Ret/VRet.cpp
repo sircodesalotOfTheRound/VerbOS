@@ -22,3 +22,7 @@ void verbaj::VRet::apply(jit::VirtualStackFrame& frame) const {
     jit_opcodes.ret();
   });
 }
+
+verbaj::VRet* verbaj::VRet::load_op(std::istream& stream) {
+  return new VRet(0);
+}

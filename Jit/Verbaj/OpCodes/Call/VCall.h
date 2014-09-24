@@ -17,6 +17,8 @@ namespace verbaj {
     VCall(T location) : location_((void*) location) { }
 
     void apply(jit::VirtualStackFrame&) const;
+
+    static VCall* load_op(std::istream& stream);
   };
 }
 

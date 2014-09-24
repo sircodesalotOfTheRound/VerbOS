@@ -3,12 +3,14 @@
 // Copyright (c) 2014 Reuben Kuhnert. All rights reserved.
 //
 
+#ifndef __Ldutf8_H_
+#define __Ldutf8_H_
 
 #include "VerbajOpCodeBase.h"
 #include "Trait.h"
-
-#ifndef __Ldutf8_H_
-#define __Ldutf8_H_
+#include "FileInt8.h"
+#include "FileString.h"
+#include <iostream>
 
 namespace verbaj {
   class VLdutf8 : public VerbajOpCodeBase {
@@ -24,6 +26,13 @@ namespace verbaj {
     }
 
     void apply(jit::VirtualStackFrame&) const;
+
+    static VLdutf8* load_op(std::istream& stream) {
+      FileInt8 variable_number(stream);
+      FileString text(stream);
+
+      return new VLdutf8(variable_number, text);
+    }
   };
 }
 

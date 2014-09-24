@@ -17,6 +17,8 @@ namespace verbaj {
     VStageArg(int virtual_register) : variable_number(virtual_register) { }
 
     void apply(jit::VirtualStackFrame&) const;
+
+    static VStageArg* load_op(std::istream& stream);
   };
 }
 

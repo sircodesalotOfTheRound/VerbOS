@@ -3,7 +3,7 @@
 // Copyright (c) 2014 Reuben Kuhnert. All rights reserved.
 //
 
-#include "Ldutf8.h"
+#include "VLdutf8.h"
 #include "VerbajPrimitives.h"
 #include "VirtualStackFrame.h"
 #include "Instance.h"

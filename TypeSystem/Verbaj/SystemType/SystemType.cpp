@@ -90,6 +90,10 @@ bool types::SystemType::isa(std::string name) const {
   return false;
 }
 
+bool types::SystemType::isa(const SystemType& type) const {
+  return isa(type.name_);
+}
+
 off_t types::SystemType::offset_by_name(std::string name) {
   return field_definitions_.at(name).offset();
 }
@@ -129,3 +133,5 @@ helpers::ContainerIterator<decltype(types::SystemType::trait_definitions_)> type
 helpers::ContainerIterator<decltype(types::SystemType::field_definitions_)> types::SystemType::fields() {
   return field_definitions_;
 }
+
+

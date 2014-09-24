@@ -5,6 +5,8 @@
 
 #include "VCall.h"
 #include "VirtualStackFrame.h"
+#include "FileString.h"
+#import "FunctionTable.h"
 
 void verbaj::VCall::apply(jit::VirtualStackFrame& frame) const {
   // Since we need to lock arguments to certain registers, (arg1=rdi, arg2=rsi, etc..)
@@ -13,4 +15,11 @@ void verbaj::VCall::apply(jit::VirtualStackFrame& frame) const {
 
   // Make the call
   frame.sys_ops().call(location_);
+}
+
+verbaj::VCall* verbaj::VCall::load_op(std::istream& stream) {
+  FileString function_name(stream);
+
+  void* function = env::FunctionTable::get(function_name);
+  return new VCall(function);
 }

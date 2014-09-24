@@ -58,6 +58,7 @@ namespace types {
     void add_field_definition(const std::string name, const SystemType& type, TypeFlags flags);
     void add_trait(const SystemType& definition);
     bool isa(std::string name) const;
+    bool isa(const SystemType& definition) const;
     off_t offset_by_name(std::string name);
     bool has_fields() const;
     size_t required_size() const;
