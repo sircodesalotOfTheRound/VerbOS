@@ -23,6 +23,10 @@ namespace env {
     static void* get(std::string name) {
       return entries_.at(name);
     }
+
+    static bool contains(std::string name) {
+      return entries_.find(name) != entries_.end();
+    }
   };
 }
 

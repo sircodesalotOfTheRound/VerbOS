@@ -84,6 +84,9 @@ public:
 
   void debug_print() {
     frame_.debug_print();
+
+    std::cout << "core dump @" << renderer_.memory() << ": " << std::endl;
+    renderer_.debug_print();
   }
 
   void execute() {

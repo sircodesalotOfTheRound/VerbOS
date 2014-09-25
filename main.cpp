@@ -76,6 +76,7 @@ int main() {
   FunctionImageLoader image(stream);
 
   image.apply();
+  image.debug_print();
 
   helpers::stack_aligned_call([&]{
     image.execute();

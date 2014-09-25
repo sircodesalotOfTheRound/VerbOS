@@ -19,6 +19,9 @@ namespace verbaj {
     void apply(jit::VirtualStackFrame&) const;
 
     static VCall* load_op(std::istream& stream);
+    static void patch_call();
+    static void render(jit::JitRenderer &emitter);
+
   };
 }
 

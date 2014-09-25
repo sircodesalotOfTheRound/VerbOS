@@ -16,3 +16,4 @@ uint32_t FileInt32::value() const {
 FileInt32::operator uint32_t() const {
   return value_;
 }
+

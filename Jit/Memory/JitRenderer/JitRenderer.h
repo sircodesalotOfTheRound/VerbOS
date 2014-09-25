@@ -16,8 +16,7 @@ namespace jit {
     off_t write_offset_;
 
   public:
-    JitRenderer(void* memory) : memory_((byte*) memory), write_offset_(0) {
-    }
+    JitRenderer(void* memory) : memory_((byte*) memory), write_offset_(0) { }
 
     void write_preamble64lhs(const arch::CpuRegister& reg);
     void write_preamble64rhs(const arch::CpuRegister& reg);

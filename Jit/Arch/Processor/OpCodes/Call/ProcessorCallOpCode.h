@@ -13,6 +13,9 @@ namespace op {
   class ProcessorCallOpCode : public ProcessorOpCodeBase {
     uintptr_t location_;
 
+    // TODO: Fix this
+    mutable uint32_t call_offset_;
+
   public:
     ProcessorCallOpCode(void* location) : location_((uintptr_t) &*location) { }
 

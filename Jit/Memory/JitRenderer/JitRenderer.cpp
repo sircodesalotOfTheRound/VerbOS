@@ -74,9 +74,10 @@ void jit::JitRenderer::write_opcode_masked(byte opcode, arch::ConstCpuRegisterRe
 void jit::JitRenderer::debug_print() {
   using namespace std;
 
+  cout << "@" << hex << (uint64_t)&memory_[0] << ": ";
   for (int index = 0; index < write_offset_; ++index) {
     if (index != 0 && index % 10 == 0) {
-      cout << endl;
+      cout << endl << "@" << (uint64_t)&memory_[index] << ": ";
     }
 
     cout << setfill('0') << setw(2) << hex << (int) memory_[index] << " ";
