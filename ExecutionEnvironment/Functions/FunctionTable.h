@@ -10,11 +10,13 @@
 
 #include <string>
 #include <unordered_map>
+#include "FunctionImageLoader.h"
 
 namespace env {
   class FunctionTable {
     static std::unordered_map<std::string, void*> entries_;
     static std::unordered_map<uintptr_t, std::string> call_stubs_;
+    static std::unordered_map<std::string, images::FunctionImageLoader*> functions_;
 
   public:
     static void add(std::string name, void* location) {
@@ -22,6 +24,13 @@ namespace env {
     }
 
     static void* get(std::string name) {
+      if (functions_.find(name) != functions_.end()){
+        void *function_entry_point = functions_.at(name)->compile();
+        functions_.erase(name);
+
+        add(name, function_entry_point);
+      }
+
       return entries_.at(name);
     }
 
@@ -35,6 +44,10 @@ namespace env {
 
     static std::string get_stub_from_location(uintptr_t location) {
       return call_stubs_.at(location);
+    }
+
+    static void add_unbuilt_function(images::FunctionImageLoader* function) {
+      functions_.insert({ function->image_name(), function });
     }
   };
 }

@@ -95,8 +95,10 @@ int main() {
   images::VerbajFile file(stream);
 
   for (auto& image : file) {
-    cout << image->image_name() << endl;
+    FunctionTable::add_unbuilt_function(static_cast<images::FunctionImageLoader*>(image.get()));
   }
 
+  void (*entry_point)() = (void(*)())FunctionTable::get("main");
+  entry_point();
 }
 

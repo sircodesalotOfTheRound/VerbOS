@@ -42,6 +42,26 @@ namespace images {
 
     std::string image_name() const override { return name_; }
 
+    void* compile() {
+      frame_.apply(renderer_);
+      return entry_point();
+    }
+
+    void debug_print() {
+      frame_.debug_print();
+
+      std::cout << "core dump @" << renderer_.memory() << ": " << std::endl;
+      renderer_.debug_print();
+    }
+
+    void execute() {
+      void(*entry_point)() = (void(*)())renderer_.memory();
+      entry_point();
+    }
+
+    static void print(types::Trait* object);
+
+
   private:
     void read_ops(std::istream& stream) {
       while (!stream.eof()) {
@@ -98,26 +118,6 @@ namespace images {
     void* memory() {
       return mmap(nullptr, (size_t) getpagesize(), PROT_WRITE | PROT_EXEC, MAP_ANON | MAP_PRIVATE, -1, 0);
     }
-
-  public:
-    void apply() {
-      frame_.apply(renderer_);
-    }
-
-    void debug_print() {
-      frame_.debug_print();
-
-      std::cout << "core dump @" << renderer_.memory() << ": " << std::endl;
-      renderer_.debug_print();
-    }
-
-    void execute() {
-      void(*entry_point)() = (void(*)())renderer_.memory();
-      entry_point();
-    }
-
-    static void print(types::Trait* object);
-
   };
 }
 
