@@ -75,23 +75,6 @@ int main() {
   FunctionTable::add("println", (void*) &println);
 
   ifstream stream { "/Users/sircodesalot/Desktop/program.vbaj" };
-/*  char image_type[2];
-  stream.read(image_type, 2);
-
-  cout << hex << (int)image_type[0] << (int)image_type[1] << endl;
-
-  images::FunctionImageLoader image(stream);
-
-  FunctionTable::add("main", image.entry_point());
-
-  image.apply();
-  image.debug_print();
-
-  helpers::stack_aligned_call([&]{
-    image.execute();
-  });*/
-
-
   images::VerbajFile file(stream);
 
   for (auto& image : file) {
