@@ -6,3 +6,4 @@
 #include "FunctionTable.h"
 
 std::unordered_map<std::string, void*> env::FunctionTable::entries_ { };
+std::unordered_map<uintptr_t, std::string> env::FunctionTable::call_stubs_ { };

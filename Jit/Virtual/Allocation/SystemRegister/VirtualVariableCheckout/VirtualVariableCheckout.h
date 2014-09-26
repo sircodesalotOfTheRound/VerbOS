@@ -13,6 +13,7 @@
 #include "ProcessorOpCodeSet.h"
 
 namespace jit {
+  class ProcessorOpCodeSet;
   class VirtualVariableCheckout {
     op::ProcessorOpCodeSet& jit_opcodes_;
     arch::CpuRegister cpu_register_;

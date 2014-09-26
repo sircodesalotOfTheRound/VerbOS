@@ -35,6 +35,10 @@ public:
     read_ops(stream);
   }
 
+  void* entry_point() {
+    return renderer_.memory();
+  }
+
 private:
   void read_ops(std::istream& stream) {
     while (!stream.eof()) {

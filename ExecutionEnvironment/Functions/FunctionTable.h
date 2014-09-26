@@ -14,6 +14,7 @@
 namespace env {
   class FunctionTable {
     static std::unordered_map<std::string, void*> entries_;
+    static std::unordered_map<uintptr_t, std::string> call_stubs_;
 
   public:
     static void add(std::string name, void* location) {
@@ -26,6 +27,14 @@ namespace env {
 
     static bool contains(std::string name) {
       return entries_.find(name) != entries_.end();
+    }
+
+    static void add_stub(uintptr_t callfrom_location, std::string name) {
+      call_stubs_.insert({ callfrom_location, name });
+    }
+
+    static std::string get_stub_from_location(uintptr_t location) {
+      return call_stubs_.at(location);
     }
   };
 }

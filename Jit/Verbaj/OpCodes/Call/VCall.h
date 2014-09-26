@@ -11,14 +11,16 @@
 namespace verbaj {
   class VCall : public VerbajOpCodeBase {
     void* location_;
+    std::string name_;
 
   public:
-    template<class T>
-    VCall(T location) : location_((void*) location) { }
+    VCall(void* location) : location_(location) { }
+    VCall(std::string name) : name_(name) { }
 
     void apply(jit::VirtualStackFrame&) const;
 
     static VCall* load_op(std::istream& stream);
+
     static void patch_call();
     static void render(jit::JitRenderer &emitter);
 

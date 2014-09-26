@@ -25,6 +25,7 @@ using namespace std;
 using namespace verbaj;
 using namespace arch;
 using namespace types;
+using namespace env;
 
 void print(Trait* object) {
   auto& type = object->def();
@@ -57,7 +58,7 @@ void stuff() {
   frame.insert(new VBox(1));
   frame.insert(new VLdutf8(2, "something is amiss"));
   frame.insert(new VStageArg(1));
-  frame.insert(new VCall(&println));
+  frame.insert(new VCall((void*)&println));
   frame.insert(new VRet(2));
   frame.apply(renderer);
   frame.debug_print();
@@ -69,11 +70,13 @@ void stuff() {
 int main() {
   VerbajPrimitives::initialize();
 
-  env::FunctionTable::add("print", (void*) &print);
-  env::FunctionTable::add("println", (void*) &println);
+  FunctionTable::add("print", (void*) &print);
+  FunctionTable::add("println", (void*) &println);
 
   ifstream stream { "/Users/sircodesalot/Desktop/image.vbaj" };
   FunctionImageLoader image(stream);
+
+  FunctionTable::add("main", image.entry_point());
 
   image.apply();
   image.debug_print();

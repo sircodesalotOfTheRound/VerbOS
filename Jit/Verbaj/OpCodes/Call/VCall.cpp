@@ -13,8 +13,13 @@ void verbaj::VCall::apply(jit::VirtualStackFrame& frame) const {
   // We need to free those registers so they can be used generally.
   frame.variable_stage().persist_variables();
 
-  // Make the call
-  frame.sys_ops().call(location_);
+  // If we have a direct location to jump to:
+  // TODO: Read from the function table.
+  if (location_ != nullptr && name_.empty()) {
+    frame.sys_ops().call(location_);
+  } else if (!name_.empty()) {
+    frame.sys_ops().call((std::string)name_);
+  }
 }
 
 verbaj::VCall* verbaj::VCall::load_op(std::istream& stream) {
@@ -27,12 +32,12 @@ verbaj::VCall* verbaj::VCall::load_op(std::istream& stream) {
     return new VCall(function);
   }
 
-  else return new VCall(&patch_call);
+  //else return new VCall(&patch_call);
+  else return new VCall(function_name);
 }
 
 void perform_exit() {
   std::cout << "exiting" << std::endl;
-
 }
 
 void verbaj::VCall::patch_call() {
@@ -51,10 +56,14 @@ void verbaj::VCall::patch_call() {
     mov [callfrom_location], rax    ; Save the call_from location.
   }
 
+  // Get function call stub name for this location.
+  std::string function_name = env::FunctionTable::get_stub_from_location(callfrom_location);
+  void* function_entry_point = env::FunctionTable::get(function_name);
+
   void* memory = (void*)callfrom_location;
   jit::JitRenderer renderer(memory);
 
-  ProcessorCallOpCode call_op((void*)&perform_exit);
+  ProcessorCallOpCode call_op(function_entry_point);
   call_op.render(renderer);
 
   __asm {

@@ -45,9 +45,12 @@ namespace op {
 
     void label(std::string label);
 
-    template<class T>
-    void call(T location) {
-      add(new op::ProcessorCallOpCode((void*) location));
+    void call(void* location) {
+      add(new op::ProcessorCallOpCode(location));
+    }
+
+    void call(std::string name) {
+      add(new op::ProcessorCallOpCode(name));
     }
 
     void add(arch::ConstCpuRegisterRef lhs, uint64_t rhs);

@@ -17,7 +17,7 @@ void verbaj::VBox::apply(jit::VirtualStackFrame& frame) const {
 
   stage.stage_argument(variable_number_);
   stage.persist_variables();
-  frame.sys_ops().call(&instantiate);
+  frame.sys_ops().call((void*)&instantiate);
 
   // TODO: Make the move directly to memory (easier said than done because of the variable type change).
   stage.with_register(variable_number_, [&](jit::VirtualVariableCheckout& checkout) {
