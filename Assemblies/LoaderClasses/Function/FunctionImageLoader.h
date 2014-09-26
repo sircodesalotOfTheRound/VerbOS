@@ -46,14 +46,23 @@ namespace images {
     void read_ops(std::istream& stream) {
       while (!stream.eof()) {
         frame_.insert(read_opcode(stream));
-        int peeked_value = stream.peek();
 
-        // Todo: have a better scheme for handling this.
-        if (peeked_value == 0xFF) {
-          stream.get();
+        if (is_function_eof_opcode(stream)) {
           break;
         }
       }
+    }
+
+    bool is_function_eof_opcode(std::istream& stream) const {
+      int peeked_value = stream.peek();
+
+      // Consume value if matching.
+      if (peeked_value == 0xFF) {
+        stream.get();
+        return true;
+      }
+
+      return false;
     }
 
     verbaj::VerbajOpCodeBase* read_opcode(std::istream& stream) {
