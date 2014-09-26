@@ -14,6 +14,7 @@
 #include <fstream>
 #import "FunctionImageLoader.h"
 #import "FunctionTable.h"
+#include "VerbajFile.h"
 
 
 void* memory() {
@@ -73,8 +74,13 @@ int main() {
   FunctionTable::add("print", (void*) &print);
   FunctionTable::add("println", (void*) &println);
 
-  ifstream stream { "/Users/sircodesalot/Desktop/image.vbaj" };
-  FunctionImageLoader image(stream);
+  ifstream stream { "/Users/sircodesalot/Desktop/program.vbaj" };
+/*  char image_type[2];
+  stream.read(image_type, 2);
+
+  cout << hex << (int)image_type[0] << (int)image_type[1] << endl;
+
+  images::FunctionImageLoader image(stream);
 
   FunctionTable::add("main", image.entry_point());
 
@@ -83,6 +89,14 @@ int main() {
 
   helpers::stack_aligned_call([&]{
     image.execute();
-  });
+  });*/
+
+
+  images::VerbajFile file(stream);
+
+  for (auto& image : file) {
+    cout << image->image_name() << endl;
+  }
+
 }
 

@@ -20,87 +20,97 @@
 #include "VRet.h"
 #include "Trait.h"
 #include "VBox.h"
+#include "ObjectImage.h"
 
-class FunctionImageLoader {
-  std::string name_;
-  jit::JitRenderer renderer_;
-  jit::VirtualStackFrame frame_;
+namespace images {
+  class FunctionImageLoader : public ObjectImage {
+    std::string name_;
+    jit::JitRenderer renderer_;
+    jit::VirtualStackFrame frame_;
 
-public:
-  FunctionImageLoader(std::istream& stream)
-    : name_(FileString(stream)),
-    renderer_(memory()), frame_(20) {
+  public:
+    FunctionImageLoader(std::istream& stream)
+      : name_(FileString(stream)),
+      renderer_(memory()), frame_(20) {
 
-    std::cout << name_ << std::endl;
-    read_ops(stream);
-  }
-
-  void* entry_point() {
-    return renderer_.memory();
-  }
-
-private:
-  void read_ops(std::istream& stream) {
-    while (!stream.eof()) {
-      frame_.insert(read_opcode(stream));
-      stream.peek();
+      read_ops(stream);
     }
-  }
 
-  verbaj::VerbajOpCodeBase* read_opcode(std::istream& stream) {
-    using namespace verbaj;
-
-    FileInt8 opcode_value(stream);
-
-    switch ((uint8_t) opcode_value) {
-      case 0xd1:
-        return VLdutf8::load_op(stream);
-
-      case 0x29:
-        return VStageArg::load_op(stream);
-
-      case 0x43:
-        return VCall::load_op(stream);
-
-      case 0xc7:
-        return VRet::load_op(stream);
-
-      case 0xd3:
-        return VLdui64::load_op(stream);
-
-      case 0x31:
-        return VBox::load_op(stream);
-
-      default:
-        throw std::logic_error("this is not going to work");
+    void* entry_point() {
+      return renderer_.memory();
     }
-  }
+
+    std::string image_name() const override { return name_; }
+
+  private:
+    void read_ops(std::istream& stream) {
+      while (!stream.eof()) {
+        frame_.insert(read_opcode(stream));
+        int peeked_value = stream.peek();
+
+        // Todo: have a better scheme for handling this.
+        if (peeked_value == 0xFF) {
+          stream.get();
+          break;
+        }
+      }
+    }
+
+    verbaj::VerbajOpCodeBase* read_opcode(std::istream& stream) {
+      using namespace verbaj;
+
+      FileInt8 opcode_value(stream);
+
+      switch ((uint8_t) opcode_value) {
+        case 0xd1:
+          return VLdutf8::load_op(stream);
+
+        case 0x29:
+          return VStageArg::load_op(stream);
+
+        case 0x43:
+          return VCall::load_op(stream);
+
+        case 0xc7:
+          return VRet::load_op(stream);
+
+        case 0xd3:
+          return VLdui64::load_op(stream);
+
+        case 0x31:
+          return VBox::load_op(stream);
+
+        default:
+          throw std::logic_error("this is not going to work");
+      }
+    }
 
 
-  void* memory() {
-    return mmap(nullptr, (size_t) getpagesize(), PROT_WRITE | PROT_EXEC, MAP_ANON | MAP_PRIVATE, -1, 0);
-  }
+    void* memory() {
+      return mmap(nullptr, (size_t) getpagesize(), PROT_WRITE | PROT_EXEC, MAP_ANON | MAP_PRIVATE, -1, 0);
+    }
 
-public:
-  void apply() {
-    frame_.apply(renderer_);
-  }
+  public:
+    void apply() {
+      frame_.apply(renderer_);
+    }
 
-  void debug_print() {
-    frame_.debug_print();
+    void debug_print() {
+      frame_.debug_print();
 
-    std::cout << "core dump @" << renderer_.memory() << ": " << std::endl;
-    renderer_.debug_print();
-  }
+      std::cout << "core dump @" << renderer_.memory() << ": " << std::endl;
+      renderer_.debug_print();
+    }
 
-  void execute() {
-    void(*entry_point)() = (void(*)())renderer_.memory();
-    entry_point();
-  }
+    void execute() {
+      void(*entry_point)() = (void(*)())renderer_.memory();
+      entry_point();
+    }
 
-  static void print(types::Trait* object);
+    static void print(types::Trait* object);
 
-};
+  };
+}
 
 
 #endif //__FunctionImageLoader_H_

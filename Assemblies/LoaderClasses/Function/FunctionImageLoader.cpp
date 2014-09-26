@@ -11,7 +11,7 @@ using namespace types;
 using namespace verbaj;
 using namespace std;
 
-void FunctionImageLoader::print(Trait* object) {
+void images::FunctionImageLoader::print(Trait* object) {
   auto& type = object->def();
 
   if (type.isa(VerbajPrimitives::vm_box_of_uint64)) {
