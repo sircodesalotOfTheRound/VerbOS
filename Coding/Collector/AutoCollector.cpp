@@ -3,4 +3,4 @@
 // Copyright (c) 2014 Reuben Kuhnert. All rights reserved.
 //
 
-#include "Collector.h"
+#include "AutoCollector.h"

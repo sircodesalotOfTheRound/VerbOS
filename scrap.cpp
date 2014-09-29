@@ -17,7 +17,7 @@
 #import "FunctionTable.h"
 #include "VerbajFile.h"
 #import "Event.h"
-#import "Collector.h"
+#import "AutoCollector.h"
 
 void* memory() {
   return mmap(nullptr, (size_t) getpagesize(), PROT_WRITE | PROT_EXEC, MAP_ANON | MAP_PRIVATE, -1, 0);

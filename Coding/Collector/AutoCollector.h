@@ -12,7 +12,7 @@
 
 namespace helpers {
   template<class T>
-  class Collector {
+  class AutoCollector {
     std::vector <std::unique_ptr<T>> items_;
 
   public:

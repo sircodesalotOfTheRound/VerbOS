@@ -4,17 +4,17 @@
 //
 
 
-#include "VariableAllocator.h"
 
 #ifndef __StackPersistStage_H_
 #define __StackPersistStage_H_
 
+#include "VariableContainer.h"
 
 class StackPersistStage {
-  const VariableAllocator& allocator_;
+  const VariableContainer& container_;
 
 public:
-  StackPersistStage(VariableAllocator& allocator): allocator_(allocator) { }
+  StackPersistStage(VariableContainer& container): container_(container) { }
 };
 
 

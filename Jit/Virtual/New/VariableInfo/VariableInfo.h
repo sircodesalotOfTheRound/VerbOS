@@ -16,6 +16,8 @@ class VariableInfo {
   arch::CpuRegister* bound_register_;
 
 public:
+  VariableInfo() { }
+
   bool contains_variable() const { return variable_ != nullptr; }
   Variable* variable() const {
     validate_contains_variable();

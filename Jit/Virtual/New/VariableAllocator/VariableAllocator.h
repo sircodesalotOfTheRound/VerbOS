@@ -8,45 +8,41 @@
 #define __VariableAllocator_H_
 
 #include "Variable.h"
-#include "Collector.h"
-#import "VariableInfo.h"
+#include "AutoCollector.h"
+#include "VariableInfo.h"
 #include "Event.h"
+#include "VariableContainer.h"
+#include "StackPersistStage.h"
+#include "RegisterStage.h"
 
 class VariableAllocator {
-  helpers::Collector<Variable> collector_;
-  helpers::Event<void(Variable*)> on_insertion_;
-  std::vector<VariableInfo> variables_;
+  VariableContainer variables_;
+  RegisterStage register_stage_;
+  StackPersistStage persist_stage_;
 
 public:
-  VariableAllocator(size_t size) {
-    variables_.resize(size);
+  VariableAllocator(size_t size) :
+    variables_(size),
+    register_stage_(variables_),
+    persist_stage_(variables_)
+  {
+
   }
 
   void insert(int variable_number, const types::SystemType& type, int priority, bool is_member, bool is_object_reference) {
-    Variable* variable = collector_.add(new Variable(variable_number, type, priority, is_member, is_object_reference));
-    variables_.at((size_t) variable_number).set_variable(variable);
-
-    on_insertion_.update(variable);
+    variables_.insert(variable_number, type, priority, is_member, is_object_reference);
   }
 
-  Variable* at(int variable_number) {
-    validate_contains_variable(variable_number);
-    return variables_.at((size_t)variable_number).variable();
-  }
-
-  void subscribe_on_variable_inserted(std::function<void(Variable*)> callback) {
-    on_insertion_.add(callback);
+  VariableInfo& at(int variable_number) {
+    return variables_.at(variable_number);
   }
 
   bool contains_variable(int variable_number) {
-    return variables_.at((size_t)variable_number).contains_variable();
+    return variables_.contains_variable(variable_number);
   }
 
-private:
-  void validate_contains_variable(int variable_number) {
-    if (!contains_variable(variable_number)) {
-      throw std::logic_error("no variable at index");
-    }
+  void with_variable(int variable_number, std::function<void(Variable*)> callback) {
+    variables_.stage(variable_number);
   }
 };
 
