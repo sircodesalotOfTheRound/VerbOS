@@ -25,8 +25,8 @@ class VariableAllocator {
 public:
   VariableAllocator(size_t size, op::ProcessorOpCodeSet& jit_opcodes) :
     variables_(size),
-    register_stage_(variables_),
-    persist_stage_(variables_),
+    register_stage_(variables_, jit_opcodes),
+    persist_stage_(variables_, jit_opcodes),
     jit_opcodes_(jit_opcodes)
   {
 

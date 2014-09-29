@@ -33,9 +33,10 @@ public:
 
   void insert(int variable_number, const types::SystemType& type, int priority, bool is_member, bool is_object_reference) {
     Variable* variable = gc_.add(new Variable(variable_number, type, priority, is_member, is_object_reference));
-    variables_.at((size_t) variable_number).set_variable(variable);
 
+    // Signal that we're about to perform the update. Then perform the update.
     on_insert_requested_.update(variable_number);
+    variables_.at((size_t) variable_number).set_variable(variable);
     on_insert_.update(variable_number);
   }
 

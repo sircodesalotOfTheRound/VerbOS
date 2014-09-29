@@ -4,11 +4,11 @@
 //
 
 
-#include "VariableAllocator.h"
 
 #ifndef __Stackframe_H_
 #define __Stackframe_H_
 
+#include "VariableAllocator.h"
 
 class Stackframe {
   op::ProcessorOpCodeSet jit_opcodes_;
@@ -21,6 +21,7 @@ public:
   }
 
   VariableAllocator& allocator() { return allocator_; }
+  op::ProcessorOpCodeSet& jit_opcodes() { return jit_opcodes_; }
 };
 
 

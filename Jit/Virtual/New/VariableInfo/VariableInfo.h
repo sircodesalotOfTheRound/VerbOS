@@ -41,15 +41,22 @@ public:
     return bound_register_;
   }
 
-
-
-  void set_persisted() { is_persisted_ = true; }
+  void set_persisted(bool is_persisted) { is_persisted_ = is_persisted; }
   bool is_persisted() const { return is_persisted_; }
 
   void set_register_binding(const arch::CpuRegister* reg) {
     bound_register_ = reg;
   }
 
+  int variable_number() {
+    validate_contains_variable();
+    return variable_->variable_number();
+  }
+
+  int priority() {
+    validate_contains_variable();
+    return variable_->priority();
+  }
 
 
 private:

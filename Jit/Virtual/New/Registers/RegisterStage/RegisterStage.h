@@ -9,48 +9,59 @@
 
 #include "VariableContainer.h"
 #include "OsxRegisters.h"
-#include <unordered_set>
+#include "ProcessorOpCodeSet.h"
+#include "StackPersistStage.h"
 
 
 class RegisterStage {
-  VariableContainer& container_;
+  VariableContainer& variables_;
+  op::ProcessorOpCodeSet& jit_opcodes_;
 
 public:
-  RegisterStage(VariableContainer& container) :
-    container_(container)
+  RegisterStage(VariableContainer& container, op::ProcessorOpCodeSet& jit_opcodes) :
+    variables_(container),
+    jit_opcodes_(jit_opcodes)
   {
-    container_.subscribe_on_stage([&](int variable_number) {
+    variables_.subscribe_on_stage([&](int variable_number) {
       on_request_stage(variable_number);
     });
 
-    container.subscribe_on_insert_requested([&](int variable_number) {
+    container.subscribe_on_insert([&](int variable_number) {
       unstage_variable(variable_number);
     });
   }
 
 public:
   bool is_staged(int variable_number) {
-    return container_.at(variable_number).is_register_bound();
+    if (variables_.at(variable_number).contains_variable()) {
+      return variables_.at(variable_number).is_register_bound();
+    }
+
+    return false;
   }
 
 private:
   void on_request_stage(int variable_number) {
-    using namespace std;
+    static const auto& rbp = arch::OsxRegisters::rbp;
 
-    // Do nothing if already staged.
     if (!is_staged(variable_number)) {
-      VariableInfo& info = container_.at(variable_number);
+      VariableInfo& info = variables_.at(variable_number);
       info.set_register_binding(&arch::OsxRegisters::rax);
 
-      cout << "staged to: " << arch::OsxRegisters::rax << endl;
-    } else {
-      cout << "already staged " << endl;
+      // If the variable is currently persisted, we need to emit opcodes
+      // to move the register from the stack to a physical-register.
+      if (info.is_persisted()) {
+        info.set_persisted(false);
+
+        off_t offset = StackPersistStage::calculate_persistence_offset(info.variable());
+        jit_opcodes_.mov(*info.bound_register(), rbp[offset]);
+      }
     }
   }
 
   void unstage_variable(int variable_number) {
     if (is_staged(variable_number)) {
-      container_.at(variable_number).is_register_bound();
+      variables_.at(variable_number).is_register_bound();
     }
   }
 };
