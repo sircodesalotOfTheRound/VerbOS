@@ -15,6 +15,8 @@
 #import "FunctionImageLoader.h"
 #import "FunctionTable.h"
 #include "VerbajFile.h"
+#import "Event.h"
+#import "Collector.h"
 
 
 void* memory() {
@@ -68,7 +70,7 @@ void stuff() {
   jit_function();
 }
 
-int main() {
+int main2() {
   VerbajPrimitives::initialize();
 
   FunctionTable::add("print", (void*) &print);
@@ -83,5 +85,22 @@ int main() {
 
   void (*entry_point)() = (void(*)())FunctionTable::get("main");
   entry_point();
-}
 
+  return 0;
+}
+class MyClass {
+public:
+  ~MyClass() { cout << "collected" << endl; }
+};
+
+int main() {
+  using namespace helpers;
+  Event<void()> callbacks;
+
+  callbacks.add([]{ cout << "something to write on the screen " << endl; });
+
+  Collector<MyClass> collector;
+  MyClass* my = collector.add(new MyClass);
+
+  callbacks.update();
+}
