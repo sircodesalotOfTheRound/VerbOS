@@ -14,9 +14,15 @@
 
 class VariableContainer {
   helpers::AutoCollector<Variable> gc_;
-  helpers::Event<void(int)> on_insertion_;
+
+  helpers::Event<void(int)> on_insert_requested_;
+  helpers::Event<void(int)> on_insert_;
+
   helpers::Event<void(int)> on_persist_requested_;
+  helpers::Event<void(int)> on_persist_;
+
   helpers::Event<void(int)> on_stage_requested_;
+  helpers::Event<void(int)> on_stage_;
 
   std::vector<VariableInfo> variables_;
 
@@ -29,17 +35,30 @@ public:
     Variable* variable = gc_.add(new Variable(variable_number, type, priority, is_member, is_object_reference));
     variables_.at((size_t) variable_number).set_variable(variable);
 
-    on_insertion_.update(variable_number);
+    on_insert_requested_.update(variable_number);
+    on_insert_.update(variable_number);
+  }
+
+  void persist_all() {
+    for (VariableInfo& info : variables_) {
+      if (info.contains_variable()) {
+        persist(info.variable()->variable_number());
+      }
+    }
   }
 
   void persist(int variable_number) {
     validate_contains_variable(variable_number);
+
     on_persist_requested_.update(variable_number);
+    on_persist_.update(variable_number);
   }
 
   void stage(int variable_number) {
     validate_contains_variable(variable_number);
+
     on_stage_requested_.update(variable_number);
+    on_stage_.update(variable_number);
   }
 
   VariableInfo& at(int variable_number) {
@@ -47,8 +66,8 @@ public:
     return variables_.at((size_t)variable_number);
   }
 
-  void subscribe_on_variable_inserted(std::function<void(int)> callback) {
-    on_insertion_.add(callback);
+  void subscribe_on_insert_requested(std::function<void(int)> callback) {
+    on_insert_requested_.add(callback);
   }
 
   void subscribe_on_persist_requested(std::function<void(int)> callback) {
@@ -57,6 +76,18 @@ public:
 
   void subscribe_on_stage_requested(std::function<void(int)> callback) {
     on_stage_requested_.add(callback);
+  }
+
+  void subscribe_on_insert(std::function<void(int)> callback) {
+    on_insert_.add(callback);
+  }
+
+  void subscribe_on_persist(std::function<void(int)> callback) {
+    on_persist_.add(callback);
+  }
+
+  void subscribe_on_stage(std::function<void(int)> callback) {
+    on_stage_.add(callback);
   }
 
   bool contains_variable(int variable_number) {

@@ -13,10 +13,17 @@
 
 class VariableInfo {
   Variable* variable_;
-  arch::CpuRegister* bound_register_;
+  bool is_persisted_;
+  const arch::CpuRegister* bound_register_;
 
 public:
-  VariableInfo() { }
+  VariableInfo() :
+    variable_(nullptr),
+    is_persisted_(false),
+    bound_register_(nullptr)
+  {
+
+  }
 
   bool contains_variable() const { return variable_ != nullptr; }
   Variable* variable() const {
@@ -27,16 +34,23 @@ public:
   void set_variable(Variable* variable) { variable_ = variable;; }
   void clear_variable() { variable_ = nullptr; }
 
+  void clear_register_binding() { bound_register_ = nullptr; }
   bool is_register_bound() const { return bound_register_ != nullptr; }
-
-  void set_register_binding(arch::CpuRegister* reg) {
-    bound_register_ = reg;
-  }
-
-  arch::CpuRegister* bound_register() const {
+  const arch::CpuRegister* bound_register() const {
     validate_register_bound();
     return bound_register_;
   }
+
+
+
+  void set_persisted() { is_persisted_ = true; }
+  bool is_persisted() const { return is_persisted_; }
+
+  void set_register_binding(const arch::CpuRegister* reg) {
+    bound_register_ = reg;
+  }
+
+
 
 private:
   void validate_register_bound() const {

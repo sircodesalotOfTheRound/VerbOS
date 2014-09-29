@@ -11,10 +11,25 @@
 #include "VariableContainer.h"
 
 class StackPersistStage {
-  const VariableContainer& container_;
+  VariableContainer& container_;
 
 public:
-  StackPersistStage(VariableContainer& container): container_(container) { }
+  StackPersistStage(VariableContainer& container): container_(container) {
+    container_.subscribe_on_persist([&](int variable_number){
+      persist_variable(variable_number);
+    });
+  }
+
+private:
+  void persist_variable(int variable_number) {
+    std::cout << "now persisting variable: " << variable_number << std::endl;
+    VariableInfo& info = container_.at(variable_number);
+
+    if (info.is_register_bound()) {
+      std::cout << "clearing from register: " << *info.bound_register() << std::endl;
+      info.clear_register_binding();
+    }
+  }
 };
 
 

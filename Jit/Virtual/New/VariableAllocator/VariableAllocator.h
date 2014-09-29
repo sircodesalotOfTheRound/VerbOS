@@ -14,17 +14,20 @@
 #include "VariableContainer.h"
 #include "StackPersistStage.h"
 #include "RegisterStage.h"
+#import "VariableCheckout.h"
 
 class VariableAllocator {
   VariableContainer variables_;
   RegisterStage register_stage_;
   StackPersistStage persist_stage_;
+  op::ProcessorOpCodeSet& jit_opcodes_;
 
 public:
-  VariableAllocator(size_t size) :
+  VariableAllocator(size_t size, op::ProcessorOpCodeSet& jit_opcodes) :
     variables_(size),
     register_stage_(variables_),
-    persist_stage_(variables_)
+    persist_stage_(variables_),
+    jit_opcodes_(jit_opcodes)
   {
 
   }
@@ -41,8 +44,16 @@ public:
     return variables_.contains_variable(variable_number);
   }
 
-  void with_variable(int variable_number, std::function<void(Variable*)> callback) {
+  void persist_variables() {
+    variables_.persist_all();
+  }
+
+  void with_variable(int variable_number, std::function<void(VariableCheckout&)> callback) {
     variables_.stage(variable_number);
+
+    VariableInfo& info = variables_.at(variable_number);
+    VariableCheckout checkout (info, jit_opcodes_);
+    callback(checkout);
   }
 };
 
