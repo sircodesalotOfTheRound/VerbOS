@@ -27,7 +27,7 @@ void op::ProcessorLabelOpCode::render(jit::JitRenderer& renderer) const {
 
 std::string op::ProcessorLabelOpCode::rep() const {
   std::stringstream representation;
-  representation << "label: " << name_;
+  representation << name_ << ": ";
 
   return representation.str();
 }

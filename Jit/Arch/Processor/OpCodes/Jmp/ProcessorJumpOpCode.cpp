@@ -37,7 +37,6 @@ void op::ProcessorJumpOpCode::render(jit::JitRenderer& renderer) const {
     renderer.write_int32(0x00);
 
     jit_opcodes_.add_label_callback(name_, [=](void* label_address){
-      std::cout << "callback" << std::endl;
       // We want to create a new renderer at the captured location.
       jit::JitRenderer renderer_at_memory_location((void*)patch_address);
 
