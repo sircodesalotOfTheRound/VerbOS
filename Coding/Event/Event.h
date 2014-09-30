@@ -22,6 +22,10 @@ namespace helpers {
       callbacks_.push_back(callback);
     }
 
+    void clear() {
+      callbacks_.clear();
+    }
+
     template<typename ... Args>
     void update(Args... value) {
       for (auto& callback : callbacks_) {

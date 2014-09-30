@@ -4,6 +4,7 @@
 //
 
 #include "ProcessorOpCodeSet.h"
+#include "ProcessorJumpOpCode.h"
 
 void op::ProcessorOpCodeSet::debug_print() {
   for (auto& opcode : opcodes_) {
@@ -34,7 +35,7 @@ void op::ProcessorOpCodeSet::ret() {
 }
 
 void op::ProcessorOpCodeSet::label(std::string label) {
-  add(new ProcessorLabelOpCode(label));
+  add(new ProcessorLabelOpCode(label, *this));
 }
 
 void op::ProcessorOpCodeSet::add(arch::ConstCpuRegisterRef lhs, uint64_t rhs) {
@@ -85,6 +86,54 @@ void op::ProcessorOpCodeSet::pop(arch::ConstCpuRegisterRef sys_register) {
   add(new op::ProcessorPopOpCode(sys_register));
 }
 
+void op::ProcessorOpCodeSet::jmp(std::string label) {
+  add(new op::ProcessorJumpOpCode(label, *this));
+}
+
 void op::ProcessorOpCodeSet::lea(arch::ConstCpuRegisterRef sys_register, const void* object) {
   add(new op::ProcessorMovConstToRegOpCode(sys_register, (uintptr_t) object));
+}
+
+void op::ProcessorOpCodeSet::add_label(std::string name) {
+  labels_.insert({ name, MemoryLabel(name) });
+}
+
+void op::ProcessorOpCodeSet::add_label(std::string name, void* location) {
+  labels_.insert({ name, MemoryLabel(name, location) });
+}
+
+bool op::ProcessorOpCodeSet::contains_label(std::string name) const {
+  return labels_.find(name) != labels_.end();
+}
+
+void op::ProcessorOpCodeSet::add_label_callback(std::string name, std::function<void(void*)> callback) {
+  if (!contains_label(name)) {
+    throw std::logic_error("no such label");
+  }
+
+  MemoryLabel& label = labels_.at(name);
+  label.add_callback(callback);
+}
+
+void op::ProcessorOpCodeSet::set_label_address(std::string name, void* location) {
+  if (!contains_label(name)) {
+    throw std::logic_error("no such label");
+  }
+
+  MemoryLabel& label = labels_.at(name);
+  label.set_location(location);
+}
+
+void* op::ProcessorOpCodeSet::get_label_address(std::string name) {
+  MemoryLabel& label = labels_.at(name);
+
+  if (!label.is_location_fixed()) {
+    throw std::logic_error("label does not yet have a fixed memory location");
+  }
+
+  return label.memory_location();
+}
+
+bool op::ProcessorOpCodeSet::label_has_address(std::string name) {
+  return get_label_address(name) != nullptr;
 }

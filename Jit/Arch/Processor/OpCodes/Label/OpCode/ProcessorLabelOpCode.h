@@ -10,19 +10,20 @@
 #include <string>
 #include <sstream>
 #include "ProcessorOpCodeBase.h"
+#include "Event.h"
 
 namespace op {
+  class ProcessorOpCodeSet;
   class ProcessorLabelOpCode : public ProcessorOpCodeBase {
     std::string name_;
+    op::ProcessorOpCodeSet& jit_opcodes_;
 
   public:
-    ProcessorLabelOpCode(std::string name) : name_(name) {
-    }
+    ProcessorLabelOpCode(std::string name, op::ProcessorOpCodeSet& jit_opcodes);
 
     void render(jit::JitRenderer&) const;
 
     std::string rep() const;
-
     size_t size() const;
   };
 }

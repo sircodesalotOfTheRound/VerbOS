@@ -16,6 +16,7 @@
 namespace op {
   struct ProcessorOpCodeBase {
     virtual ~ProcessorOpCodeBase() {
+
     }
 
     virtual std::string rep() const = 0;

@@ -9,6 +9,7 @@
 #include <vector>
 #include <unordered_map>
 #include <iostream>
+#include <functional>
 #include "ProcessorOpCodeBase.h"
 #include "ProcessorReturnOpCode.h"
 #include "ProcessorLabelOpCode.h"
@@ -24,12 +25,13 @@
 #import "ProcessorAddConstToRegOpCode.h"
 #import "ProcessorSubConstToRegOpCode.h"
 #import "ProcessorCallOpCode.h"
+#import "MemoryLabel.h"
 
 namespace op {
   class ProcessorOpCodeSet {
     using iterator = std::vector<std::unique_ptr<ProcessorOpCodeBase>>::iterator;
-
     std::vector<std::unique_ptr<ProcessorOpCodeBase>> opcodes_;
+    std::unordered_map<std::string, op::MemoryLabel> labels_;
 
   public:
 
@@ -66,6 +68,15 @@ namespace op {
     void push(arch::ConstCpuRegisterRef sys_register);
     void pop(arch::ConstCpuRegisterRef sys_register);
     void lea(arch::ConstCpuRegisterRef sys_register, const void* object);
+    void jmp(std::string label);
+
+    bool contains_label(std::string name) const;
+    void add_label(std::string name);
+    void add_label(std::string name, void* location);
+    void set_label_address(std::string name, void* location);
+    void add_label_callback(std::string name, std::function<void(void*)> callback);
+    bool label_has_address(std::string name);
+    void* get_label_address(std::string name);
 
   private:
     void add(ProcessorOpCodeBase* op_code) {
