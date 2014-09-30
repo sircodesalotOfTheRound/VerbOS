@@ -10,20 +10,17 @@
 
 #include "VariableAllocator.h"
 
-class Stackframe {
-  op::ProcessorOpCodeSet jit_opcodes_;
-  VariableAllocator allocator_;
+namespace jit {
+  class Stackframe {
+    op::ProcessorOpCodeSet jit_opcodes_;
+    VariableAllocator allocator_;
 
-public:
-  Stackframe(size_t max_objects, size_t max_constants) :
-    allocator_(max_objects, max_constants, jit_opcodes_)
-  {
+  public:
+    Stackframe(size_t max_objects, size_t max_constants);
 
-  }
-
-  VariableAllocator& allocator() { return allocator_; }
-  op::ProcessorOpCodeSet& jit_opcodes() { return jit_opcodes_; }
-};
-
+    VariableAllocator& allocator();
+    op::ProcessorOpCodeSet& jit_opcodes();
+  };
+}
 
 #endif //__Stackframe_H_

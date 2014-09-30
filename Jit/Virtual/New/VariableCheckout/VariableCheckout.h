@@ -11,24 +11,20 @@
 #include "VariableInfo.h"
 #include "ProcessorOpCodeSet.h"
 
+namespace jit {
 class VariableCheckout {
   Variable* variable_;
   const arch::CpuRegister* sys_register_;
   op::ProcessorOpCodeSet& jit_opcodes_;
 
 public:
-  VariableCheckout(VariableInfo& info, op::ProcessorOpCodeSet& jit_opcodes) :
-    variable_(info.variable()),
-    sys_register_(info.bound_register()),
-    jit_opcodes_(jit_opcodes)
-  {
+  VariableCheckout(VariableInfo& info, op::ProcessorOpCodeSet& jit_opcodes);
 
-  }
-
-  Variable* variable() { return variable_; }
-  const arch::CpuRegister* sys_register() const { return sys_register_; }
-  op::ProcessorOpCodeSet& jit_opcodes() { return jit_opcodes_; }
+  Variable* variable();
+  const arch::CpuRegister* sys_register() const;
+  op::ProcessorOpCodeSet& jit_opcodes();
 };
+}
 
 
 #endif //__VariableCheckout_H_

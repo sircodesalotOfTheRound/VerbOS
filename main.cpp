@@ -6,8 +6,10 @@
 
 using namespace std;
 using namespace op;
+using namespace jit;
 
 int main() {
+
   Stackframe frame(20, 5);
   VariableAllocator& allocator = frame.allocator();
   ProcessorOpCodeSet& jit_opcodes = frame.jit_opcodes();

@@ -12,6 +12,7 @@
 #include "Event.h"
 #include "VariableInfo.h"
 
+namespace jit {
 class VariableContainer {
   helpers::AutoCollector<Variable> gc_;
 
@@ -27,84 +28,26 @@ class VariableContainer {
   std::vector<VariableInfo> variables_;
 
 public:
-  VariableContainer(size_t size) {
-    variables_.resize(size);
-  }
+  VariableContainer(size_t size);
 
-  void insert(int variable_number, const types::SystemType& type, int priority, bool is_member, bool is_object_reference) {
-    Variable* variable = gc_.add(new Variable(variable_number, type, priority, is_member, is_object_reference));
-
-    // Signal that we're about to perform the update. Then perform the update.
-    on_insert_requested_.update(variable_number);
-    variables_.at((size_t) variable_number).set_variable(variable);
-    on_insert_.update(variable_number);
-  }
-
-  void persist_all() {
-    for (VariableInfo& info : variables_) {
-      if (info.contains_variable()) {
-        persist(info.variable()->variable_number());
-      }
-    }
-  }
-
-  void persist(int variable_number) {
-    validate_contains_variable(variable_number);
-
-    on_persist_requested_.update(variable_number);
-    on_persist_.update(variable_number);
-  }
-
-  void stage(int variable_number, bool should_lock, const arch::CpuRegister* sys_register) {
-    validate_contains_variable(variable_number);
-
-    on_stage_requested_.update(variable_number, should_lock, sys_register);
-    on_stage_.update(variable_number, should_lock, sys_register);
-  }
-
-  VariableInfo& at(int variable_number) {
-    validate_contains_variable(variable_number);
-    return variables_.at((size_t)variable_number);
-  }
-
-  void subscribe_on_insert_requested(std::function<void(int)> callback) {
-    on_insert_requested_.add(callback);
-  }
-
-  void subscribe_on_persist_requested(std::function<void(int)> callback) {
-    on_persist_requested_.add(callback);
-  }
-
-  void subscribe_on_stage_requested(std::function<void(int, bool, const arch::CpuRegister*)> callback) {
-    on_stage_requested_.add(callback);
-  }
-
-  void subscribe_on_stage(std::function<void(int, bool, const arch::CpuRegister*)> callback) {
-    on_stage_.add(callback);
-  }
-
-  void subscribe_on_insert(std::function<void(int)> callback) {
-    on_insert_.add(callback);
-  }
-
-  void subscribe_on_persist(std::function<void(int)> callback) {
-    on_persist_.add(callback);
-  }
-
-
-
-  bool contains_variable(int variable_number) {
-    return variables_.at((size_t)variable_number).contains_variable();
-  }
+  void insert(int variable_number, const types::SystemType& type, int priority, bool is_member, bool is_object_reference);
+  void persist_all();
+  void persist(int variable_number);
+  void stage(int variable_number, bool should_lock, const arch::CpuRegister* sys_register);
+  VariableInfo& at(int variable_number);
+  void subscribe_on_insert_requested(std::function<void(int)> callback);
+  void subscribe_on_persist_requested(std::function<void(int)> callback);
+  void subscribe_on_stage_requested(std::function<void(int, bool, const arch::CpuRegister*)> callback);
+  void subscribe_on_stage(std::function<void(int, bool, const arch::CpuRegister*)> callback);
+  void subscribe_on_insert(std::function<void(int)> callback);
+  void subscribe_on_persist(std::function<void(int)> callback);
+  bool contains_variable(int variable_number);
 
 private:
-  void validate_contains_variable(int variable_number) {
-    if (!contains_variable(variable_number)) {
-      throw std::logic_error("no variable at index");
-    }
-  }
+  void validate_contains_variable(int variable_number);
 
 };
+}
 
 
 #endif //__VariableContainer_H_
