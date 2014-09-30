@@ -69,7 +69,11 @@ public:
     available_registers_.push(&arch::OsxRegisters::r15);
 
     variables_.subscribe_on_insert([&](int variable_number) {
-      on_insert(variable_number);
+      release_binding(variable_number);
+    });
+
+    variables.subscribe_on_persist_requested([&](int variable_number){
+      release_binding(variable_number);
     });
   }
 
@@ -115,9 +119,8 @@ public:
 private:
   // If a new variable is inserted over an existing bound-to-register value,
   // then remove the binding, since it's no longer valid.
-  void on_insert(int variable_number) {
+  void release_binding(int variable_number) {
     if (var_to_register_map_.find(variable_number) != var_to_register_map_.end()) {
-      std::cout << "removing variable @" << variable_number << std::endl;
       const arch::CpuRegister* sys_register = var_to_register_map_.at(variable_number);
 
       var_to_register_map_.erase(variable_number);
