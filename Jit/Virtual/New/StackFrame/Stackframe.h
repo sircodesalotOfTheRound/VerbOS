@@ -15,7 +15,8 @@ class Stackframe {
   VariableAllocator allocator_;
 
 public:
-  Stackframe(size_t size) : allocator_(size, jit_opcodes_)
+  Stackframe(size_t max_objects, size_t max_constants) :
+    allocator_(max_objects, max_constants, jit_opcodes_)
   {
 
   }

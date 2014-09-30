@@ -17,14 +17,18 @@
 #import "VariableCheckout.h"
 
 class VariableAllocator {
+  size_t max_objects_;
+  size_t max_constants_;
   VariableContainer variables_;
   RegisterStage register_stage_;
   StackPersistStage persist_stage_;
   op::ProcessorOpCodeSet& jit_opcodes_;
 
 public:
-  VariableAllocator(size_t size, op::ProcessorOpCodeSet& jit_opcodes) :
-    variables_(size),
+  VariableAllocator(size_t max_objects, size_t max_constants, op::ProcessorOpCodeSet& jit_opcodes) :
+    max_objects_(max_objects),
+    max_constants_(max_constants),
+    variables_(max_objects + max_constants),
     register_stage_(variables_, jit_opcodes),
     persist_stage_(variables_, jit_opcodes),
     jit_opcodes_(jit_opcodes)
@@ -48,12 +52,17 @@ public:
     variables_.persist_all();
   }
 
+  size_t max_objects() const { return max_objects_; }
+  size_t max_constants() const { return max_constants_; }
+
   void with_variable(int variable_number, std::function<void(VariableCheckout&)> callback) {
-    variables_.stage(variable_number);
+    variables_.stage(variable_number, true, nullptr);
 
     VariableInfo& info = variables_.at(variable_number);
     VariableCheckout checkout (info, jit_opcodes_);
     callback(checkout);
+
+    register_stage_.unlock_register(info.bound_register());
   }
 };
 

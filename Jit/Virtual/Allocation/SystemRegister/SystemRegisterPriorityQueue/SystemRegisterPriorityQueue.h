@@ -87,7 +87,6 @@ namespace jit {
       update_binding(std::move(binding));
     }
 
-
     void update_binding(VirtualVariableSystemRegisterBinding&& binding) {
       if (binding.contains_variable()) {
         validate_variable(binding.variable());

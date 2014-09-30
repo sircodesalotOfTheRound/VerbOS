@@ -11,19 +11,22 @@
 #include "OsxRegisters.h"
 #include "ProcessorOpCodeSet.h"
 #include "StackPersistStage.h"
+#include "RegisterPriorityQueue.h"
 
 
 class RegisterStage {
   VariableContainer& variables_;
+  RegisterPriorityQueue queue_;
   op::ProcessorOpCodeSet& jit_opcodes_;
 
 public:
   RegisterStage(VariableContainer& container, op::ProcessorOpCodeSet& jit_opcodes) :
     variables_(container),
+    queue_(container),
     jit_opcodes_(jit_opcodes)
   {
-    variables_.subscribe_on_stage([&](int variable_number) {
-      on_request_stage(variable_number);
+    variables_.subscribe_on_stage([&](int variable_number, bool should_lock, const arch::CpuRegister* sys_register) {
+      on_request_stage(variable_number, should_lock, sys_register);
     });
 
     container.subscribe_on_insert([&](int variable_number) {
@@ -40,13 +43,17 @@ public:
     return false;
   }
 
+  void unlock_register(const arch::CpuRegister* sys_register) {
+    queue_.unlock_register(sys_register);
+  }
+
 private:
-  void on_request_stage(int variable_number) {
+  void on_request_stage(int variable_number, bool should_lock, const arch::CpuRegister* sys_register) {
     static const auto& rbp = arch::OsxRegisters::rbp;
 
     if (!is_staged(variable_number)) {
-      VariableInfo& info = variables_.at(variable_number);
-      info.set_register_binding(&arch::OsxRegisters::rax);
+      // Stage the variable.
+      VariableInfo& info = queue_.stage(variable_number, should_lock, sys_register);
 
       // If the variable is currently persisted, we need to emit opcodes
       // to move the register from the stack to a physical-register.
