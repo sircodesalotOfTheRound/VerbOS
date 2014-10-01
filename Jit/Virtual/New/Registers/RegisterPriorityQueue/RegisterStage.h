@@ -8,7 +8,7 @@
 #define __RegisterStage_H_
 
 #include "VariableContainer.h"
-#include "OsxRegisters.h"
+#include "Intelx64Registers.h"
 #include "ProcessorOpCodeSet.h"
 #include "StackPersistStage.h"
 #include "RegisterPriorityQueue.h"

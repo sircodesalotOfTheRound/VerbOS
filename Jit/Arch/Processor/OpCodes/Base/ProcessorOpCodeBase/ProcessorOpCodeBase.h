@@ -20,6 +20,8 @@ namespace op {
     }
 
     virtual std::string rep() const = 0;
+
+    // Todo: Remove this.
     virtual size_t size() const = 0;
     virtual void render(jit::JitRenderer&) const = 0;
 

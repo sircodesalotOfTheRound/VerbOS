@@ -171,7 +171,7 @@ namespace jit {
         register_queue_.with_binding_by_register(sys_register,
           [&](VirtualVariableSystemRegisterBinding& binding) {
             VirtualVariable&& variable = std::move(stack_persistence_stage_.release(variable_index));
-            const static auto& rbp = arch::OsxRegisters::rbp;
+            const static auto& rbp = arch::Intelx64Registers::rbp;
             jit_opcodes_.mov(binding.sys_register(), rbp[(int) calculate_persistence_offset(variable)]);
 
             binding.bind_variable(std::move(variable));
@@ -221,7 +221,7 @@ namespace jit {
             persist_if_contains_variable(binding);
 
             // Since we're moving from memory, we need to emit an opcode that represents that move.
-            const static auto& rbp = arch::OsxRegisters::rbp;
+            const static auto& rbp = arch::Intelx64Registers::rbp;
             jit_opcodes_.mov(binding.sys_register(), rbp[(int) calculate_persistence_offset(variable)]);
 
             binding.bind_variable(std::move(variable));
@@ -254,7 +254,7 @@ namespace jit {
     }
 
     void stack_persist(VirtualVariableSystemRegisterBinding& binding) {
-      const static auto& rbp = arch::OsxRegisters::rbp;
+      const static auto& rbp = arch::Intelx64Registers::rbp;
 
       // Release the variable from the binding.
       VirtualVariable variable = std::move(binding.release_variable());

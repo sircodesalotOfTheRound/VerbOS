@@ -5,6 +5,7 @@
 
 #include "ProcessorOpCodeSet.h"
 #include "ProcessorJumpOpCode.h"
+#import "ProcessorCmpOpCode.h"
 
 void op::ProcessorOpCodeSet::debug_print() {
   for (auto& opcode : opcodes_) {
@@ -136,4 +137,8 @@ void* op::ProcessorOpCodeSet::get_label_address(std::string name) {
 
 bool op::ProcessorOpCodeSet::label_has_address(std::string name) {
   return get_label_address(name) != nullptr;
+}
+
+void op::ProcessorOpCodeSet::cmp(const arch::CpuRegister& lhs, const arch::CpuRegister& rhs) {
+  add(new ProcessorCmpOpCode(lhs, rhs));
 }

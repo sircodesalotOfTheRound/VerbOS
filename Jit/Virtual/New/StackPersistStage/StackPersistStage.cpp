@@ -14,7 +14,7 @@ jit::StackPersistStage::StackPersistStage(VariableContainer& container, op::Proc
 }
 
 void jit::StackPersistStage::persist_variable(int variable_number) {
-  static const auto& rbp = arch::OsxRegisters::rbp;
+  static const auto& rbp = arch::Intelx64Registers::rbp;
   VariableInfo& info = container_.at(variable_number);
 
   // If the variable is currently bound to a register.

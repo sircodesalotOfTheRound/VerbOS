@@ -12,9 +12,9 @@ void jit::VirtualStackFrame::apply(jit::JitRenderer& renderer) {
   jit_opcodes.clear();
 
   // Begin the frame
-  jit_opcodes.push(OsxRegisters::rbp);
-  jit_opcodes.mov(OsxRegisters::rbp, OsxRegisters::rsp);
-  jit_opcodes.sub(OsxRegisters::rsp, 256);
+  jit_opcodes.push(Intelx64Registers::rbp);
+  jit_opcodes.mov(Intelx64Registers::rbp, Intelx64Registers::rsp);
+  jit_opcodes.sub(Intelx64Registers::rsp, 256);
 
   // Apply the Verbaj opcodes.
   for (auto& verbaj_op : verbaj_ops) {

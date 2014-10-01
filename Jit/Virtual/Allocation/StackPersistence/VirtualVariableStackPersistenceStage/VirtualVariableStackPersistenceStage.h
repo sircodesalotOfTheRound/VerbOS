@@ -10,7 +10,7 @@
 #include <vector>
 #import "VirtualVariable.h"
 #include "ProcessorOpCodeSet.h"
-#include "OsxRegisters.h"
+#include "Intelx64Registers.h"
 
 namespace jit {
   class VirtualVariableStackPersistenceStage {

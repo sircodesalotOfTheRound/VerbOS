@@ -30,7 +30,7 @@ void jit::RegisterStage::unlock_register(const arch::CpuRegister* sys_register) 
 }
 
 void jit::RegisterStage::on_request_stage(int variable_number, bool should_lock, const arch::CpuRegister* sys_register) {
-  static const auto& rbp = arch::OsxRegisters::rbp;
+  static const auto& rbp = arch::Intelx64Registers::rbp;
 
   if (!is_staged(variable_number)) {
     // Stage the variable.

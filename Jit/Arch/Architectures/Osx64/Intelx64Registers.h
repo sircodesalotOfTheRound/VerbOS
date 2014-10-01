@@ -5,7 +5,7 @@
 #include "CpuRegister.h"
 
 namespace arch {
-  struct OsxRegisters {
+  struct Intelx64Registers {
     static const arch::CpuRegister rax;
     static const arch::CpuRegister rbx;
     static const arch::CpuRegister rcx;

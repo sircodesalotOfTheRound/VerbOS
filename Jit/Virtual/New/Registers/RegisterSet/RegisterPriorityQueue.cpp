@@ -7,18 +7,18 @@
 
 jit::RegisterPriorityQueue::RegisterPriorityQueue(VariableContainer& variables) : variables_(variables),
       available_registers_(RegisterSetOps(variables, register_to_var_map_)) {
-      available_registers_.push(&arch::OsxRegisters::rbx);
-      available_registers_.push(&arch::OsxRegisters::rcx);
-      available_registers_.push(&arch::OsxRegisters::rsi);
-      available_registers_.push(&arch::OsxRegisters::rdi);
-      available_registers_.push(&arch::OsxRegisters::r8);
-      available_registers_.push(&arch::OsxRegisters::r9);
-      available_registers_.push(&arch::OsxRegisters::r10);
-      available_registers_.push(&arch::OsxRegisters::r11);
-      available_registers_.push(&arch::OsxRegisters::r12);
-      available_registers_.push(&arch::OsxRegisters::r13);
-      available_registers_.push(&arch::OsxRegisters::r14);
-      available_registers_.push(&arch::OsxRegisters::r15);
+      available_registers_.push(&arch::Intelx64Registers::rbx);
+      available_registers_.push(&arch::Intelx64Registers::rcx);
+      available_registers_.push(&arch::Intelx64Registers::rsi);
+      available_registers_.push(&arch::Intelx64Registers::rdi);
+      available_registers_.push(&arch::Intelx64Registers::r8);
+      available_registers_.push(&arch::Intelx64Registers::r9);
+      available_registers_.push(&arch::Intelx64Registers::r10);
+      available_registers_.push(&arch::Intelx64Registers::r11);
+      available_registers_.push(&arch::Intelx64Registers::r12);
+      available_registers_.push(&arch::Intelx64Registers::r13);
+      available_registers_.push(&arch::Intelx64Registers::r14);
+      available_registers_.push(&arch::Intelx64Registers::r15);
 
       variables_.subscribe_on_insert([&](int variable_number) {
         release_binding(variable_number);

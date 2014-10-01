@@ -70,6 +70,8 @@ namespace op {
     void lea(arch::ConstCpuRegisterRef sys_register, const void* object);
     void jmp(std::string label);
 
+    void cmp(arch::ConstCpuRegisterRef lhs, arch::ConstCpuRegisterRef rhs);
+
     bool contains_label(std::string name) const;
     void add_label(std::string name);
     void add_label(std::string name, void* location);

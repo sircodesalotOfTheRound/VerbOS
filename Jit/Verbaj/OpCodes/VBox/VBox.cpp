@@ -22,7 +22,7 @@ void verbaj::VBox::apply(jit::VirtualStackFrame& frame) const {
   // TODO: Make the move directly to memory (easier said than done because of the variable type change).
   stage.with_register(variable_number_, [&](jit::VirtualVariableCheckout& checkout) {
     op::ProcessorOpCodeSet& opcodes = checkout.jit_opcodes();
-    opcodes.mov(checkout.sys_register(), arch::OsxRegisters::rax);
+    opcodes.mov(checkout.sys_register(), arch::Intelx64Registers::rax);
   });
 
   stage.new_local(variable_number_, VerbajPrimitives::vm_box_of_uint64, 1, false, true);
