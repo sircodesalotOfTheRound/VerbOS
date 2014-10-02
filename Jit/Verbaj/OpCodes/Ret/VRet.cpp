@@ -4,7 +4,6 @@
 //
 
 #include "VRet.h"
-#include "VirtualStackFrame.h"
 
 void verbaj::VRet::apply(jit::Stackframe& frame) const {
   auto& allocator = frame.allocator();

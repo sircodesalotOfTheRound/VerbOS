@@ -12,7 +12,6 @@
 #include <unistd.h>
 #include "ProcessorOpCodeSet.h"
 #include "FileInt8.h"
-#include "VirtualStackFrame.h"
 #include "VLdui64.h"
 #include "VLdutf8.h"
 #include "VStageArg.h"
@@ -26,12 +25,12 @@ namespace images {
   class FunctionImageLoader : public ObjectImage {
     std::string name_;
     jit::JitRenderer renderer_;
-    jit::VirtualStackFrame frame_;
+    jit::Stackframe frame_;
 
   public:
     FunctionImageLoader(std::istream& stream)
       : name_(FileString(stream)),
-      renderer_(memory()), frame_(20) {
+      renderer_(memory()), frame_(20, 5) {
 
       read_ops(stream);
     }

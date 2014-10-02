@@ -4,10 +4,8 @@
 //
 
 #include "VBox.h"
-#include "VirtualStackFrame.h"
 #include "VerbajPrimitives.h"
 #include "FileInt8.h"
-#include "Stackframe.h"
 
 void verbaj::VBox::apply(jit::Stackframe& frame) const {
   auto& stage = frame.allocator();

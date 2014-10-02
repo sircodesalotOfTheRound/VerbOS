@@ -4,7 +4,6 @@
 //
 
 #include "VCall.h"
-#include "VirtualStackFrame.h"
 #include "FileString.h"
 #include "FunctionTable.h"
 

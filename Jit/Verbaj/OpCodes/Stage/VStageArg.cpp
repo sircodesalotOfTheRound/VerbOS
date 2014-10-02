@@ -4,7 +4,6 @@
 //
 
 #include "VStageArg.h"
-#include "VirtualStackFrame.h"
 #include "FileInt8.h"
 #include "Stackframe.h"
 

@@ -5,7 +5,6 @@
 
 #include "VLdutf8.h"
 #include "VerbajPrimitives.h"
-#include "VirtualStackFrame.h"
 #include "Instance.h"
 #include "Stackframe.h"
 

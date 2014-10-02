@@ -5,7 +5,6 @@
 
 #include "ProcessorCallOpCode.h"
 #include "FunctionTable.h"
-#include "VCall.h"
 
 void op::ProcessorCallOpCode::render(jit::JitRenderer& renderer) const {
   using namespace std;

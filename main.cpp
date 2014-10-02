@@ -23,8 +23,8 @@ int main() {
 
   Stackframe frame(20, 2);
   frame.insert(new VLdui64(1, 100));
-  frame.insert(new VLdui64(2, 200));
-  frame.insert(new VStageArg(2));
+  frame.insert(new VLdui64(1, 200));
+  frame.insert(new VStageArg(1));
   frame.insert(new VCall((void*)&something));
   frame.insert(new VRet(1));
 

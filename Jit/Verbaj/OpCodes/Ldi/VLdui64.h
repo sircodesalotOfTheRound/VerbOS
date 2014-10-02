@@ -9,7 +9,6 @@
 #define __VLdui64_H_
 
 #include "VerbajOpCodeBase.h"
-#include "VirtualStackFrame.h"
 
 namespace verbaj {
   class VLdui64 : public VerbajOpCodeBase {

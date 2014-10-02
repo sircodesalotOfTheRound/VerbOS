@@ -5,7 +5,6 @@
 
 #include "FunctionImageLoader.h"
 #include "VerbajPrimitives.h"
-#include <iostream>
 
 using namespace types;
 using namespace verbaj;

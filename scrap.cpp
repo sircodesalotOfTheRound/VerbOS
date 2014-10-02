@@ -16,8 +16,6 @@
 #import "FunctionImageLoader.h"
 #import "FunctionTable.h"
 #include "VerbajFile.h"
-#import "Event.h"
-#import "AutoCollector.h"
 
 void* memory() {
   return mmap(nullptr, (size_t) getpagesize(), PROT_WRITE | PROT_EXEC, MAP_ANON | MAP_PRIVATE, -1, 0);
@@ -53,8 +51,7 @@ void println(Trait* object) {
 }
 
 void stuff() {
-
-  VirtualStackFrame frame(20);
+  Stackframe frame(20, 5);
   JitRenderer renderer(memory());
 
   frame.insert(new VLdui64(1, 5));
