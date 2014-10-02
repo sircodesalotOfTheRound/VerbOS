@@ -45,3 +45,10 @@ void jit::VariableAllocator::with_variable(int variable_number, std::function<vo
   callback(checkout);
   register_stage_.unlock_register(info.bound_register());
 }
+
+void jit::VariableAllocator::stage_argument(int variable_number) {
+  auto cpu_register = argument_staging_factory_.determine_register();
+
+  variables_.stage(variable_number, cpu_register);
+  register_stage_.lock_register(cpu_register);
+}

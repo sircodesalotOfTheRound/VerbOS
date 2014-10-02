@@ -10,8 +10,7 @@
 
 void verbaj::VStageArg::apply(jit::Stackframe& frame) const {
   auto& stage = frame.allocator();
-
-  //stage.stage_argument(variable_number);
+  stage.stage_argument(variable_number);
 }
 
 verbaj::VStageArg* verbaj::VStageArg::load_op(std::istream& stream) {

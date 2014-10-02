@@ -34,7 +34,26 @@ void jit::RegisterPriorityQueue::lock_register(const arch::CpuRegister* sys_regi
     throw std::logic_error("register already locked");
   }
 
-  locked_registers_.insert(sys_register);
+  // Temporary storage:
+  std::vector<const arch::CpuRegister*> register_set_;
+
+  // Pop registers until we find the one that matches sys_register.
+  while (!available_registers_.empty()) {
+    const arch::CpuRegister* current_register = pop_register_by_priority();
+
+    // Once we find the register we're looking for, we can lock it then break.
+    if (current_register == sys_register) {
+      locked_registers_.insert(current_register);
+      break;
+    } else {
+      register_set_.push_back(current_register);
+    }
+  }
+
+  // Replay the remaining registers into the priority queue
+  for (const arch::CpuRegister* current_register: register_set_) {
+    available_registers_.push(current_register);
+  }
 }
 
 void jit::RegisterPriorityQueue::unlock_register(const arch::CpuRegister* sys_register) {
@@ -48,6 +67,29 @@ void jit::RegisterPriorityQueue::unlock_register(const arch::CpuRegister* sys_re
 
 jit::VariableInfo& jit::RegisterPriorityQueue::stage(int variable_number, const arch::CpuRegister* to_register) {
   VariableInfo& info = variables_.at(variable_number);
+
+  // If the variable is already staged:
+  // Return if there was no request to bind to a specific register, or if we're
+  // already bound to that register.
+  // If something is already there, clear it out.
+  if (is_staged(variable_number)) {
+    if (to_register == nullptr || info.bound_register() == to_register) {
+      return info;
+    } else {
+      if (is_staged(to_register)) {
+        VariableInfo& variable_staged_in_register = at(to_register);
+        variables_.persist(variable_staged_in_register.variable_number());
+      }
+    }
+  }
+
+  // If something is already staged in this register, save it.
+  if (to_register != nullptr) {
+    if (is_staged(to_register)) {
+      VariableInfo& variable = at(to_register);
+      variables_.persist(variable.variable_number());
+    }
+  }
 
   // If no register is supplied, then request the most avaialable one.
   const arch::CpuRegister* sys_register;
@@ -63,6 +105,8 @@ jit::VariableInfo& jit::RegisterPriorityQueue::stage(int variable_number, const 
   register_to_var_map_.insert({sys_register, variable_number});
   var_to_register_map_.insert({variable_number, sys_register});
 
+  // Return the register to the stack.
+  available_registers_.push(sys_register);
   return info;
 }
 
@@ -95,13 +139,30 @@ void jit::RegisterPriorityQueue::unlock_all_registers() {
 }
 
 void jit::RegisterPriorityQueue::re_prioritize() {
-  std::vector<const arch::CpuRegister*> register_set_;
 
-  while (!available_registers_.empty()) {
-    register_set_.push_back(pop_register_by_priority());
+}
+
+jit::VariableInfo& jit::RegisterPriorityQueue::at(int variable_number) {
+  if (!is_staged(variable_number)) {
+    throw std::logic_error("register is not staged");
   }
 
-  for (const arch::CpuRegister* sys_register : register_set_) {
-    available_registers_.push(sys_register);
+  return variables_.at(variable_number);
+}
+
+jit::VariableInfo& jit::RegisterPriorityQueue::at(const arch::CpuRegister* sys_register) {
+  if (!is_staged(sys_register)) {
+    throw std::logic_error("register is not staged");
   }
+
+  int variable_number = register_to_var_map_.at(sys_register);
+  return variables_.at(variable_number);
+}
+
+bool jit::RegisterPriorityQueue::is_staged(int variable_number) {
+  return var_to_register_map_.find(variable_number) != var_to_register_map_.end();
+}
+
+bool jit::RegisterPriorityQueue::is_staged(const arch::CpuRegister* sys_register) {
+  return register_to_var_map_.find(sys_register) != register_to_var_map_.end();
 }

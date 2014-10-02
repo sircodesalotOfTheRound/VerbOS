@@ -15,6 +15,7 @@
 #include "StackPersistStage.h"
 #include "RegisterStage.h"
 #import "VariableCheckout.h"
+#include "ArgumentStagingFactory.h"
 
 namespace jit {
 class VariableAllocator {
@@ -24,6 +25,7 @@ class VariableAllocator {
   RegisterStage register_stage_;
   StackPersistStage persist_stage_;
   op::ProcessorOpCodeSet& jit_opcodes_;
+  ArgumentStagingFactory argument_staging_factory_;
 
 public:
   VariableAllocator(size_t max_objects, size_t max_constants, op::ProcessorOpCodeSet& jit_opcodes);
@@ -35,6 +37,7 @@ public:
   size_t max_objects() const;
   size_t max_constants() const;
   void with_variable(int variable_number, std::function<void(VariableCheckout&)> callback);
+  void stage_argument(int variable_number);
 };
 }
 

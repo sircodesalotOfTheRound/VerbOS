@@ -57,6 +57,12 @@ namespace jit {
     void lock_register(const arch::CpuRegister* sys_register);
     void unlock_register(const arch::CpuRegister* sys_register);
 
+    VariableInfo& at(int variable_number);
+    VariableInfo& at(const arch::CpuRegister* sys_register);
+
+    bool is_staged(int variable_number);
+    bool is_staged(const arch::CpuRegister* sys_register);
+
 
   public:
     VariableInfo& stage(int variable_number, const arch::CpuRegister* to_register);

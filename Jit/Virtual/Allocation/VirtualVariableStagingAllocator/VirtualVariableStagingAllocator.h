@@ -7,7 +7,7 @@
 #include "OsxSystemRegisterPriorityQueue.h"
 #include "VirtualVariableStackPersistenceStage.h"
 #include "ProcessorOpCodeSet.h"
-#import "ArgumentStagingRegisterAssignmentFactory.h"
+#import "ArgumentStagingFactory.h"
 
 #ifndef __VirtualVariableStagingAllocator_H_
 #define __VirtualVariableStagingAllocator_H_
@@ -17,7 +17,7 @@ namespace jit {
     op::ProcessorOpCodeSet& jit_opcodes_;
     VirtualVariableStackPersistenceStage stack_persistence_stage_;
     OsxSystemRegisterPriorityQueue register_queue_;
-    ArgumentStagingRegisterAssignmentFactory argument_staging_factory_;
+    ArgumentStagingFactory argument_staging_factory_;
 
     // Variables that are neither on the stack nor register bound.
     std::vector<VirtualVariable> unstaged_variables_;
@@ -93,7 +93,7 @@ namespace jit {
     void stage_argument(int variable_index) {
       auto cpu_register = argument_staging_factory_.determine_register();
 
-      lock_variable_to_register(cpu_register, variable_index);
+      //lock_variable_to_register(cpu_register, variable_index);
     }
 
     // Callback for performing tasks with a single register.

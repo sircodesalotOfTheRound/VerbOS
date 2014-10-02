@@ -23,12 +23,11 @@ namespace jit {
     RegisterStage(VariableContainer& container, op::ProcessorOpCodeSet& jit_opcodes);
 
   public:
-    bool is_staged(int variable_number);
     void lock_register(const arch::CpuRegister* sys_register);
     void unlock_register(const arch::CpuRegister* sys_register);
 
   private:
-    void on_request_stage(int variable_number, const arch::CpuRegister* sys_register);
+    void on_stage(int variable_number, const arch::CpuRegister* sys_register);
     void unstage_variable(int variable_number);
   };
 }
