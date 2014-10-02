@@ -22,7 +22,7 @@ void verbaj::VLdutf8::apply(jit::Stackframe& frame) const {
   memcpy(&head_trait->data<char>(8)[0], &string_[0], string_.size());
 
   stage.with_variable(variable_number_, [&](jit::VariableCheckout& checkout) {
-    auto sys_register = *checkout.sys_register();
+    auto& sys_register = checkout.sys_register();
     op::ProcessorOpCodeSet& opcodes = checkout.jit_opcodes();
 
     opcodes.lea(sys_register, head_trait);

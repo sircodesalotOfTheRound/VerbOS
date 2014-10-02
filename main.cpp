@@ -10,6 +10,8 @@ using namespace op;
 using namespace jit;
 using namespace verbaj;
 
+void stuff();
+int main2();
 void* memory();
 
 void something(uint64_t value) {
@@ -18,7 +20,7 @@ void something(uint64_t value) {
 }
 
 int main() {
-  jit::JitRenderer renderer (memory());
+  /*jit::JitRenderer renderer (memory());
   op::ProcessorOpCodeSet jit_opcodes { };
 
   Stackframe frame(20, 2);
@@ -37,6 +39,8 @@ int main() {
 
   uint64_t(*pfunc)() = (uint64_t(*)())renderer.memory();
 
-  cout << pfunc() << endl;
+  cout << pfunc() << endl;*/
 
+  main2();
+  stuff();
 }

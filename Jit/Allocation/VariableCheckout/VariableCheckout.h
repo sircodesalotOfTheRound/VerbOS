@@ -21,7 +21,7 @@ public:
   VariableCheckout(VariableInfo& info, op::ProcessorOpCodeSet& jit_opcodes);
 
   Variable* variable();
-  const arch::CpuRegister* sys_register() const;
+  const arch::CpuRegister& sys_register() const;
   op::ProcessorOpCodeSet& jit_opcodes();
 };
 }

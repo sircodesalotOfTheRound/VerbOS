@@ -25,7 +25,7 @@ void verbaj::VLdui64::apply(jit::Stackframe& frame) const {
 }
 
 void verbaj::VLdui64::perform_load(jit::VariableCheckout& checkout) const {
-  auto& sys_register = *checkout.sys_register();
+  auto& sys_register = checkout.sys_register();
   op::ProcessorOpCodeSet& opcodes = checkout.jit_opcodes();
 
   // Move the value to the register. Done.

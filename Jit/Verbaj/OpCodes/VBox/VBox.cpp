@@ -14,7 +14,7 @@ void verbaj::VBox::apply(jit::Stackframe& frame) const {
     throw std::logic_error("stage does not contain a variable at this index.");
   }
 
-  //stage.stage_argument(variable_number_);
+  stage.stage_argument(variable_number_);
   stage.persist_variables();
   frame.sys_ops().call((void*)&instantiate);
 

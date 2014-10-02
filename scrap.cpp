@@ -59,7 +59,7 @@ void stuff() {
   frame.insert(new VLdutf8(2, "something is amiss"));
   frame.insert(new VStageArg(1));
   frame.insert(new VCall((void*)&println));
-  frame.insert(new VRet(2));
+  frame.insert(new VRet(1));
   frame.apply(renderer);
   frame.debug_print();
 
