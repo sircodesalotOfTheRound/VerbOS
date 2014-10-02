@@ -5,8 +5,22 @@
 
 #include "SystemType.h"
 #include "Trait.h"
+#include "Instance.h"
 
 const types::SystemType& types::SystemType::NONE = SystemType("<NONE>", types::TypeFamily::PRIMITIVE, types::TypeFlags::PUBLIC);
+
+
+types::SystemType::SystemType(std::string name, TypeFamily family, TypeFlags flags, bool is_generic) : name_(name),
+    family_(family),
+    flags_(flags),
+    offset_(sizeof(Instance)),
+    trait_count_(0),
+    is_generic_(is_generic),
+    is_frozen_(false)
+{
+
+}
+
 
 void types::SystemType::freeze() const {
   // If the type is already frozen, return.
@@ -24,6 +38,7 @@ void types::SystemType::freeze() const {
   for (auto trait_iter : trait_definitions_) {
     auto& trait = trait_iter.second;
 
+    // First freeze the trait.
     trait->freeze();
 
     // Only add a trait band if the trait has specific data associated with it.
@@ -33,9 +48,8 @@ void types::SystemType::freeze() const {
     }
   }
 
-  size_t size_required_for_fields = (sizeof(uintptr_t) * offset_);
-
-  required_size_ = size_required_for_fields + size_required_for_traits;
+  size_t size_required_for_fields = (size_t)(offset_ - sizeof(Instance));
+  required_size_ = (size_t)(offset_);
 }
 
 const types::SystemTypeFieldDefinition& types::SystemType::field(std::string& name) const {
@@ -133,5 +147,4 @@ helpers::ContainerIterator<decltype(types::SystemType::trait_definitions_)> type
 helpers::ContainerIterator<decltype(types::SystemType::field_definitions_)> types::SystemType::fields() {
   return field_definitions_;
 }
-
 

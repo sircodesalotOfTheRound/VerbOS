@@ -17,6 +17,7 @@ void* types::Instance::operator new(size_t size, const SystemType& type) {
   // TODO: Fix this.
   size_t total_required_size = 256;//type.required_size() + sizeof(InstanceHeader);
   //std::cout << "allocating:" << total_required_size << std::endl;
+
   return new(total_required_size) Instance(type);
 }
 

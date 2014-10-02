@@ -41,16 +41,7 @@ namespace types {
 
     }
 
-    SystemType(std::string name, TypeFamily family, TypeFlags flags, bool is_generic)
-      : name_(name),
-        family_(family),
-        flags_(flags),
-        offset_(sizeof(Instance*)),
-        trait_count_(0),
-        is_generic_(is_generic),
-        is_frozen_(false) {
-
-    }
+    SystemType(std::string name, TypeFamily family, TypeFlags flags, bool is_generic);
 
     void freeze() const;
     const SystemTypeFieldDefinition& field(std::string& name) const;
