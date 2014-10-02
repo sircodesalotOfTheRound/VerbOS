@@ -87,9 +87,7 @@ void op::ProcessorOpCodeSet::pop(arch::ConstCpuRegisterRef sys_register) {
   add(new op::ProcessorPopOpCode(sys_register));
 }
 
-void op::ProcessorOpCodeSet::jmp(std::string label) {
-  add(new op::ProcessorJumpOpCode(label, *this));
-}
+
 
 void op::ProcessorOpCodeSet::lea(arch::ConstCpuRegisterRef sys_register, const void* object) {
   add(new op::ProcessorMovConstToRegOpCode(sys_register, (uintptr_t) object));
@@ -142,3 +140,45 @@ bool op::ProcessorOpCodeSet::label_has_address(std::string name) {
 void op::ProcessorOpCodeSet::cmp(const arch::CpuRegister& lhs, const arch::CpuRegister& rhs) {
   add(new ProcessorCmpOpCode(lhs, rhs));
 }
+
+void op::ProcessorOpCodeSet::jmp(std::string label) {
+  add(new op::ProcessorJumpOpCode(label, *this, JumpType::JMP));
+}
+
+void op::ProcessorOpCodeSet::je(std::string label) {
+  add(new op::ProcessorJumpOpCode(label, *this, JumpType::JE));
+}
+
+void op::ProcessorOpCodeSet::jne(std::string label) {
+  add(new op::ProcessorJumpOpCode(label, *this, JumpType::JNE));
+}
+
+void op::ProcessorOpCodeSet::jz(std::string label) {
+  add(new op::ProcessorJumpOpCode(label, *this, JumpType::JZ));
+}
+
+void op::ProcessorOpCodeSet::jnz(std::string label) {
+  add(new op::ProcessorJumpOpCode(label, *this, JumpType::JNZ));
+}
+
+void op::ProcessorOpCodeSet::jl(std::string label) {
+  add(new op::ProcessorJumpOpCode(label, *this, JumpType::JL));
+}
+
+void op::ProcessorOpCodeSet::jle(std::string label) {
+  add(new op::ProcessorJumpOpCode(label, *this, JumpType::JLE));
+}
+
+void op::ProcessorOpCodeSet::jg(std::string label) {
+  add(new op::ProcessorJumpOpCode(label, *this, JumpType::JG));
+}
+
+void op::ProcessorOpCodeSet::jge(std::string label) {
+  add(new op::ProcessorJumpOpCode(label, *this, JumpType::JGE));
+}
+
+
+
+
+
+

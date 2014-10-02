@@ -10,17 +10,34 @@
 #include "ProcessorOpCodeBase.h"
 
 namespace op {
+
+  enum JumpType {
+    JMP = 0xe9,
+    JE = 0x84,
+    JNE = 0x85,
+    JZ = 0x84,
+    JNZ = 0x85,
+    JL = 0x8c,
+    JG = 0x8f,
+    JLE = 0x8e,
+    JGE = 0x8d
+  };
+
   class ProcessorOpCodeSet;
   class ProcessorJumpOpCode : public ProcessorOpCodeBase {
     std::string name_;
+    JumpType jump_type_;
     ProcessorOpCodeSet& jit_opcodes_;
 
   public:
-    ProcessorJumpOpCode(std::string name, op::ProcessorOpCodeSet& jit_opcodes);
+    ProcessorJumpOpCode(std::string name, op::ProcessorOpCodeSet& jit_opcodes, JumpType jump_type);
 
     std::string rep() const;
     size_t size() const;
     void render(jit::JitRenderer&) const;
+
+  private:
+    void write_jump_opcode(jit::JitRenderer& renderer) const;
   };
 }
 

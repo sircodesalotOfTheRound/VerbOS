@@ -68,7 +68,16 @@ namespace op {
     void push(arch::ConstCpuRegisterRef sys_register);
     void pop(arch::ConstCpuRegisterRef sys_register);
     void lea(arch::ConstCpuRegisterRef sys_register, const void* object);
+
     void jmp(std::string label);
+    void je(std::string label);
+    void jne(std::string label);
+    void jz(std::string label);
+    void jnz(std::string label);
+    void jl(std::string label);
+    void jle(std::string label);
+    void jg(std::string label);
+    void jge(std::string label);
 
     void cmp(arch::ConstCpuRegisterRef lhs, arch::ConstCpuRegisterRef rhs);
 

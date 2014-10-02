@@ -5,6 +5,7 @@
 #include <signal.h>
 #include <sys/mman.h>
 #include <unistd.h>
+#include <pthread.h>
 
 using namespace std;
 using namespace op;
@@ -16,15 +17,19 @@ int main() {
   jit::JitRenderer renderer (memory());
   op::ProcessorOpCodeSet jit_opcodes { };
 
-
-  jit_opcodes.cmp(arch::Intelx64Registers::rax, arch::Intelx64Registers::rax);
-  jit_opcodes.cmp(arch::Intelx64Registers::rax, arch::Intelx64Registers::rbx);
-  jit_opcodes.cmp(arch::Intelx64Registers::rbx, arch::Intelx64Registers::rcx);
-  jit_opcodes.cmp(arch::Intelx64Registers::rax, arch::Intelx64Registers::r8);
-  jit_opcodes.cmp(arch::Intelx64Registers::r8, arch::Intelx64Registers::rax);
-  jit_opcodes.cmp(arch::Intelx64Registers::r8, arch::Intelx64Registers::r8);
+  jit_opcodes.label("start");
+  jit_opcodes.jmp("start");
+  jit_opcodes.je("start");
+  jit_opcodes.jne("start");
+  jit_opcodes.jz("start");
+  jit_opcodes.jnz("start");
+  jit_opcodes.jl("start");
+  jit_opcodes.jg("start");
+  jit_opcodes.jle("start");
+  jit_opcodes.jge("start");
 
   jit_opcodes.render(renderer);
   jit_opcodes.debug_print();
   renderer.debug_print();
+
 }
