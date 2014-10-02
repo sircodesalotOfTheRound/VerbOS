@@ -7,25 +7,26 @@
 #include "VirtualStackFrame.h"
 #include "VerbajPrimitives.h"
 #include "FileInt8.h"
+#include "Stackframe.h"
 
-void verbaj::VBox::apply(jit::VirtualStackFrame& frame) const {
-  auto& stage = frame.variable_stage();
+void verbaj::VBox::apply(jit::Stackframe& frame) const {
+  auto& stage = frame.allocator();
 
   if (!stage.contains_variable(variable_number_)) {
     throw std::logic_error("stage does not contain a variable at this index.");
   }
 
-  stage.stage_argument(variable_number_);
+  //stage.stage_argument(variable_number_);
   stage.persist_variables();
   frame.sys_ops().call((void*)&instantiate);
 
   // TODO: Make the move directly to memory (easier said than done because of the variable type change).
-  stage.with_register(variable_number_, [&](jit::VirtualVariableCheckout& checkout) {
+  stage.with_variable(variable_number_, [&](jit::VariableCheckout& checkout) {
     op::ProcessorOpCodeSet& opcodes = checkout.jit_opcodes();
     opcodes.mov(checkout.sys_register(), arch::Intelx64Registers::rax);
   });
 
-  stage.new_local(variable_number_, VerbajPrimitives::vm_box_of_uint64, 1, false, true);
+  stage.insert(variable_number_, VerbajPrimitives::vm_box_of_uint64, 1, false, true);
 }
 
 types::Trait* verbaj::VBox::instantiate(uint64_t value) {

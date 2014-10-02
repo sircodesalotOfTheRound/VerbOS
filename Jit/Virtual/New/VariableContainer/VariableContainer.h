@@ -22,8 +22,8 @@ class VariableContainer {
   helpers::Event<void(int)> on_persist_requested_;
   helpers::Event<void(int)> on_persist_;
 
-  helpers::Event<void(int, bool, const arch::CpuRegister*)> on_stage_requested_;
-  helpers::Event<void(int, bool, const arch::CpuRegister*)> on_stage_;
+  helpers::Event<void(int, const arch::CpuRegister*)> on_stage_requested_;
+  helpers::Event<void(int, const arch::CpuRegister*)> on_stage_;
 
   std::vector<VariableInfo> variables_;
 
@@ -33,12 +33,12 @@ public:
   void insert(int variable_number, const types::SystemType& type, int priority, bool is_member, bool is_object_reference);
   void persist_all();
   void persist(int variable_number);
-  void stage(int variable_number, bool should_lock, const arch::CpuRegister* sys_register);
+  void stage(int variable_number, const arch::CpuRegister* sys_register);
   VariableInfo& at(int variable_number);
   void subscribe_on_insert_requested(std::function<void(int)> callback);
   void subscribe_on_persist_requested(std::function<void(int)> callback);
-  void subscribe_on_stage_requested(std::function<void(int, bool, const arch::CpuRegister*)> callback);
-  void subscribe_on_stage(std::function<void(int, bool, const arch::CpuRegister*)> callback);
+  void subscribe_on_stage_requested(std::function<void(int, const arch::CpuRegister*)> callback);
+  void subscribe_on_stage(std::function<void(int, const arch::CpuRegister*)> callback);
   void subscribe_on_insert(std::function<void(int)> callback);
   void subscribe_on_persist(std::function<void(int)> callback);
   bool contains_variable(int variable_number);

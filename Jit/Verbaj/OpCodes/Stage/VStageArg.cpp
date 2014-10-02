@@ -6,11 +6,12 @@
 #include "VStageArg.h"
 #include "VirtualStackFrame.h"
 #include "FileInt8.h"
+#include "Stackframe.h"
 
-void verbaj::VStageArg::apply(jit::VirtualStackFrame& frame) const {
-  auto& stage = frame.variable_stage();
+void verbaj::VStageArg::apply(jit::Stackframe& frame) const {
+  auto& stage = frame.allocator();
 
-  stage.stage_argument(variable_number);
+  //stage.stage_argument(variable_number);
 }
 
 verbaj::VStageArg* verbaj::VStageArg::load_op(std::istream& stream) {

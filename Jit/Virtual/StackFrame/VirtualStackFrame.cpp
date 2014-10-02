@@ -18,7 +18,7 @@ void jit::VirtualStackFrame::apply(jit::JitRenderer& renderer) {
 
   // Apply the Verbaj opcodes.
   for (auto& verbaj_op : verbaj_ops) {
-    verbaj_op->apply(*this);
+    //verbaj_op->apply(*this);
   }
 
   jit_opcodes.render(renderer);

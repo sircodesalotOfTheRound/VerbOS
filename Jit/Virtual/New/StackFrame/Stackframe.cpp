@@ -19,3 +19,27 @@ jit::VariableAllocator& jit::Stackframe::allocator() {
 op::ProcessorOpCodeSet& jit::Stackframe::jit_opcodes() {
   return jit_opcodes_;
 }
+
+void jit::Stackframe::apply(jit::JitRenderer& renderer) {
+  using namespace arch;
+
+  // Clear the existing opcodes.
+  jit_opcodes_.clear();
+
+  // Begin the frame
+  jit_opcodes_.push(Intelx64Registers::rbp);
+  jit_opcodes_.mov(Intelx64Registers::rbp, Intelx64Registers::rsp);
+  jit_opcodes_.sub(Intelx64Registers::rsp, 256);
+
+  // Apply the Verbaj opcodes.
+  for (auto& verbaj_op : verbaj_ops) {
+    verbaj_op->apply(*this);
+  }
+
+  jit_opcodes_.render(renderer);
+}
+
+void jit::Stackframe::debug_print() {
+  // Clear the existing opcodes.
+  jit_opcodes_.debug_print();
+}

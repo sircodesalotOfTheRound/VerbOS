@@ -8,8 +8,8 @@
 jit::RegisterStage::RegisterStage(VariableContainer& container, op::ProcessorOpCodeSet& jit_opcodes) : variables_(container),
     queue_(container),
     jit_opcodes_(jit_opcodes) {
-    variables_.subscribe_on_stage([&](int variable_number, bool should_lock, const arch::CpuRegister* sys_register) {
-      on_request_stage(variable_number, should_lock, sys_register);
+    variables_.subscribe_on_stage([&](int variable_number, const arch::CpuRegister* sys_register) {
+      on_request_stage(variable_number, sys_register);
     });
 
     container.subscribe_on_insert([&](int variable_number) {
@@ -25,16 +25,20 @@ bool jit::RegisterStage::is_staged(int variable_number) {
   return false;
 }
 
+void jit::RegisterStage::lock_register(const arch::CpuRegister* sys_register) {
+  queue_.lock_register(sys_register);
+}
+
 void jit::RegisterStage::unlock_register(const arch::CpuRegister* sys_register) {
   queue_.unlock_register(sys_register);
 }
 
-void jit::RegisterStage::on_request_stage(int variable_number, bool should_lock, const arch::CpuRegister* sys_register) {
+void jit::RegisterStage::on_request_stage(int variable_number, const arch::CpuRegister* sys_register) {
   static const auto& rbp = arch::Intelx64Registers::rbp;
 
   if (!is_staged(variable_number)) {
     // Stage the variable.
-    VariableInfo& info = queue_.stage(variable_number, should_lock, sys_register);
+    VariableInfo& info = queue_.stage(variable_number, sys_register);
 
     // If the variable is currently persisted, we need to emit opcodes
     // to move the register from the stack to a physical-register.

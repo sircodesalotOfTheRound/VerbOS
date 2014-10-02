@@ -27,11 +27,11 @@ void jit::VariableContainer::subscribe_on_insert(std::function<void(int)> callba
   on_insert_.add(callback);
 }
 
-void jit::VariableContainer::subscribe_on_stage(std::function<void(int, bool, const arch::CpuRegister*)> callback) {
+void jit::VariableContainer::subscribe_on_stage(std::function<void(int, const arch::CpuRegister*)> callback) {
   on_stage_.add(callback);
 }
 
-void jit::VariableContainer::subscribe_on_stage_requested(std::function<void(int, bool, const arch::CpuRegister*)> callback) {
+void jit::VariableContainer::subscribe_on_stage_requested(std::function<void(int, const arch::CpuRegister*)> callback) {
   on_stage_requested_.add(callback);
 }
 
@@ -48,11 +48,11 @@ jit::VariableInfo& jit::VariableContainer::at(int variable_number) {
   return variables_.at((size_t)variable_number);
 }
 
-void jit::VariableContainer::stage(int variable_number, bool should_lock, const arch::CpuRegister* sys_register) {
+void jit::VariableContainer::stage(int variable_number, const arch::CpuRegister* sys_register) {
   validate_contains_variable(variable_number);
 
-  on_stage_requested_.update(variable_number, should_lock, sys_register);
-  on_stage_.update(variable_number, should_lock, sys_register);
+  on_stage_requested_.update(variable_number, sys_register);
+  on_stage_.update(variable_number, sys_register);
 }
 
 void jit::VariableContainer::persist(int variable_number) {

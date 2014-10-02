@@ -25,7 +25,7 @@ namespace verbaj {
 
     }
 
-    void apply(jit::VirtualStackFrame&) const;
+    void apply(jit::Stackframe&) const override;
 
     static VLdutf8* load_op(std::istream& stream) {
       FileInt8 variable_number(stream);

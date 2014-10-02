@@ -8,10 +8,10 @@
 #include "FileString.h"
 #include "FunctionTable.h"
 
-void verbaj::VCall::apply(jit::VirtualStackFrame& frame) const {
+void verbaj::VCall::apply(jit::Stackframe& frame) const {
   // Since we need to lock arguments to certain registers, (arg1=rdi, arg2=rsi, etc..)
   // We need to free those registers so they can be used generally.
-  frame.variable_stage().persist_variables();
+  frame.allocator().persist_variables();
 
   // If we have a direct location to jump to:
   // TODO: Read from the function table.

@@ -36,11 +36,12 @@ size_t jit::VariableAllocator::max_objects() const { return max_objects_; }
 size_t jit::VariableAllocator::max_constants() const { return max_constants_; }
 
 void jit::VariableAllocator::with_variable(int variable_number, std::function<void(VariableCheckout&)> callback) {
-  variables_.stage(variable_number, true, nullptr);
+  variables_.stage(variable_number, nullptr);
 
   VariableInfo& info = variables_.at(variable_number);
   VariableCheckout checkout (info, jit_opcodes_);
-  callback(checkout);
 
+  register_stage_.lock_register(info.bound_register());
+  callback(checkout);
   register_stage_.unlock_register(info.bound_register());
 }

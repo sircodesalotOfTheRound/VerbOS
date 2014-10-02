@@ -54,10 +54,12 @@ namespace jit {
 
   public:
     RegisterPriorityQueue(VariableContainer& variables);
+    void lock_register(const arch::CpuRegister* sys_register);
     void unlock_register(const arch::CpuRegister* sys_register);
 
+
   public:
-    VariableInfo& stage(int variable_number, bool should_lock, const arch::CpuRegister* to_register);
+    VariableInfo& stage(int variable_number, const arch::CpuRegister* to_register);
 
   private:
     void release_binding(int variable_number);

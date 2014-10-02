@@ -29,6 +29,14 @@ jit::RegisterPriorityQueue::RegisterPriorityQueue(VariableContainer& variables) 
       });
     }
 
+void jit::RegisterPriorityQueue::lock_register(const arch::CpuRegister* sys_register) {
+  if (locked_registers_.find(sys_register) != locked_registers_.end()) {
+    throw std::logic_error("register already locked");
+  }
+
+  locked_registers_.insert(sys_register);
+}
+
 void jit::RegisterPriorityQueue::unlock_register(const arch::CpuRegister* sys_register) {
   if (locked_registers_.find(sys_register) == locked_registers_.end()) {
     throw std::logic_error("register is not locked");
@@ -38,7 +46,7 @@ void jit::RegisterPriorityQueue::unlock_register(const arch::CpuRegister* sys_re
   available_registers_.push(sys_register);
 }
 
-jit::VariableInfo& jit::RegisterPriorityQueue::stage(int variable_number, bool should_lock, const arch::CpuRegister* to_register) {
+jit::VariableInfo& jit::RegisterPriorityQueue::stage(int variable_number, const arch::CpuRegister* to_register) {
   VariableInfo& info = variables_.at(variable_number);
 
   // If no register is supplied, then request the most avaialable one.
@@ -49,20 +57,11 @@ jit::VariableInfo& jit::RegisterPriorityQueue::stage(int variable_number, bool s
     sys_register = to_register;
   }
 
-
   info.set_register_binding(sys_register);
 
   // Cache the relationship.
   register_to_var_map_.insert({sys_register, variable_number});
   var_to_register_map_.insert({variable_number, sys_register});
-
-  // If we want to lock the register so it can't be reused, then do so.
-  // Else, re-add it to the priority queue.
-  if (should_lock) {
-    locked_registers_.insert(sys_register);
-  } else {
-    available_registers_.push(sys_register);
-  }
 
   return info;
 }

@@ -7,10 +7,10 @@
 #define __VerbajOpCode_H_
 
 #include "JitRenderer.h"
-#include "VirtualVariableStagingAllocator.h"
+#include "VariableCheckout.h"
 
 namespace jit {
-  class VirtualStackFrame;
+  class Stackframe;
 }
 
 namespace verbaj {
@@ -19,7 +19,7 @@ namespace verbaj {
     virtual ~VerbajOpCodeBase() {
     }
 
-    virtual void apply(jit::VirtualStackFrame&) const = 0;
+    virtual void apply(jit::Stackframe&) const = 0;
   };
 }
 

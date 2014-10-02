@@ -7,12 +7,13 @@
 #include "VerbajPrimitives.h"
 #include "VirtualStackFrame.h"
 #include "Instance.h"
+#include "Stackframe.h"
 
 
-void verbaj::VLdutf8::apply(jit::VirtualStackFrame& frame) const {
-  auto& stage = frame.variable_stage();
+void verbaj::VLdutf8::apply(jit::Stackframe& frame) const {
+  auto& stage = frame.allocator();
 
-  stage.new_local(variable_number_, VerbajPrimitives::vm_utf8, 1, false, true);
+  stage.insert(variable_number_, VerbajPrimitives::vm_utf8, 1, false, true);
 
   types::Instance* instance = new(VerbajPrimitives::vm_utf8) types::Instance;
   types::Trait* head_trait = instance->head();
@@ -21,9 +22,11 @@ void verbaj::VLdutf8::apply(jit::VirtualStackFrame& frame) const {
 
   memcpy(&head_trait->data<char>(8)[0], &string_[0], string_.size());
 
-  stage.with_register(variable_number_, [&](jit::VirtualVariableCheckout& checkout) {
+  stage.with_variable(variable_number_, [&](jit::VariableCheckout& checkout) {
+    auto sys_register = *checkout.sys_register();
     op::ProcessorOpCodeSet& opcodes = checkout.jit_opcodes();
-    opcodes.lea(checkout.sys_register(), head_trait);
+
+    opcodes.lea(sys_register, head_trait);
   });
 }
 

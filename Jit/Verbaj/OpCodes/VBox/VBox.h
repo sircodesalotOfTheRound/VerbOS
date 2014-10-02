@@ -6,6 +6,7 @@
 
 #include "VerbajOpCodeBase.h"
 #include "Instance.h"
+#include "Stackframe.h"
 
 #ifndef __VBox_H_
 #define __VBox_H_
@@ -17,7 +18,7 @@ namespace verbaj {
   public:
     VBox(int virtual_variable_index) : variable_number_(virtual_variable_index) { }
 
-    void apply(jit::VirtualStackFrame&) const;
+    void apply(jit::Stackframe&) const override;
 
     static VerbajOpCodeBase* load_op(std::istream& stream);
 

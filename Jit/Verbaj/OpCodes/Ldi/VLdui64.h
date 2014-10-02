@@ -19,12 +19,12 @@ namespace verbaj {
   public:
     VLdui64(int to_register, uint64_t value) : register_index(to_register), value_(value) { }
 
-    void apply(jit::VirtualStackFrame& frame) const override;
+    void apply(jit::Stackframe& frame) const override;
 
     static VerbajOpCodeBase* load_op(std::istream& stream);
 
   private:
-    void perform_load(jit::VirtualVariableCheckout&) const;
+    void perform_load(jit::VariableCheckout&) const;
   };
 }
 

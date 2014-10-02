@@ -7,6 +7,7 @@
 #define __VCall_H_
 
 #include "VerbajOpCodeBase.h"
+#include "Stackframe.h"
 
 namespace verbaj {
   class VCall : public VerbajOpCodeBase {
@@ -17,7 +18,7 @@ namespace verbaj {
     VCall(void* location) : location_(location) { }
     VCall(std::string name) : name_(name) { }
 
-    void apply(jit::VirtualStackFrame&) const;
+    void apply(jit::Stackframe&) const override;
 
     static VCall* load_op(std::istream& stream);
 

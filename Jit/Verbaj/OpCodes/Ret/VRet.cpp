@@ -6,13 +6,13 @@
 #include "VRet.h"
 #include "VirtualStackFrame.h"
 
-void verbaj::VRet::apply(jit::VirtualStackFrame& frame) const {
-  auto& stage = frame.variable_stage();
+void verbaj::VRet::apply(jit::Stackframe& frame) const {
+  auto& allocator = frame.allocator();
 
-  stage.with_register(register_index_, [](jit::VirtualVariableCheckout& checkout) {
+  allocator.with_variable(register_index_, [](jit::VariableCheckout& checkout) {
     using namespace arch;
 
-    auto& sys_register = checkout.sys_register();
+    auto& sys_register = *checkout.sys_register();
     auto& jit_opcodes = checkout.jit_opcodes();
 
     // Mov return code to 'rax'. Then replace 'rbp'.
