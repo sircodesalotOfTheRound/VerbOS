@@ -26,6 +26,7 @@ namespace types {
     void* operator new(size_t size, const SystemType& type);
     Trait* head();
     const SystemType& type() const;
+    size_t member_offset(std::string name) const;
 
   private:
     Instance(const SystemType& type)

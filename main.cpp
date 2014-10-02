@@ -18,6 +18,6 @@ int main2();
 void* memory();
 
 int main() {
-  stuff();
   main2();
+  stuff();
 }

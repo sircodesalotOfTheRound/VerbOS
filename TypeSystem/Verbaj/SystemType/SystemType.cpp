@@ -13,7 +13,7 @@ const types::SystemType& types::SystemType::NONE = SystemType("<NONE>", types::T
 types::SystemType::SystemType(std::string name, TypeFamily family, TypeFlags flags, bool is_generic) : name_(name),
     family_(family),
     flags_(flags),
-    offset_(sizeof(Instance)),
+    offset_(0),
     trait_count_(0),
     is_generic_(is_generic),
     is_frozen_(false)
@@ -48,11 +48,21 @@ void types::SystemType::freeze() const {
     }
   }
 
-  size_t size_required_for_fields = (size_t)(offset_ - sizeof(Instance));
-  required_size_ = (size_t)(offset_);
+  size_t total_size_required = (size_t)(offset_ + size_required_for_traits);
+
+  // If this contains fields, then we need to add the size of a self-pointer.
+  if (offset_ > 0) {
+    required_size_ = total_size_required + sizeof(Instance*);
+  } else {
+    required_size_ = total_size_required;
+  }
 }
 
 const types::SystemTypeFieldDefinition& types::SystemType::field(std::string& name) const {
+  if (field_definitions_.find(name) == field_definitions_.end()) {
+    throw std::logic_error("no such field found");
+  }
+
   return field_definitions_.at(name);
 }
 

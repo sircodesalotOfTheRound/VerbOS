@@ -37,7 +37,8 @@ namespace types {
 
   public:
     SystemType(std::string name, TypeFamily family, TypeFlags flags)
-      : SystemType(name, family, flags, false) {
+      : SystemType(name, family, flags, false)
+    {
 
     }
 

@@ -29,7 +29,7 @@ void verbaj::VBox::apply(jit::Stackframe& frame) const {
 
 types::Trait* verbaj::VBox::instantiate(uint64_t value) {
   types::Instance* instance = new(VerbajPrimitives::vm_box_of_uint64) types::Instance;
-  instance->head()->data<uint64_t>()[0] = value;
+  *instance->head()->data<uint64_t>("value") = value;
 
   // Return the address of the boxed value.
   return instance->head();

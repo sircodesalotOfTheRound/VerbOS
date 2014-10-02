@@ -14,11 +14,11 @@ void* types::Instance::operator new(size_t size, const SystemType& type) {
   // Since we have everything we need to build the
   // type right here. Then return and allow default (empty)
   // constructor to run.
-  // TODO: Fix this.
-  size_t total_required_size = 256;//type.required_size() + sizeof(InstanceHeader);
-  //std::cout << "allocating:" << total_required_size << std::endl;
 
-  return new(total_required_size) Instance(type);
+  // Todo: This line is mostly correct, but doesn't work for arrays or strings.
+  // return new(type.required_size() + sizeof(Instance)) Instance(type);
+
+  return new(256) Instance (type);
 }
 
 void* types::Instance::operator new(size_t size, size_t required_size) {
@@ -29,3 +29,10 @@ void* types::Instance::operator new(size_t size, size_t required_size) {
 }
 
 types::Trait* types::Instance::head() { return &head_trait_; }
+
+size_t types::Instance::member_offset(std::string name) const {
+  const SystemType& type = this->type();
+  const SystemTypeFieldDefinition& field = type.field(name);
+
+  return (size_t) field.offset();
+}

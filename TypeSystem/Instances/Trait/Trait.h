@@ -6,6 +6,7 @@
 #ifndef __ClassBand_H_
 #define __ClassBand_H_
 
+#include <string>
 #include "TypeDef.h"
 #include "InstanceClassPointer.h"
 
@@ -25,6 +26,12 @@ namespace types {
     const SystemType& def() const;
 
     template<class T>
+    T* data(std::string field_name) {
+      size_t member_offset = get_member_offset(field_name);
+      return data<T>(member_offset);
+    }
+
+    template<class T>
     T* data() {
       return (T*) &(((byte*) this)[8]);
     }
@@ -33,6 +40,9 @@ namespace types {
     T* data(off_t byte_offset) {
       return (T*) &((byte*) this)[byte_offset + 8];
     }
+
+  private:
+    size_t get_member_offset(std::string& name);
 
     // TODO: Access memory by named offset rather than by magic number.
   };

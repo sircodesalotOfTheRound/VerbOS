@@ -34,7 +34,7 @@ namespace types {
       return name_;
     }
 
-    off_t offset() {
+    off_t offset() const {
       return offset_;
     }
 
