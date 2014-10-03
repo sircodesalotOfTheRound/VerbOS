@@ -14,7 +14,7 @@ void verbaj::VLdutf8::apply(jit::Stackframe& frame) const {
 
   stage.insert(variable_number_, VerbajPrimitives::vm_utf8, 1, false, true);
 
-  types::Instance* instance = new(VerbajPrimitives::vm_utf8) types::Instance;
+  types::Instance* instance = new(VerbajPrimitives::vm_utf8, string_.size()) types::Instance;
   types::Trait* head_trait = instance->head();
 
   head_trait->data<uint64_t>()[0] = string_.size();

@@ -15,10 +15,7 @@ void* types::Instance::operator new(size_t size, const SystemType& type) {
   // type right here. Then return and allow default (empty)
   // constructor to run.
 
-  // Todo: This line is mostly correct, but doesn't work for arrays or strings.
-  // return new(type.required_size() + sizeof(Instance)) Instance(type);
-
-  return new(256) Instance (type);
+  return new(type.required_size() + sizeof(Instance)) Instance(type);
 }
 
 void* types::Instance::operator new(size_t size, size_t required_size) {
@@ -35,4 +32,8 @@ size_t types::Instance::member_offset(std::string name) const {
   const SystemTypeFieldDefinition& field = type.field(name);
 
   return (size_t) field.offset();
+}
+
+void* types::Instance::operator new(size_t size, types::SystemType const& type, size_t additional_size) {
+  return new(sizeof(Instance) + type.required_size() + additional_size) Instance(type);
 }

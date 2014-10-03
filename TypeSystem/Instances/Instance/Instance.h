@@ -23,7 +23,12 @@ namespace types {
   public:
     Instance() { }
 
+    // For constructing normal objects:
     void* operator new(size_t size, const SystemType& type);
+
+    // For constructing arrays:
+    void* operator new(size_t size, const SystemType& type, size_t additional_size);
+
     Trait* head();
     const SystemType& type() const;
     size_t member_offset(std::string name) const;
