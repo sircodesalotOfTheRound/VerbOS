@@ -30,6 +30,7 @@ namespace jit {
     bool is_persisted() const;
     void set_register_binding(const arch::CpuRegister* reg);
     int variable_number();
+    const types::SystemType& type() const;
     int priority();
 
 

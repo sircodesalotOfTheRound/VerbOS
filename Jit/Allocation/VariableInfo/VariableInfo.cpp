@@ -74,3 +74,8 @@ void jit::VariableInfo::validate_contains_variable() const {
     throw std::logic_error("does not contain a variable");
   }
 }
+
+types::SystemType const& jit::VariableInfo::type() const {
+  validate_contains_variable();
+  return variable_->type();
+}

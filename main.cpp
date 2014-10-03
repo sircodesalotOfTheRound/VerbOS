@@ -18,9 +18,9 @@ using namespace types;
 
 void stuff();
 int main2();
+int simple_copy();
 
 int main() {
-  stuff();
-  main2();
+  simple_copy();
 }
 

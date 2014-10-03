@@ -38,6 +38,7 @@
 		D3343610D74EB248DCEC76C0 /* ProcessorCmpOpCode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343477C85C20A3CF30E16D /* ProcessorCmpOpCode.cpp */; };
 		D3343613E91F7DC0D23837AB /* Event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D334377C0254813349C48133 /* Event.cpp */; };
 		D334361E9A9548B42F55367A /* CpuRegister.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343EA51CB967DF9BFABB90 /* CpuRegister.cpp */; };
+		D3343631B1E98394B02939D7 /* VCopy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D33430EEEDCB31769C5DF426 /* VCopy.cpp */; };
 		D334364239E9103E368E59B9 /* ProcessorRegToRegMovOp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D33433EF662085AE97DD67EC /* ProcessorRegToRegMovOp.cpp */; };
 		D334369DBB64531D49288B51 /* VerbajFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343EDE77B08F1A5125BB25 /* VerbajFile.cpp */; };
 		D33436B105C80CD84D12954D /* ProcessorOpCodeOperand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343DCBCE333BE3760F9298 /* ProcessorOpCodeOperand.cpp */; };
@@ -92,6 +93,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D3343020FC87E503092F3AE8 /* VCopy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCopy.h; sourceTree = "<group>"; };
 		D334302847A16F520A250670 /* VariableInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VariableInfo.cpp; sourceTree = "<group>"; };
 		D3343042A884F233C1B6FCD2 /* ProcessorMovConstToRegOpCode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProcessorMovConstToRegOpCode.cpp; sourceTree = "<group>"; };
 		D334305EA838E71CC28DA200 /* ContainerIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ContainerIterator.cpp; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 		D33430A63BB5E3596FDB4512 /* Variable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Variable.cpp; sourceTree = "<group>"; };
 		D33430A918C425C28A95E4E6 /* CpuRegister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CpuRegister.h; sourceTree = "<group>"; };
 		D33430E31E04783877F7A386 /* ProcessorMovConstToRegOpCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessorMovConstToRegOpCode.h; sourceTree = "<group>"; };
+		D33430EEEDCB31769C5DF426 /* VCopy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCopy.cpp; sourceTree = "<group>"; };
 		D33430F8B31094E3D194C617 /* Functions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Functions.cpp; sourceTree = "<group>"; };
 		D334311834372119D4F2D481 /* ManagedStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManagedStack.cpp; sourceTree = "<group>"; };
 		D3343135C8E678F0EE60284D /* VerbajOpCodeBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VerbajOpCodeBase.cpp; sourceTree = "<group>"; };
@@ -435,6 +438,15 @@
 			path = OpCode;
 			sourceTree = "<group>";
 		};
+		D33433700539BC652DFBB2B8 /* VCopy */ = {
+			isa = PBXGroup;
+			children = (
+				D3343020FC87E503092F3AE8 /* VCopy.h */,
+				D33430EEEDCB31769C5DF426 /* VCopy.cpp */,
+			);
+			path = VCopy;
+			sourceTree = "<group>";
+		};
 		D33433737D769320C1940A90 /* VariableContainer */ = {
 			isa = PBXGroup;
 			children = (
@@ -674,6 +686,7 @@
 				D334348CDFE19CE4D3B4DD66 /* Call */,
 				D334349A88CC72D5DD6876BE /* VBox */,
 				D3343864C91A45DBD2BAED47 /* Ldutf */,
+				D33433700539BC652DFBB2B8 /* VCopy */,
 			);
 			path = OpCodes;
 			sourceTree = "<group>";
@@ -1246,6 +1259,7 @@
 				D3343179C7EFB803F1ACA09D /* VariableCheckout.cpp in Sources */,
 				D334334FA8A930A6507C4EA0 /* ManagedStack.cpp in Sources */,
 				D334333B153450065F47335B /* ExecutionEnvironment.cpp in Sources */,
+				D3343631B1E98394B02939D7 /* VCopy.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

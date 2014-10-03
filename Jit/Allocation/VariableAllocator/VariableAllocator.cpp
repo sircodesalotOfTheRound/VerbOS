@@ -38,13 +38,35 @@ size_t jit::VariableAllocator::max_constants() const { return max_constants_; }
 
 void jit::VariableAllocator::with_variable(int variable_number, std::function<void(VariableCheckout&)> callback) {
   variables_.stage(variable_number, nullptr);
-
   VariableInfo& info = variables_.at(variable_number);
-  VariableCheckout checkout (info, jit_opcodes_);
 
   register_stage_.lock_register(info.bound_register());
+
+  VariableCheckout checkout (info, jit_opcodes_);
+
   callback(checkout);
   register_stage_.unlock_register(info.bound_register());
+}
+
+void jit::VariableAllocator::with_variables(int left_var, int right_var,
+  std::function<void(VariableCheckout&, VariableCheckout&)> callback) {
+
+  // Stage and lock lhs variable
+  variables_.stage(left_var, nullptr);
+  VariableInfo& left_var_info = variables_.at(left_var);
+  register_stage_.lock_register(left_var_info.bound_register());
+
+  // Stage and lock rhs variable.
+  variables_.stage(right_var, nullptr);
+  VariableInfo& right_var_info = variables_.at(right_var);
+  register_stage_.lock_register(right_var_info.bound_register());
+
+  VariableCheckout lhs_checkout(left_var_info, jit_opcodes_);
+  VariableCheckout rhs_checkout(right_var_info, jit_opcodes_);
+  callback(lhs_checkout, rhs_checkout);
+
+  register_stage_.unlock_register(left_var_info.bound_register());
+  register_stage_.unlock_register(right_var_info.bound_register());
 }
 
 void jit::VariableAllocator::stage_argument(int variable_number) {

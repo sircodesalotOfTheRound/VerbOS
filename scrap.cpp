@@ -18,6 +18,7 @@
 #include "VerbajFile.h"
 #import "ManagedStack.h"
 #import "ExecutionEnvironment.h"
+#include "VCopy.h"
 
 void* memory() {
   return mmap(nullptr, (size_t) getpagesize(), PROT_WRITE | PROT_EXEC, MAP_ANON | MAP_PRIVATE, -1, 0);
@@ -70,6 +71,25 @@ void stuff() {
 
   ManagedThread thread(renderer.memory());
   thread.start();
+}
+
+void simple_copy() {
+  ExecutionEnvironment::initialize();
+
+  Stackframe frame(20, 5);
+  JitRenderer renderer(memory());
+
+  frame.insert(new VLdui64(1, 5));
+  frame.insert(new VCopy(5, 1));
+  frame.insert(new VRet(5));
+
+  frame.apply(renderer);
+  frame.debug_print();
+
+  ManagedThread thread(renderer.memory());
+  thread.start();
+
+  cout << thread.return_value<uint64_t>() << endl;
 }
 
 int main2() {

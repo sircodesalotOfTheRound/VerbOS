@@ -37,6 +37,7 @@ public:
   size_t max_objects() const;
   size_t max_constants() const;
   void with_variable(int variable_number, std::function<void(VariableCheckout&)> callback);
+  void with_variables(int left_var, int right_var, std::function<void(VariableCheckout&, VariableCheckout&)> callback);
   void stage_argument(int variable_number);
   void unstage_arguments();
 };
