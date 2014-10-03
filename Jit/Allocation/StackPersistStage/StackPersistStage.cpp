@@ -6,16 +6,21 @@
 #include "StackPersistStage.h"
 
 jit::StackPersistStage::StackPersistStage(VariableContainer& container, op::ProcessorOpCodeSet& jit_opcodes)
-  : container_(container),
+  : variables_(container),
     jit_opcodes_(jit_opcodes) {
-  container_.subscribe_on_persist([&](int variable_number) {
+
+  variables_.subscribe_on_insert([&](int variable_number) {
+    on_insert(variable_number);
+  });
+
+  variables_.subscribe_on_persist([&](int variable_number) {
     persist_variable(variable_number);
   });
 }
 
 void jit::StackPersistStage::persist_variable(int variable_number) {
   static const auto& rbp = arch::Intelx64Registers::rbp;
-  VariableInfo& info = container_.at(variable_number);
+  VariableInfo& info = variables_.at(variable_number);
 
   // If the variable is currently bound to a register.
   if (info.is_register_bound()) {
@@ -39,3 +44,12 @@ off_t jit::StackPersistStage::calculate_persistence_offset(const Variable* varia
   return -(stack_variable_size * variable->variable_number() + 8);
 }
 
+void jit::StackPersistStage::on_insert(int variable_number) {
+  if (variables_.contains_variable(variable_number)) {
+    VariableInfo& info = variables_.at(variable_number);
+
+    if (info.is_persisted()) {
+      info.set_persisted(false);
+    }
+  }
+}

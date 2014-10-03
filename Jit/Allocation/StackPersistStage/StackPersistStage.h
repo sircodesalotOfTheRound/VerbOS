@@ -14,13 +14,14 @@
 
 namespace jit {
   class StackPersistStage {
-    VariableContainer& container_;
+    VariableContainer& variables_;
     op::ProcessorOpCodeSet& jit_opcodes_;
 
   public:
     StackPersistStage(VariableContainer& container, op::ProcessorOpCodeSet& jit_opcodes);
 
   private:
+    void on_insert(int variable_number);
     void persist_variable(int variable_number);
 
   public:

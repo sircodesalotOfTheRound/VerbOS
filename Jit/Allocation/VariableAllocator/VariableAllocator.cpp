@@ -52,3 +52,7 @@ void jit::VariableAllocator::stage_argument(int variable_number) {
   variables_.stage(variable_number, cpu_register);
   register_stage_.lock_register(cpu_register);
 }
+
+void jit::VariableAllocator::unstage_arguments() {
+  argument_staging_factory_.reset();
+}

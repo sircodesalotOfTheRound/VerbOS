@@ -68,3 +68,7 @@ void jit::RegisterStage::unstage_variable(int variable_number) {
     variables_.at(variable_number).is_register_bound();
   }
 }
+
+void jit::RegisterStage::unstage_arguments() {
+
+}

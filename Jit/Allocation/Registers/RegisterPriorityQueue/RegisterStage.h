@@ -29,6 +29,7 @@ namespace jit {
   private:
     void on_stage(int variable_number, const arch::CpuRegister* sys_register);
     void unstage_variable(int variable_number);
+    void unstage_arguments();
   };
 }
 

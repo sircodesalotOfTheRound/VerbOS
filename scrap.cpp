@@ -16,6 +16,8 @@
 #import "FunctionImageLoader.h"
 #import "FunctionTable.h"
 #include "VerbajFile.h"
+#import "ManagedThread.h"
+#import "ExecutionEnvironment.h"
 
 void* memory() {
   return mmap(nullptr, (size_t) getpagesize(), PROT_WRITE | PROT_EXEC, MAP_ANON | MAP_PRIVATE, -1, 0);
@@ -51,6 +53,8 @@ void println(Trait* object) {
 }
 
 void stuff() {
+  ExecutionEnvironment::initialize();
+
   Stackframe frame(20, 5);
   JitRenderer renderer(memory());
 
@@ -60,15 +64,16 @@ void stuff() {
   frame.insert(new VStageArg(1));
   frame.insert(new VCall((void*)&println));
   frame.insert(new VRet(1));
+
   frame.apply(renderer);
   frame.debug_print();
 
-  void (*jit_function)() = (void (*)()) renderer.memory();
-  jit_function();
+  ManagedThread thread(renderer.memory());
+  thread.start();
 }
 
 int main2() {
-  VerbajPrimitives::initialize();
+  ExecutionEnvironment::initialize();
 
   FunctionTable::add("print", (void*) &print);
   FunctionTable::add("println", (void*) &println);
@@ -80,9 +85,10 @@ int main2() {
     FunctionTable::add_unbuilt_function(static_cast<images::FunctionImageLoader*>(image.get()));
   }
 
-  void (*entry_point)() = (void(*)())FunctionTable::get("main");
-  entry_point();
+  ManagedThread thread (FunctionTable::get("main"));
+  thread.start();
 
+  cout << endl;
   return 0;
 }
 class MyClass {

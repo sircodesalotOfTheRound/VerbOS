@@ -6,6 +6,9 @@
 #include "VStageArg.h"
 #include "VerbajPrimitives.h"
 #include "Instance.h"
+#include <unistd.h>
+#include <thread>
+#include <pthread.h>
 
 using namespace std;
 using namespace op;
@@ -15,9 +18,9 @@ using namespace types;
 
 void stuff();
 int main2();
-void* memory();
 
 int main() {
-  main2();
   stuff();
+  main2();
 }
+

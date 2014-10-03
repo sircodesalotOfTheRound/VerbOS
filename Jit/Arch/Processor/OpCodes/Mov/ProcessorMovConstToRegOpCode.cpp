@@ -19,7 +19,7 @@ size_t op::ProcessorMovConstToRegOpCode::size() const {
 
 std::string op::ProcessorMovConstToRegOpCode::rep() const {
   std::stringstream stream;
-  stream << "mov " << lhs_ << ", " << rhs_;
+  stream << "mov " << lhs_ << ", 0x" << std::hex << rhs_ << std::dec;
 
   return stream.str();
 }
