@@ -4,8 +4,8 @@
 //
 
 
-#ifndef __ManagedThread_H_
-#define __ManagedThread_H_
+#ifndef __ManagedStack_H__
+#define __ManagedStack_H__
 
 #include <thread>
 #include "Functions.h"

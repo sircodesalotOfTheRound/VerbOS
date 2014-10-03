@@ -29,6 +29,7 @@ bool jit::VariableAllocator::contains_variable(int variable_number) {
 
 void jit::VariableAllocator::persist_variables() {
   variables_.persist_all();
+  unstage_arguments();
 }
 
 size_t jit::VariableAllocator::max_objects() const { return max_objects_; }
@@ -55,4 +56,5 @@ void jit::VariableAllocator::stage_argument(int variable_number) {
 
 void jit::VariableAllocator::unstage_arguments() {
   argument_staging_factory_.reset();
+  register_stage_.unlock_registers();
 }

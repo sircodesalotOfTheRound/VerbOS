@@ -56,6 +56,7 @@ namespace jit {
     RegisterPriorityQueue(VariableContainer& variables);
     void lock_register(const arch::CpuRegister* sys_register);
     void unlock_register(const arch::CpuRegister* sys_register);
+    void unlock_all_registers();
 
     VariableInfo& at(int variable_number);
     VariableInfo& at(const arch::CpuRegister* sys_register);
@@ -70,7 +71,6 @@ namespace jit {
   private:
     void release_binding(int variable_number);
     const arch::CpuRegister* pop_register_by_priority();
-    void unlock_all_registers();
     void re_prioritize();
   };
 }

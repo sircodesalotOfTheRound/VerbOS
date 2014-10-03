@@ -19,8 +19,6 @@ void verbaj::VCall::apply(jit::Stackframe& frame) const {
   } else if (!name_.empty()) {
     frame.sys_ops().call((std::string)name_);
   }
-
-  frame.allocator().unstage_arguments();
 }
 
 verbaj::VCall* verbaj::VCall::load_op(std::istream& stream) {

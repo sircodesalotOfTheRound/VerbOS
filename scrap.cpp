@@ -16,7 +16,7 @@
 #import "FunctionImageLoader.h"
 #import "FunctionTable.h"
 #include "VerbajFile.h"
-#import "ManagedThread.h"
+#import "ManagedStack.h"
 #import "ExecutionEnvironment.h"
 
 void* memory() {

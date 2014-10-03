@@ -69,6 +69,6 @@ void jit::RegisterStage::unstage_variable(int variable_number) {
   }
 }
 
-void jit::RegisterStage::unstage_arguments() {
-
+void jit::RegisterStage::unlock_registers() {
+  queue_.unlock_all_registers();
 }
