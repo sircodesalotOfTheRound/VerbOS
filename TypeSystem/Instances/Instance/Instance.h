@@ -9,7 +9,6 @@
 
 #include "TypeDef.h"
 #include "SystemType.h"
-#include "InstanceHeader.h"
 #include "Trait.h"
 
 namespace types {
@@ -17,7 +16,7 @@ namespace types {
   class SystemType;
   class Instance {
     // 16 byte header. (System type, and GC meta info).
-    InstanceHeader header_;
+    const SystemType* type_;
     Trait head_trait_;
 
   public:
@@ -35,7 +34,7 @@ namespace types {
 
   private:
     Instance(const SystemType& type)
-      : header_(type),
+      : type_(&type),
         head_trait_(this)
     {
 

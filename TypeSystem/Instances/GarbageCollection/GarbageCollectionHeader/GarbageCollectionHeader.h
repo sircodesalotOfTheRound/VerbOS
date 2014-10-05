@@ -14,8 +14,22 @@ namespace types {
   class GarbageCollectionHeader {
     uint32_t offset_;
     uint16_t heap_number_;
-    GarbageCollectionFlags flags;
+    uint16_t flags_;
 
+  public:
+    uint32_t offset() const { return offset_; }
+    uint16_t heap() const { return heap_number_; }
+
+    bool is_visited() const { return (bool) (flags_ & GarbageCollectionFlags::VISITED); }
+    bool is_sensitive() const { return (bool) (flags_ & GarbageCollectionFlags::SENSITIVE); }
+
+    void set_visited(bool value) {
+      if (value) {
+        flags_ |= GarbageCollectionFlags::VISITED;
+      } else {
+        flags_ &= (uint16_t)~(GarbageCollectionFlags::VISITED);
+      }
+    }
 
   };
 }

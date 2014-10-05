@@ -49,7 +49,6 @@
 		D334385938B30961C025B998 /* ProcessorPopOpCode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343543161CEFE69B86174A /* ProcessorPopOpCode.cpp */; };
 		D334390064CFAC94DD2B0916 /* GarbageCollectionHeader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343AF7E903B014AB4F7F1B /* GarbageCollectionHeader.cpp */; };
 		D334390E9E2E86F144964B3E /* AutoCollector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343D8C80E79B94424120C6 /* AutoCollector.cpp */; };
-		D334399B9BC1D7216BE79905 /* InstanceHeader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D33431BDAF7FA9DA504F3946 /* InstanceHeader.cpp */; };
 		D33439BBB2C3C38E89B423C4 /* SystemTypeFieldDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3343FD8E78524CE7BF4FCDA /* SystemTypeFieldDefinition.cpp */; };
 		D3343A55CD0A555E98826F8A /* ProcessorAddRegToRegOpCode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D334343CE9E8D57650B5089A /* ProcessorAddRegToRegOpCode.cpp */; };
 		D3343A777F59DB288AE68057 /* CallStub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D334380C2D36B836BA1DFAE2 /* CallStub.cpp */; };
@@ -109,7 +108,6 @@
 		D334315994D7E8F6CF6FEB7E /* JitRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JitRenderer.cpp; sourceTree = "<group>"; };
 		D334317AE4A06E3B38885582 /* VLdutf8.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLdutf8.h; sourceTree = "<group>"; };
 		D33431B1D22C0AA42F96B4D2 /* FileInt64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileInt64.h; sourceTree = "<group>"; };
-		D33431BDAF7FA9DA504F3946 /* InstanceHeader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InstanceHeader.cpp; sourceTree = "<group>"; };
 		D33431CBA3BE48871737E89A /* FunctionTable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FunctionTable.cpp; sourceTree = "<group>"; };
 		D33431D2D6DD53D5F9148247 /* ProcessorRegToRegMovOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessorRegToRegMovOp.h; sourceTree = "<group>"; };
 		D33431D5BACD848C1A215188 /* VLdutf8.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VLdutf8.cpp; sourceTree = "<group>"; };
@@ -156,7 +154,6 @@
 		D33436C8A24CD6E7AC28E352 /* RegisterPriorityQueue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RegisterPriorityQueue.cpp; sourceTree = "<group>"; };
 		D3343708C52B290CD7317E84 /* StackPersistStage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StackPersistStage.cpp; sourceTree = "<group>"; };
 		D334371EA842063A1432A8C5 /* JitRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JitRenderer.h; sourceTree = "<group>"; };
-		D3343732489554C95C19D692 /* InstanceHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstanceHeader.h; sourceTree = "<group>"; };
 		D33437393130E8A7504BA749 /* GarbageCollectionFlags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GarbageCollectionFlags.h; sourceTree = "<group>"; };
 		D334376E80DC7A34E99511D4 /* Stackframe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stackframe.h; sourceTree = "<group>"; };
 		D334377720BD696BFA0039A9 /* Functions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Functions.h; sourceTree = "<group>"; };
@@ -350,15 +347,6 @@
 				D3343C3BB6FF3211A5FA29C5 /* FileObjectTypeReader.h */,
 			);
 			path = FileObjectTypeReader;
-			sourceTree = "<group>";
-		};
-		D3343257ECFBAA56F9906390 /* InstanceHeader */ = {
-			isa = PBXGroup;
-			children = (
-				D33431BDAF7FA9DA504F3946 /* InstanceHeader.cpp */,
-				D3343732489554C95C19D692 /* InstanceHeader.h */,
-			);
-			path = InstanceHeader;
 			sourceTree = "<group>";
 		};
 		D334328984267DF549FBFA8C /* TypePartDefinitions */ = {
@@ -769,7 +757,6 @@
 			isa = PBXGroup;
 			children = (
 				D3343DD459D44FDEBB5B7858 /* Instance */,
-				D3343257ECFBAA56F9906390 /* InstanceHeader */,
 				D3343694AE30A0AD47677A08 /* InstanceClassPointer */,
 				D33431A35C8B2EAA6C6D43E2 /* Trait */,
 				D3343164DFBBEC8227405FB6 /* GarbageCollection */,
@@ -1229,7 +1216,6 @@
 				D3343276C7A425909F25CB19 /* ProcessorAddConstToRegOpCode.cpp in Sources */,
 				D3343EE0A31E461A5F8C6EA4 /* ProcessorSubConstToRegOpCode.cpp in Sources */,
 				D3343B5C8F30E7DF275BF5C8 /* Instance.cpp in Sources */,
-				D334399B9BC1D7216BE79905 /* InstanceHeader.cpp in Sources */,
 				D3343D66A5D62B10F64B54C1 /* VStageArg.cpp in Sources */,
 				D334309B4094B1EDD3120DAE /* VCall.cpp in Sources */,
 				D33432AF75F113CDDB3D5A67 /* ProcessorCallOpCode.cpp in Sources */,

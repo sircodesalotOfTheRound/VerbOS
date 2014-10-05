@@ -6,7 +6,7 @@
 #include "Instance.h"
 
 const types::SystemType& types::Instance::type() const {
-  return header_.type();
+  return *type_;
 }
 
 void* types::Instance::operator new(size_t size, const SystemType& type) {

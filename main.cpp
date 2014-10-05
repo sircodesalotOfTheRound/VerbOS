@@ -24,9 +24,7 @@ int simple_copy();
 
 int main() {
   MemoryAllocator allocator;
+  GarbageCollectionHeader header;
 
-  while (true) {
-    cout << allocator.allocate(100) << endl;
-  }
 }
 
