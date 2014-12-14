@@ -246,7 +246,7 @@ using namespace arch;
 using namespace types;
 using namespace env;
 
-// print uses reflection to
+// Print uses reflection to determine what type of object it's displaying.
 void print(Trait* object) {
   auto& type = object->def();
 
