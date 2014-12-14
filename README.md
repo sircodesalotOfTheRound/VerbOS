@@ -126,7 +126,7 @@ void display(uint8_t value) {
 }
 ```
 
-Notice that display requires the use of the function `helpers::stack_aligned_call` because System V/OSX require calls to the operating system (`cout` calls the posix `write` function downstream) to be 16 byte aligned.
+Notice that display requires the use of the function `helpers::stack_aligned_call` because System V/OSX require calls to the operating system (`cout` calls the posix `write` function downstream) to be stack-aligned to a 16 byte address.
 
 The code for our jit function:
 
