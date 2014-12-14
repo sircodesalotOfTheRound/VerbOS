@@ -30,6 +30,9 @@ namespace jit {
     void debug_print();
     void* memory() const;
     void* current_location() const;
+
+    template<class T>
+    T cast_function() { return (T)memory_; }
   };
 }
 

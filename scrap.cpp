@@ -21,7 +21,9 @@
 #include "VCopy.h"
 
 void* memory() {
-  return mmap(nullptr, (size_t) getpagesize(), PROT_WRITE | PROT_EXEC, MAP_ANON | MAP_PRIVATE, -1, 0);
+  return mmap(nullptr, (size_t) getpagesize(),
+    PROT_WRITE | PROT_EXEC,
+    MAP_ANON | MAP_PRIVATE, -1, 0);
 }
 
 using namespace jit;
@@ -31,6 +33,7 @@ using namespace arch;
 using namespace types;
 using namespace env;
 
+// Print uses reflection to determine what type of object it's displaying.
 void print(Trait* object) {
   auto& type = object->def();
 
@@ -53,22 +56,34 @@ void println(Trait* object) {
   cout << endl;
 }
 
-void stuff() {
+int main() {
   ExecutionEnvironment::initialize();
 
+  // This stackframe uses 20 garbage collectable registers.
+  // And 5 non-collectable (constants such as ints).
   Stackframe frame(20, 5);
   JitRenderer renderer(memory());
 
-  frame.insert(new VLdui64(1, 5));
+  // Load an int, box it, and then call 'println'.
+  frame.insert(new VLdui64(1, 42));
   frame.insert(new VBox(1));
-  frame.insert(new VLdutf8(2, "something is amiss"));
   frame.insert(new VStageArg(1));
   frame.insert(new VCall((void*)&println));
+
+  // Load an utf8, and then call 'println'.
+  frame.insert(new VLdui64(1, 5));
+  frame.insert(new VLdutf8(2, "The quick brown fox jumps over the lazy dog"));
+  frame.insert(new VStageArg(2));
+  frame.insert(new VCall((void*)&println));
+
+  // Return the value in register #1.
   frame.insert(new VRet(1));
 
   frame.apply(renderer);
   frame.debug_print();
 
+  // Start the managed stack on another thread.
+  cout << endl;
   ManagedThread thread(renderer.memory());
   thread.start();
 }

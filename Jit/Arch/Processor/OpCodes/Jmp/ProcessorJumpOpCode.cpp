@@ -39,7 +39,13 @@ size_t op::ProcessorJumpOpCode::size() const {
 void op::ProcessorJumpOpCode::render(jit::JitRenderer& renderer) const {
   // TODO: Optimize for short jumps in the future.
   uintptr_t patch_address = (uintptr_t)renderer.current_location();
-  uintptr_t end_of_instruction_address = patch_address + 5;
+  uintptr_t end_of_instruction_address;
+
+  if (jump_type_ == JMP) {
+    end_of_instruction_address = patch_address + 5;
+  } else {
+    end_of_instruction_address = patch_address + 6;
+  }
 
   if (!jit_opcodes_.contains_label(name_)) {
     jit_opcodes_.add_label(name_);
