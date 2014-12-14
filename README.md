@@ -206,3 +206,128 @@ the value is: 3
 the value is: 4
 the value is: 5
 ```
+
+## Verba/Verbatim integration
+
+The verbaj compiler is designed for the verba langauge verbatim byte code literature files. The following is an example using actual verbatim byte codes.
+
+```
+#include <iostream>
+#include <unistd.h>
+#include <sys/mman.h>
+#include <fstream>
+
+#include "ProcessorOpCodeSet.h"
+#include "VLdui64.h"
+#include "VRet.h"
+#include "VStageArg.h"
+#include "VCall.h"
+#include "Instance.h"
+#include "VerbajPrimitives.h"
+#include "VBox.h"
+#include "VLdutf8.h"
+#include "FunctionImageLoader.h"
+#include "FunctionTable.h"
+#include "VerbajFile.h"
+#include "ManagedStack.h"
+#include "ExecutionEnvironment.h"
+#include "VCopy.h"
+
+void* memory() {
+  return mmap(nullptr, (size_t) getpagesize(),
+    PROT_WRITE | PROT_EXEC,
+    MAP_ANON | MAP_PRIVATE, -1, 0);
+}
+
+using namespace jit;
+using namespace std;
+using namespace verbaj;
+using namespace arch;
+using namespace types;
+using namespace env;
+
+// print uses reflection to
+void print(Trait* object) {
+  auto& type = object->def();
+
+  if (type.isa(VerbajPrimitives::vm_box_of_uint64)) {
+    cout << "the boxed value: " << object->data<uint64_t>()[0];
+
+  }
+  else if (type.isa(VerbajPrimitives::vm_utf8)) {
+    uint64_t length = object->data<uint64_t>()[0];
+
+    for (int index = 0; index != length; ++index) {
+      cout << object->data<char>(8)[index];
+    }
+  }
+}
+
+void println(Trait* object) {
+  print(object);
+
+  cout << endl;
+}
+
+int main() {
+  ExecutionEnvironment::initialize();
+
+  // This stackframe uses 20 garbage collectable registers.
+  // And 5 non-collectable (constants such as ints).
+  Stackframe frame(20, 5);
+  JitRenderer renderer(memory());
+
+  // Load an int, box it, and then call 'println'.
+  frame.insert(new VLdui64(1, 42));
+  frame.insert(new VBox(1));
+  frame.insert(new VStageArg(1));
+  frame.insert(new VCall((void*)&println));
+
+  // Load an utf8, and then call 'println'.
+  frame.insert(new VLdui64(1, 5));
+  frame.insert(new VLdutf8(2, "The quick brown fox jumps over the lazy dog"));
+  frame.insert(new VStageArg(2));
+  frame.insert(new VCall((void*)&println));
+
+  // Return the value in register #1.
+  frame.insert(new VRet(1));
+
+  frame.apply(renderer);
+  frame.debug_print();
+
+  // Start the managed stack on another thread.
+  cout << endl;
+  ManagedThread thread(renderer.memory());
+  thread.start();
+}
+```
+
+The following is the output of the previous code:
+
+```
+push rbp
+mov rbp, rsp
+sub rsp, 256
+mov rbx, 0x2a
+mov rdi, rbx
+mov [rbp-16], rdi
+call: (offset fff0ef4f) 
+mov r15, rax
+mov [rbp-16], r15
+mov rdi, r15
+mov [rbp-16], rdi
+call: (offset fff22b4c) 
+mov r14, 0x5
+mov rdi, 0x7f8b22500cd8
+mov [rbp-16], r14
+mov [rbp-24], rdi
+call: (offset fff22b2b) 
+mov rsi, [rbp-16]
+mov rax, rsi
+add rsp, 256
+pop rbp
+ret
+
+the boxed value: 42
+The quick brown fox jumps over the lazy dog
+```
