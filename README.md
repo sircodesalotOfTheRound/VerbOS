@@ -277,19 +277,19 @@ int main() {
   Stackframe frame(20, 5);
   JitRenderer renderer(memory());
 
-  // Load an int, box it, and then call 'println'.
+  // Load an int into virtual register #1, box it, and then call 'println'.
   frame.insert(new VLdui64(1, 42));
   frame.insert(new VBox(1));
   frame.insert(new VStageArg(1));
   frame.insert(new VCall((void*)&println));
 
-  // Load an utf8, and then call 'println'.
+  // Load a utf8 string into virtual register #2, and then call 'println'.
   frame.insert(new VLdui64(1, 5));
   frame.insert(new VLdutf8(2, "The quick brown fox jumps over the lazy dog"));
   frame.insert(new VStageArg(2));
   frame.insert(new VCall((void*)&println));
 
-  // Return the value in register #1.
+  // Return the value in virtual register #1.
   frame.insert(new VRet(1));
 
   frame.apply(renderer);
